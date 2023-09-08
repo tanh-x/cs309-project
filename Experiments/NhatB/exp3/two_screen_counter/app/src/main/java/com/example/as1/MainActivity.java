@@ -9,16 +9,16 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button button;
-
+    Button count;
+    Button login;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        button = findViewById(R.id.toCounterBtn);
+        count = findViewById(R.id.toCounterBtn);
 
-        button.setOnClickListener(new View.OnClickListener() {
+        count.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
             {
@@ -27,6 +27,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        login = findViewById(R.id.login);
+
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                Intent intent = new Intent(MainActivity.this, LoginScreen.class);
+                startActivity(intent);
+            }
+        });
 
     }
 
