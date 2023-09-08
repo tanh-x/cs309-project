@@ -2,6 +2,7 @@ package com.example.as1;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -15,6 +16,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView cookieText;
     private TextView rateText;
 
+    private GameState gameState = GameState.get();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,13 +28,20 @@ public class MainActivity extends AppCompatActivity {
         cookieText = findViewById(R.id.cookieText);
         rateText = findViewById(R.id.rateText);
 
-        upgradeBtn.setOnClickListener((View v) -> {
-            Intent intent = new Intent(MainActivity.this, UpgradeActivity.class);
-            startActivity(intent);
-        });
+        cookieClickBtn.setOnClickListener(this::addCookie);
+
+        upgradeBtn.setOnClickListener(this::switchToUpgrade);
     }
 
-    private void addCookie(int n) {
-        cookieText.setText();
+    @SuppressLint("SetTextI18n")
+    private void addCookie(View view) {
+        gameState.cookieClickAction();
+        cookieText.setText(gameState.getCookieCount() + " cookies");
+    }
+
+    private void switchToUpgrade(View view) {
+        System.out.println(view.getClass().getCanonicalName());
+        Intent intent = new Intent(MainActivity.this, UpgradeActivity.class);
+        startActivity(intent);
     }
 }

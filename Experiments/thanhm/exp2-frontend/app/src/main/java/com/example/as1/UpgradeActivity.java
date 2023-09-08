@@ -6,35 +6,24 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 public class UpgradeActivity extends AppCompatActivity {
+    private static final int UPGRADE_LAYOUT = R.layout.upgrade_activity;
 
-    Button increaseBtn;
-    Button backBtn;
-    TextView numberTxt;
+    private Button backBtn;
 
-    int counter = 0;
+    GameState gameState = GameState.get();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_counter);
+        setContentView(UPGRADE_LAYOUT);
 
-        increaseBtn = findViewById(R.id.increaseBtn);
-        backBtn = findViewById(R.id.backBtn);
-        numberTxt = findViewById(R.id.number);
+        backBtn.setOnClickListener(this::switchToMain);
+    }
 
-        increaseBtn.setOnClickListener((View v) -> {
-            numberTxt.setText(String.valueOf(++counter));
-        });
-
-
-        backBtn.setOnClickListener((View v) -> {
-            Intent intent = new Intent(UpgradeActivity.this, MainActivity.class);
-            startActivity(intent);
-        });
-
-
+    private void switchToMain(View view) {
+        Intent intent = new Intent(UpgradeActivity.this, MainActivity.class);
+        startActivity(intent);
     }
 }
