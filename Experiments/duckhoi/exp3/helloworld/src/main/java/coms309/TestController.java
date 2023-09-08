@@ -5,15 +5,15 @@
 
 package coms309;
 
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+
 
 @RestController
 public class TestController {
     String user = "";
+    ArrayList<String> arr = new ArrayList<String>();
 
     public TestController() {
     }
@@ -35,5 +35,22 @@ public class TestController {
     @DeleteMapping({"/User"})
     public void deleteUser() {
         this.user = "";
+    }
+
+    @GetMapping("/User/Stuff")
+    public ArrayList<String> getStuff() { return arr; }
+
+    @PostMapping("/User/{stuff}")
+    public ArrayList<String> addStuff(@PathVariable String stuff) {
+        arr.add(stuff);
+        return arr;
+    }
+
+    @DeleteMapping("/User/{stuff}")
+    public boolean deleteStuff(@PathVariable String stuff) {
+        if (!arr.contains(stuff)) {
+            return false;
+        }
+        return true;
     }
 }
