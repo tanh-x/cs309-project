@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
-    private static final int MAIN_LAYOUT = R.layout.activity_main;
+    private static final int MAIN_LAYOUT = R.layout.main_activity;
     private Button cookieClickBtn;
     private Button upgradeBtn;
     private TextView cookieText;
@@ -29,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
         rateText = findViewById(R.id.rateText);
 
         cookieClickBtn.setOnClickListener(this::addCookie);
-
         upgradeBtn.setOnClickListener(this::switchToUpgrade);
     }
 
@@ -40,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void switchToUpgrade(View view) {
-        System.out.println(view.getClass().getCanonicalName());
         Intent intent = new Intent(MainActivity.this, UpgradeActivity.class);
         startActivity(intent);
     }

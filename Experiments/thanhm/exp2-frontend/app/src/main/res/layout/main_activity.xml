@@ -23,22 +23,21 @@
             android:text="0 cookies"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/titleText"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="224dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="488dp"
+            android:id="@+id/cookieText"
             android:textSize="48sp"
             android:textColor="#000000"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.26999998" />
 
     <TextView
             android:text="cookie clicker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/cookieText"
+            android:id="@+id/titleText"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -47,14 +46,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/rateText"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="270dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="436dp"
             android:textSize="24sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.35000002" />
 
     <Button
             android:text="Click"
