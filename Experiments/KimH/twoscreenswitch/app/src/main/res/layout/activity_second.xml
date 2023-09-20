@@ -10,16 +10,16 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Received Text "
+        android:text="Received Text"
         android:textSize="18sp"
         android:layout_centerInParent="true"/>
 
     <Button
-        android:id="@+id/switchButton"
+        android:id="@+id/ButtontoA"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/textView"
-        android:text="Switch to Screen B"
+        android:text="Back to LOGIN screen"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"/>
 
