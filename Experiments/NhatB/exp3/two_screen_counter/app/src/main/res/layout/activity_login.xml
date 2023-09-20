@@ -8,11 +8,9 @@
     <Button
         android:id="@+id/backMain"
         android:layout_width="94dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="162dp"
-        android:layout_marginTop="650dp"
         android:layout_marginEnd="155dp"
-        android:layout_marginBottom="32dp"
         android:text="Back"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -20,13 +18,14 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.84000003" />
+        app:layout_constraintVertical_bias="0.699" />
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/_75692636_2281864945333966_3365968398078554030_n" />
