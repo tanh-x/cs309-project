@@ -20,7 +20,8 @@ public class UserController {
 
     @GetMapping("/get-test-data/{id}")
     public TestEntity getTestDataEndpoint(@PathVariable int id) {
-        return userService.readTestData(id);
+        System.out.println("Getting test data for id " + id);
+        return userService.readTestTable(id);
     }
 
     @GetMapping("/register")
