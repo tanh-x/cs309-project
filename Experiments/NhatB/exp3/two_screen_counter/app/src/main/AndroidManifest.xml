@@ -12,6 +12,13 @@
         <activity
             android:name=".CounterActivity"
             android:exported="true" />
+
+        <activity
+            android:name=".LoginScreen"
+            android:exported="true" />
+        <activity
+            android:name=".RegisterScreen"
+            android:exported="true" />
         <activity
             android:name=".MainActivity"
             android:exported="true">
