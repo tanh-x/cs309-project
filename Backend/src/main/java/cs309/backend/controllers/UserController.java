@@ -1,12 +1,10 @@
 package cs309.backend.controllers;
 
 import cs309.backend.jpa.entity.TestEntity;
+import cs309.backend.models.RegistrationData;
 import cs309.backend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/user")
@@ -24,8 +22,8 @@ public class UserController {
         return userService.readTestTable(id);
     }
 
-    @GetMapping("/register")
-    public String registerEndpoint() {
-        return "do something here";
+    @PostMapping("/register")
+    public String registerEndpoint(@RequestBody RegistrationData args) {
+        return "";
     }
 }
