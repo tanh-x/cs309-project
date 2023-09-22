@@ -51,6 +51,7 @@ public class TestController {
         if (!arr.contains(stuff)) {
             return false;
         }
+        arr.remove(stuff);
         return true;
     }
 }

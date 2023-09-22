@@ -46,6 +46,21 @@
 			<artifactId>spring-data-jpa</artifactId>
 			<version>3.1.2</version>
 		</dependency>
+		<dependency>
+			<groupId>jakarta.validation</groupId>
+			<artifactId>jakarta.validation-api</artifactId>
+			<version>3.0.2</version>
+		</dependency>
+		<dependency>
+			<groupId>jbcrypt</groupId>
+			<artifactId>jbcrypt</artifactId>
+			<version>0.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mindrot</groupId>
+			<artifactId>jbcrypt</artifactId>
+			<version>0.4</version>
+		</dependency>
 	</dependencies>
 
 	<build>
