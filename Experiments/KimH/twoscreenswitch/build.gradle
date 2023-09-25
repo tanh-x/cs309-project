@@ -3,9 +3,4 @@ plugins {
     id 'com.android.application' version '7.3.1' apply false
     id 'com.android.library' version '7.3.1' apply false
 }
-dependencies {
-    // ...other dependencies
 
-    // JUnit 4
-    testImplementation 'junit:junit:4.13.2'
-}

@@ -2,9 +2,6 @@ package cs309.backend.models;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.Setter;
 
 
 import javax.validation.constraints.NotNull;
