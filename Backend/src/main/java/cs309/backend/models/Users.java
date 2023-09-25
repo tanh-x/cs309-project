@@ -1,5 +1,6 @@
 package cs309.backend.models;
 
+import cs309.backend.EntityInterfaces.IUser;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -10,7 +11,7 @@ import java.util.UUID;
 
 @Entity
 @Data
-public class Users {
+public class Users implements IUser {
     @Column
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,5 +1,6 @@
 package cs309.backend.models;
 
+import cs309.backend.EntityInterfaces.IUser;
 import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -8,7 +9,7 @@ import java.time.LocalTime;
 import java.util.UUID;
 
 @Entity
-public class Staff {
+public class Staff implements IUser {
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id

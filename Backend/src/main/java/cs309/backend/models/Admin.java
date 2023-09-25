@@ -1,12 +1,13 @@
 package cs309.backend.models;
 
+import cs309.backend.EntityInterfaces.IUser;
 import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 @Entity
-public class Admin {
+public class Admin implements IUser {
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
