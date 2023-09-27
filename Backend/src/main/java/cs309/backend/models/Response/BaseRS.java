@@ -1,9 +1,6 @@
 package cs309.backend.models.Response;
 
 import lombok.Data;
-import lombok.Setter;
-
-import javax.validation.constraints.NotNull;
 
 @Data
 public class BaseRS<T> {
