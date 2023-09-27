@@ -15,11 +15,12 @@ import java.util.UUID;
 @Service
 @Transactional
 public class UserService {
-    /*private final TestEntityRepository testRepository;
-
+    private final TestEntityRepository testRepository;
+    private final UserRepository userRepository;
     @Autowired
-    public UserService(TestEntityRepository testRepository) {
+    public UserService(TestEntityRepository testRepository, UserRepository userRepository) {
         this.testRepository = testRepository;
+        this.userRepository = userRepository;
     }
 
     public TestEntity readTestTable(int id) {
@@ -28,17 +29,11 @@ public class UserService {
 
     public boolean regsiterUser(RegistrationData data) {
         return true;
-    }*/
-    private final UserRepository userRepository;
-
-    @Autowired UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
     }
 
     public Users getUser(UUID id) {
         return userRepository.findUser(id);
     }
-
     public Users getUser(int check, String str) {
         if (check == 1) {
             return userRepository.findUserByEmail(str);

@@ -19,7 +19,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    /*@GetMapping("/get-test-data/{id}")
+    @GetMapping("/get-test-data/{id}")
     public TestEntity getTestDataEndpoint(@PathVariable int id) {
         System.out.println("Getting test data for id " + id);
         return userService.readTestTable(id);
@@ -28,7 +28,7 @@ public class UserController {
     /*@PostMapping("/register")
     public String registerEndpoint(@RequestBody RegistrationData args) {
         return "";
-    }*/
+
 
     @GetMapping("/{id}")
     public Users getUserById(@PathVariable UUID id) {
