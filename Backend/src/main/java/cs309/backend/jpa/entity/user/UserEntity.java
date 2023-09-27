@@ -1,12 +1,13 @@
-package cs309.backend.jpa.entity;
+package cs309.backend.jpa.entity.user;
 
+import cs309.backend.jpa.entity.PrivilegeEntity;
 import jakarta.persistence.*;
 import lombok.Data;
 
 @Data
 @Entity
 @Table(name = "User")
-public class UserEntity {
+public final class UserEntity implements User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "uid")

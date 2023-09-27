@@ -1,4 +1,3 @@
-/*
 package cs309.backend.jpa.entity;
 
 import jakarta.persistence.*;
@@ -15,8 +14,6 @@ public class TestEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
     private int id;
-*/
-/**//*
 
     @Column
     @Setter
@@ -26,4 +23,3 @@ public class TestEntity {
     @Setter
     private String data;
 }
-*/

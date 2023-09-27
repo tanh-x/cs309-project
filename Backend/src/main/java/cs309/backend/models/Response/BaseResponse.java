@@ -3,7 +3,7 @@ package cs309.backend.models.Response;
 import lombok.Data;
 
 @Data
-public class BaseRS<T> {
+public class BaseResponse<T> {
     private boolean success;
 
     private String errorCode;
@@ -12,7 +12,7 @@ public class BaseRS<T> {
 
     private T output;
 
-    public BaseRS(boolean success ) {
+    public BaseResponse(boolean success) {
         this.success = success;
     }
 }
