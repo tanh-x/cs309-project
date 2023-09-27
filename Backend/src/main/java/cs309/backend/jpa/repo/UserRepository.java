@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.query.Param;
 
-public interface UserRepository extends JpaRepository<UserEntity, Long> {
+public interface UserRepository extends JpaRepository<UserEntity, Integer> {
     @Procedure(name = "registerUser")
     void registerUser(
         @Param("p_username") String username,
@@ -15,4 +15,10 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
         @Param("p_privilege_level") int privilegeLevel,
         @Param("p_pwd_bcrypt_hash") String passwordBcryptHash
     );
+
+    @Procedure(name = "getUserByEmail")
+    UserEntity getByEmail(@Param("p_email") String email);
+
+    @Procedure(name = "getUserByUsername")
+    UserEntity getByUsername(@Param("p_username") String username);
 }
