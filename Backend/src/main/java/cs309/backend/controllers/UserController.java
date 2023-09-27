@@ -4,12 +4,17 @@ import cs309.backend.jpa.entity.TestEntity;
 import cs309.backend.models.RegistrationData;
 import cs309.backend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import static org.springframework.http.ResponseEntity.ok;
+import static org.springframework.http.ResponseEntity.status;
 
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
-    private final UserService userService;
+private final UserService userService;
 
     @Autowired
     public UserController(UserService userService) {
@@ -23,7 +28,12 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public String registerEndpoint(@RequestBody RegistrationData args) {
-        return "";
+    public ResponseEntity<String> registerEndpoint(@RequestBody RegistrationData args) {
+        try {
+            userService.regsiterUser(args);
+            return ok("Successfully registered new user");
+        } catch (RuntimeException ex) {
+            return status(HttpStatus.INTERNAL_SERVER_ERROR).body(ex.toString());
+        }
     }
 }
