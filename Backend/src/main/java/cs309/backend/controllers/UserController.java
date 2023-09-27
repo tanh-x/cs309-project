@@ -1,6 +1,7 @@
 package cs309.backend.controllers;
 
 //import cs309.backend.jpa.entity.TestEntity;
+import com.fasterxml.jackson.databind.ser.Serializers;
 import cs309.backend.models.RegistrationData;
 import cs309.backend.models.Response.BaseRS;
 import cs309.backend.models.Users;
@@ -8,7 +9,6 @@ import cs309.backend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/user")
@@ -74,7 +74,6 @@ public class UserController {
         return response;
     }
 
-
     @GetMapping("/{username}")
     public BaseRS<Users> getUserByUsername(@PathVariable String username) {
         try {
@@ -88,4 +87,11 @@ public class UserController {
         }
         return response;
     }
+
+    /*@PostMapping("/")
+    public BaseRS<Users> createNewUser(@RequestBody Users user) {
+        try {
+
+        }
+    }*/
 }

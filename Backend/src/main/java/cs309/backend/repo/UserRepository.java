@@ -18,4 +18,7 @@ public interface UserRepository extends JpaRepository<IUser, Long> {
 
     @Query("SELECT u FROM Users u WHERE u.uid = :uid")
     Users findUserByUID(@Param("uid") int uid);
+
+    @Query("INSERT INTO User (username, email) VALUES (:#{#user.username}, :#{#user.email})")
+    Users createUser(@Param("user") Users user);
 }

@@ -49,4 +49,15 @@ public class UserService {
             return userRepository.findUserByUsername(str);
         }
     }
+
+    public String createUser(Users user) {
+        if (user.getUsername() == null || user.getEmail() == null) {       //check if the input username or email null
+            return "Invalid Input";
+        }
+        if (getUser(1, user.getEmail()) != null || getUser(2, user.getUsername()) != null) {
+            return "Already exist";
+        }
+        userRepository.save(user);
+        return "nice";
+    }
 }
