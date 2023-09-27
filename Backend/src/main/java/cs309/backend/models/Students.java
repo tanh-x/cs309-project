@@ -16,7 +16,7 @@ public class Students implements IUser {
     @Column
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private UUID id;
+    private int id;
 
     @Column
     @NotNull

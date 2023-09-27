@@ -11,7 +11,7 @@ public class Admin implements IUser {
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    private UUID id;
+    private int id;
 
     @Column
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")

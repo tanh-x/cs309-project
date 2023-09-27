@@ -1,7 +1,7 @@
 package cs309.backend.services;
 
-import cs309.backend.jpa.entity.TestEntity;
-import cs309.backend.jpa.repo.TestEntityRepository;
+/*import cs309.backend.jpa.entity.TestEntity;
+import cs309.backend.jpa.repo.TestEntityRepository;*/
 import cs309.backend.models.RegistrationData;
 import cs309.backend.models.Users;
 import cs309.backend.repo.UserRepository;
@@ -15,7 +15,7 @@ import java.util.UUID;
 @Service
 @Transactional
 public class UserService {
-    private final TestEntityRepository testRepository;
+    /*private final TestEntityRepository testRepository;
     private final UserRepository userRepository;
     @Autowired
     public UserService(TestEntityRepository testRepository, UserRepository userRepository) {
@@ -29,10 +29,18 @@ public class UserService {
 
     public boolean regsiterUser(RegistrationData data) {
         return true;
+    }*/
+    private final UserRepository userRepository;
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
-
-    public Users getUser(UUID id) {
-        return userRepository.findUser(id);
+    public Users getUser(int check, int id) {
+        if (check == 1) {
+            return userRepository.findUserById(id);
+        }
+        else {      //check = 2
+            return userRepository.findUserByUID(id);
+        }
     }
     public Users getUser(int check, String str) {
         if (check == 1) {

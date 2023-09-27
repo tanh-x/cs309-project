@@ -6,7 +6,6 @@ import lombok.Data;
 
 
 import javax.validation.constraints.NotNull;
-import java.rmi.server.UID;
 import java.util.UUID;
 
 @Entity
@@ -15,7 +14,7 @@ public class Users implements IUser {
     @Column
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private UUID id;
+    private int id;
 
     @Column(unique = true)
     @NotNull
