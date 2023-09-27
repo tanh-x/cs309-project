@@ -1,3 +1,4 @@
+
 package cs309.backend.jpa.repo;
 
 import cs309.backend.jpa.entity.TestEntity;
@@ -10,3 +11,4 @@ public interface TestEntityRepository extends JpaRepository<TestEntity, Long> {
     @Procedure(name = "readTestTable")
     TestEntity readTestTable(@Param("p_id") int id);
 }
+
