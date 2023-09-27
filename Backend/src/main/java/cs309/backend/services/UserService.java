@@ -3,12 +3,14 @@ package cs309.backend.services;
 import cs309.backend.core.AuthorizationUtils;
 import cs309.backend.exception.InvalidCredentialsException;
 import cs309.backend.jpa.entity.TestEntity;
+import cs309.backend.jpa.entity.UserEntity;
 import cs309.backend.jpa.repo.TestEntityRepository;
 import cs309.backend.jpa.repo.UserRepository;
 import cs309.backend.models.LoginData;
 import cs309.backend.models.RegistrationData;
 import cs309.backend.models.SessionTokenData;
 import jakarta.transaction.Transactional;
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,19 +44,19 @@ public class UserService {
         );
     }
 
-    public SessionTokenData LoginUser(LoginData args) {
-        if (!validateLoginCredentials(args)) {
-            // Wrong password
-            throw new InvalidCredentialsException();
-        }
+    public SessionTokenData loginUser(LoginData args) {
+        UserEntity user = userRepository.getUserByEmail(args.email());
+
+        // Check if credentials were correct
+        if (!validateLoginCredentials(user, args)) throw new InvalidCredentialsException();
 
         // Else, we give them the session token
-        return new SessionTokenData(
-            AuthorizationUtils.createSessionJwt(1)
-        );
+        return new SessionTokenData(true, AuthorizationUtils.createSessionJwt(user.getUid()));
     }
 
-    private boolean validateLoginCredentials(LoginData args) {
-        return true;
+    private boolean validateLoginCredentials(UserEntity user, LoginData login) {
+        if (user == null) return false;
+        if (!user.isVerified()) return false;
+        return BCrypt.checkpw(login.password(), user.getPwdBcryptHash());
     }
 }

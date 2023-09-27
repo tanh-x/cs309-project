@@ -1,7 +1,9 @@
 package cs309.backend.jpa.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
+@Data
 @Entity
 @Table(name = "User")
 public class UserEntity {

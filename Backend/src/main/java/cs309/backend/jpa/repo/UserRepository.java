@@ -15,4 +15,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
         @Param("p_privilege_level") int privilegeLevel,
         @Param("p_pwd_bcrypt_hash") String passwordBcryptHash
     );
+
+    @Procedure(name = "getUserByEmail")
+    UserEntity getUserByEmail(@Param("p_email") String email);
 }

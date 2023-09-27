@@ -11,9 +11,7 @@ public final class AuthorizationUtils {
     private static final int BCRYPT_LOG_ROUNDS = 8;
     private static final long SESSION_EXPIRATION_MILLIS = 1000 * 3600 * 24 * 12;  // 12 days
 
-    @Value("${privateKey}")
-    private static String privateKey;
-    private static final Algorithm jwtAlgorithm = Algorithm.HMAC384(privateKey);
+    private static final Algorithm jwtAlgorithm = Algorithm.HMAC384("giQsPsKmNmQaLPNsHMVjrSv32IBRMjCQQXrcrsnJAHQ0a8qV");
 
     public static String bcryptHash(String pwd) { return BCrypt.hashpw(pwd, BCrypt.gensalt(BCRYPT_LOG_ROUNDS)); }
 
