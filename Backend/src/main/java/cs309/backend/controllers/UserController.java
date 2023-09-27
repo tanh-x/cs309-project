@@ -30,7 +30,7 @@ private final UserService userService;
     @PostMapping("/register")
     public ResponseEntity<String> registerEndpoint(@RequestBody RegistrationData args) {
         try {
-            userService.regsiterUser(args);
+            userService.registerUser(args);
             return ok("Successfully registered new user");
         } catch (RuntimeException ex) {
             return status(HttpStatus.INTERNAL_SERVER_ERROR).body(ex.toString());

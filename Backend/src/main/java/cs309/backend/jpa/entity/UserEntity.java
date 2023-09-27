@@ -23,9 +23,12 @@ public class UserEntity {
     private int privilegeLevel;
 
     @Column(name = "pwd_bcrypt_hash", length = 256, nullable = false)
-    private String passwordBcryptHash;
+    private String pwdBcryptHash;
 
 //    @ManyToOne
 //    @JoinColumn(name = "privilege_level", referencedColumnName = "privilege_level", insertable = false, updatable = false)
 //    private PrivilegesEntity privileges;
+
+    @Column(name = "is_verified", nullable = false)
+    private boolean isVerified;
 }

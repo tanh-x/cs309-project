@@ -1,8 +1,10 @@
 package cs309.backend.services;
 
+import cs309.backend.exception.InvalidCredentialsException;
 import cs309.backend.jpa.entity.TestEntity;
 import cs309.backend.jpa.repo.TestEntityRepository;
 import cs309.backend.jpa.repo.UserRepository;
+import cs309.backend.models.LoginData;
 import cs309.backend.models.RegistrationData;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,16 +31,28 @@ public class UserService {
         return testRepository.readTestTable(id);
     }
 
-    public void regsiterUser(RegistrationData data) {
+    public void registerUser(RegistrationData args) {
         String salt = BCrypt.gensalt(BCRYPT_LOG_ROUNDS);
-        String hashed_password = BCrypt.hashpw(data.password(), salt);
+        String hashed_password = BCrypt.hashpw(args.password(), salt);
 
         userRepository.registerUser(
-            data.username(),
-            data.email(),
-            data.displayName(),
-            data.privilegeLevel(),
+            args.username(),
+            args.email(),
+            args.displayName(),
+            args.privilegeLevel(),
             hashed_password
         );
+    }
+
+    public void LoginUser(LoginData args) {
+        if (!validateLoginCredentials(args)) {
+            // Wrong password
+            throw new InvalidCredentialsException();
+        }
+
+    }
+
+    private boolean validateLoginCredentials(LoginData args) {
+        return true;
     }
 }
