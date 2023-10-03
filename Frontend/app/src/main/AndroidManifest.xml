@@ -12,6 +12,25 @@
         <activity
             android:name=".CounterActivity"
             android:exported="true" />
+        <activity
+            android:name=".DashBoard"
+            android:exported="true" />
+        <activity
+            android:name=".Table_Schedule"
+            android:exported="true" />
+        <activity
+            android:name=".Setting"
+            android:exported="true"/>
+        <activity
+            android:name=".ContactUs"
+            android:exported="true"/>
+        <activity
+            android:name=".Planner"
+            android:exported="true"/>
+        <activity
+            android:name=".DegreeAudit"
+            android:exported="true"/>
+
 
         <activity
             android:name=".LoginScreen"

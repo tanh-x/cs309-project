@@ -12,6 +12,8 @@ import androidx.appcompat.app.AppCompatActivity;
 public class LoginScreen extends AppCompatActivity {
 
     Button back;
+    Button to_DashBoard;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,4 +31,5 @@ public class LoginScreen extends AppCompatActivity {
         });
 
     }
+
 }

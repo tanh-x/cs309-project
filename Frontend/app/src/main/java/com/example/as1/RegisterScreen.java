@@ -30,12 +30,12 @@ public class RegisterScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        back = findViewById(R.id.back);
-        submit = findViewById(R.id.submit);
+        //back = findViewById(R.id.back);
+       // submit = findViewById(R.id.submit);
 
-        name = (EditText) findViewById(R.id.name);
-        email= (EditText) findViewById(R.id.email_id);
-        password =  (EditText) findViewById(R.id.password);
+       // name = (EditText) findViewById(R.id.name);
+       // email= (EditText) findViewById(R.id.email_id);
+      //  password =  (EditText) findViewById(R.id.password);
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
