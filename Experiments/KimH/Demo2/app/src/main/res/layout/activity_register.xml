@@ -9,7 +9,8 @@
         android:id="@+id/etUserID"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Full Name"/>
+        android:hint="UserID"/>
+
 
     <EditText
         android:id="@+id/etEmail"
@@ -34,7 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/etPassword"
         android:layout_marginTop="16dp"
-        android:hint="Confirm Password"
+        android:hint="@string/confirm_password"
         android:inputType="textPassword"/>
 
     <Button

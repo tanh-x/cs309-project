@@ -5,6 +5,9 @@
     <string name="button_login">Button Login</string>
     <string name="user_id_hint">User ID</string>
     <string name="password_hint">Password</string>
+    <string name="back_login">BackLogin</string>
+    <string name="confirm_password">Confirm Password</string>
+
 
 
 

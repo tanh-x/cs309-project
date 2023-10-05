@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
@@ -22,6 +24,7 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText etUserID, etEmail, etPassword, etConfirmPassword;
     private Button btnRegister;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,19 +36,20 @@ public class RegisterActivity extends AppCompatActivity {
         etConfirmPassword = findViewById(R.id.etConfirmPassword);
         btnRegister = findViewById(R.id.btnRegister);
 
+
+
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Get user input from EditText fields
-                String fullName = etUserID.getText().toString();
+                String userid = etUserID.getText().toString();
                 String email = etEmail.getText().toString();
                 String password = etPassword.getText().toString();
                 String confirmPassword = etConfirmPassword.getText().toString();
                 //
-
                 registerUser();
                 // Perform registration logic here
-                if (isValidRegistration(fullName, email, password, confirmPassword)) {
+                if (isValidRegistration(userid  , email, password, confirmPassword)) {
                     // Registration is valid, you can save the user's data or perform other actions
                 } else {
                     // Registration is not valid, show an error message or handle it accordingly
@@ -64,23 +68,31 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     // Validate the registration input
-    private boolean isValidRegistration(String fullName, String email, String password, String confirmPassword) {
-        // Implement your validation logic here
-        // Check if the input is valid, e.g., email format, password strength, matching passwords, etc.
+    private boolean isValidRegistration(String userid, String email, String password, String confirmPassword) {
+        if (userid.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
+            return false;
+        }
+
+        // CHECK 2 PASSWORD CONFIRM
+        if (!password.equals(confirmPassword)) {
+            return false;
+        }
         return true; // Return true if registration is valid, otherwise return false
     }
 
 
     //
     private void registerUser() {
-        String url = "YOUR_SERVER_URL/register"; // Thay YOUR_SERVER_URL bằng URL của máy chủ đăng ký
+        String url = "YOUR_SERVER_URL/register";
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-
+                // CREATE JSON UP TO SERVER
         JSONObject requestData = new JSONObject();
         try {
-            requestData.put("username", etUserID.getText().toString());
+            requestData.put("userid", etUserID.getText().toString());
             requestData.put("password", etPassword.getText().toString());
+            requestData.put("email", etEmail.getText().toString());
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -92,10 +104,13 @@ public class RegisterActivity extends AppCompatActivity {
                         // XCheck result of Register
                         try {
                             boolean success = response.getBoolean("success");
+                            String message = response.getString("message");
+
                             if (success) {
-                                // if success
+                                Toast.makeText(RegisterActivity.this, message, Toast.LENGTH_SHORT).show();
                             } else {
-                                //
+                                Toast.makeText(RegisterActivity.this, message, Toast.LENGTH_SHORT).show();
+
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -106,6 +121,8 @@ public class RegisterActivity extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         //
+                        Toast.makeText(RegisterActivity.this, "DISTCONNECT TO SERVER.", Toast.LENGTH_SHORT).show();
+
                     }
                 });
 
