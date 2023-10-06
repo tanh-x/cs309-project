@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -24,13 +25,18 @@ public class StudentInfo extends AppCompatActivity {
     Button getI, back;
     TextView res;
 
+    EditText uid,username;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.get_info);
 
-        back = findViewById(R.id.backInfo);
 
+        uid = (EditText) findViewById(R.id.uid);
+        username= (EditText) findViewById(R.id.username);
+
+        back = findViewById(R.id.backInfo);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -45,10 +51,25 @@ public class StudentInfo extends AppCompatActivity {
         getI.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                makeStringReq();
+
+                String userID = uid.getText().toString();
+                String uName = username.getText().toString();
+
+                if (userID.length()>0&&uName.length()>0)
+                {
+                    makeStringReq();
+                }
+                else
+                {
+                    res.setText("Missing Fields!");
+                }
             }
         });
 
+    }
+    private void showToast(String text)
+    {
+        Toast.makeText(StudentInfo.this,text,Toast.LENGTH_SHORT).show();
     }
 
     private void makeStringReq() {
