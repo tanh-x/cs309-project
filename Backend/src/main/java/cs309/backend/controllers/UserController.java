@@ -56,7 +56,7 @@ public class UserController {
     }
 
 
-    @GetMapping("/{id}")
+    @GetMapping("id/{id}")
     public ResponseEntity<UserData> getUserById(@PathVariable int id) {
         try {
             UserEntity user = userService.getUserById(id);
@@ -66,7 +66,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/{email}")
+    @GetMapping("email/{email}")
     public ResponseEntity<UserData> getUserByEmail(@PathVariable String email) {
         try {
             UserEntity user = userService.getUserByEmail(email);
@@ -76,7 +76,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/{username}")
+    @GetMapping("username/{username}")
     public ResponseEntity<UserData> getUserByUsername(@PathVariable String username) {
         try {
             UserEntity user = userService.getUserByUsername(username);
