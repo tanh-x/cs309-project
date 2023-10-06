@@ -6,28 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/toCounterBtn"
-        android:layout_width="147dp"
-        android:layout_height="67dp"
-        android:text="To Counter"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.759" />
-
-    <Button
-        android:id="@+id/login"
-        android:layout_width="145dp"
-        android:layout_height="80dp"
-        android:layout_marginBottom="20dp"
-        android:text="Login"
-        app:layout_constraintBottom_toTopOf="@+id/toCounterBtn"
-        app:layout_constraintEnd_toEndOf="@+id/toCounterBtn"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/toCounterBtn" />
-
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="1012dp"
@@ -41,34 +19,53 @@
         app:layout_constraintVertical_bias="0.536"
         app:srcCompat="@drawable/how_to_create_gradient_article" />
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="CS SCHEDULER"
-        android:textAlignment="center"
-        android:textAllCaps="true"
-        android:textColor="#5E79DD"
-        android:textSize="60sp"
-        android:textStyle="bold"
-        android:typeface="sans"
-        app:layout_constraintBottom_toTopOf="@+id/login"
-        app:layout_constraintEnd_toEndOf="@+id/login"
-        app:layout_constraintStart_toStartOf="@+id/login"
-        app:layout_constraintTop_toTopOf="parent" />
+    <Button
+        android:id="@+id/login"
+        android:layout_width="140dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="90dp"
+        android:text="Login"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <Button
         android:id="@+id/register"
         android:layout_width="140dp"
-        android:layout_height="79dp"
-        android:layout_marginTop="581dp"
-        android:layout_marginBottom="13dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="10dp"
         android:text="Register "
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.103" />
+        app:layout_constraintTop_toBottomOf="@+id/login" />
+
+    <Button
+        android:id="@+id/userInfo"
+        android:layout_width="140dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="10dp"
+        android:text="userInfo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/register" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:text="CS SCHEDULER"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textColor="#C7CBDA"
+        android:textSize="60sp"
+        android:textStyle="bold"
+        android:typeface="sans"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
