@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Demo2</string>
+    <string name="user_id">User ID</string>
+    <string name="user_password">User Password</string>
+    <string name="button_login">Button Login</string>
+    <string name="user_id_hint">User ID</string>
+    <string name="password_hint">Password</string>
+    <string name="back_login">BackLogin</string>
+    <string name="confirm_password">Confirm Password</string>
+
+
+
+
+
+
+</resources>
