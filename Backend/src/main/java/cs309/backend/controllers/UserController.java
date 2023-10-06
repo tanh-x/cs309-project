@@ -11,6 +11,7 @@ import cs309.backend.models.UserData;
 import cs309.backend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.support.NullValue;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -58,7 +59,7 @@ public class UserController {
     }
 
 
-    @GetMapping("/{id}")
+    @GetMapping("id/{id}")
     public ResponseEntity<UserData> getUserById(@PathVariable int id) {
         try {
             UserEntity user = userService.getUserById(id);
@@ -68,7 +69,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/{email}")
+    @GetMapping("email/{email}")
     public ResponseEntity<UserData> getUserByEmail(@PathVariable String email) {
         try {
             UserEntity user = userService.getUserByEmail(email);
@@ -78,7 +79,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/{username}")
+    @GetMapping("username/{username}")
     public ResponseEntity<UserData> getUserByUsername(@PathVariable String username) {
         try {
             UserEntity user = userService.getUserByUsername(username);
@@ -87,8 +88,8 @@ public class UserController {
             return internalServerError().build();
         }
     }
-    @PutMapping("user/{id}/{email}/{display_name}")
-    public ResponseEntity<Boolean> updateUser(@PathVariable int id, String email, String display_name) {
+    @PutMapping("{id}/{email}/{display_name}")
+    public ResponseEntity<Boolean> updateUser(@PathVariable int id, @PathVariable String email, @PathVariable String display_name) {
         try {
             Boolean res = userService.updateUser(id, email, display_name);
             return ok(res);
