@@ -3,15 +3,14 @@ package cs309.backend.services;
 import cs309.backend.core.AuthorizationUtils;
 import cs309.backend.exception.InvalidCredentialsException;
 import cs309.backend.jpa.entity.TestEntity;
+import cs309.backend.jpa.entity.user.User;
 import cs309.backend.jpa.entity.user.UserEntity;
 import cs309.backend.jpa.repo.TestEntityRepository;
 import cs309.backend.jpa.repo.UserRepository;
 import cs309.backend.models.LoginData;
 import cs309.backend.models.RegistrationData;
 import cs309.backend.models.SessionTokenData;
-import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
-import org.hibernate.Session;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -61,7 +60,7 @@ public class UserService {
         return BCrypt.checkpw(login.password(), user.getPwdBcryptHash());
     }
 
-    public UserEntity getUserById(int uid) {
+    public UserEntity getUserByUid(int uid) {
         return userRepository.getUserByUid(uid);
     }
 
@@ -73,4 +72,12 @@ public class UserService {
         return userRepository.getUserByEmail(email);
     }
 
+    public Boolean updateUser(int uid, String email, String display_name) {
+        UserEntity user = getUserByUid(uid);
+        if (user == null) {
+            return false;
+        }
+        userRepository.updateUser(uid, email, display_name);
+        return true;
+    }
 }

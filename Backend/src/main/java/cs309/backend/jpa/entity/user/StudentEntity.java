@@ -1,9 +1,8 @@
 package cs309.backend.jpa.entity.user;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.Data;
-
-import jakarta.validation.constraints.NotNull;
 
 @Data
 @Entity
@@ -19,6 +18,6 @@ public final class StudentEntity implements User {
     private UserEntity user;
 
     @Column(name = "primary_major")
-    @NotNull
-    private String primaryMajor;
+    @Nullable
+    private Integer primaryMajor;
 }

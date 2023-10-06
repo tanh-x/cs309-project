@@ -17,19 +17,15 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
         @Param("p_pwd_bcrypt_hash") String passwordBcryptHash
     );
 
-
     @Procedure(name = "getUserByEmail")
     UserEntity getUserByEmail(@Param("p_email") String email);
 
-    // TODO: Query / Stored Procedure
-    /*
-    @author KhoiPham
-    This one is pretty straightforward and does not require much memory so I do query
-    If you want to do Procedure for security is fine.
-     */
     @Procedure(name = "getUserByUsername")
     UserEntity getUserByUsername(@Param("p_username") String username);
 
     @Procedure(name = "getUserByUid")
     UserEntity getUserByUid(@Param("p_uid") int uid);
+
+    @Procedure(name = "updateUser")
+    void updateUser(@Param("p_uid") int id, @Param("p_email") String email, @Param("p_display_name") String display_name);
 }
