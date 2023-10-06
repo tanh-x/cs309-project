@@ -1,4 +1,4 @@
-package com.example.androidexample;
+package com.example.as1;
 
 import android.content.Context;
 import android.graphics.Bitmap;
