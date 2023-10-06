@@ -20,9 +20,11 @@ import java.util.Map;
 
 public class StudentInfo extends AppCompatActivity {
 
-    private static final String URL_STRING_REQ = "http://cs309.kewargs.com:8080/api/user/username/student2";
+    //private static final String URL_STRING_REQ = "http://cs309.kewargs.com:8080/api/user/username/student2";
     Button getI, back;
     TextView res;
+    int num;
+    EditText userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +47,10 @@ public class StudentInfo extends AppCompatActivity {
         getI.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                num = Integer.parseInt(userId.getText().toString());
+                String URL_STRING_REQ = "http://cs309.kewargs.com:8080/api/user/email"+;
                 makeStringReq();
+
             }
         });
 
