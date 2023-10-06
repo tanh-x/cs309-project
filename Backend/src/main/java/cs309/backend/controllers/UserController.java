@@ -76,6 +76,7 @@ public class UserController {
     public ResponseEntity<UserData> getUserByEmail(@PathVariable String email) {
         try {
             UserEntity user = userService.getUserByEmail(email);
+            if (user == null) return notFound().build();
             return ok(UserData.fromEntity(user));
         } catch (RuntimeException e) {
             e.printStackTrace();
@@ -87,6 +88,7 @@ public class UserController {
     public ResponseEntity<UserData> getUserByUsername(@PathVariable String username) {
         try {
             UserEntity user = userService.getUserByUsername(username);
+            if (user == null) return notFound().build();
             return ok(UserData.fromEntity(user));
         } catch (RuntimeException e) {
             e.printStackTrace();
