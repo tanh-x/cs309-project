@@ -61,14 +61,23 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        Button button_RequestSV = findViewById(R.id.button_RequestSV);
+        button_JsonTest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Go to Jsontest
+                Intent intent = new Intent(LoginActivity.this, RequestSVActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     // Function to validate login using an API
     private void validateLogin(String username, String password) {
         // Define the API endpoint where you can validate the login
-        String apiUrl = "https://8304f33b-fccf-4bea-b375-70ce054820da.mock.pstmn.io/api/login"; // Replace with your API endpoint
-
-        // Create a JSON object to hold user data
+        //String apiUrl = "https://8304f33b-fccf-4bea-b375-70ce054820da.mock.pstmn.io/api/login"; // Replace with your API endpoint
+            String apiUrl ="http://cs309.kewargs.com:8080/api/user/username";
+                // Create a JSON object to hold user data
         JSONObject userData = new JSONObject();
         try {
             userData.put("username", username);
@@ -82,33 +91,27 @@ public class LoginActivity extends AppCompatActivity {
                 Request.Method.POST,
                 apiUrl,
                 userData,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        // Handle the API response here
-                        try {
-                            boolean loginSuccessful = response.getBoolean("success");
+                response -> {
+                    // Handle the API response here
+                    try {
+                        boolean loginSuccessful = response.getBoolean("success");
 
-                            if (loginSuccessful) {
-                                // Login successful, navigate to MainActivity
-                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                startActivity(intent);
-                            } else {
-                                // Login failed, display an error message
-                                Toast.makeText(LoginActivity.this, "Invalid credentials", Toast.LENGTH_SHORT).show();
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            Toast.makeText(LoginActivity.this, "Error parsing JSON response", Toast.LENGTH_SHORT).show();
+                        if (loginSuccessful) {
+                            // Login successful, navigate to MainActivity
+                            Intent intent = new Intent(LoginActivity.this, RequestSVActivity.class);
+                            startActivity(intent);
+                        } else {
+                            // Login failed, display an error message
+                            Toast.makeText(LoginActivity.this, "Invalid credentials", Toast.LENGTH_SHORT).show();
                         }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Toast.makeText(LoginActivity.this, "Error parsing JSON response", Toast.LENGTH_SHORT).show();
                     }
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // Handle network error
-                        Toast.makeText(LoginActivity.this, "Network error", Toast.LENGTH_SHORT).show();
-                    }
+                error -> {
+                    // Handle network error
+                    Toast.makeText(LoginActivity.this, "Network error", Toast.LENGTH_SHORT).show();
                 }
         );
 
