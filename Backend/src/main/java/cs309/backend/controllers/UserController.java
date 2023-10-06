@@ -59,7 +59,7 @@ public class UserController {
     @GetMapping("id/{id}")
     public ResponseEntity<UserData> getUserById(@PathVariable int id) {
         try {
-            UserEntity user = userService.getUserById(id);
+            UserEntity user = userService.getUserByUid(id);
             return ok(UserData.fromEntity(user));
         } catch (Exception e) {
             return internalServerError().build();

@@ -20,5 +20,5 @@ public final class StudentEntity implements User {
 
     @Column(name = "primary_major")
     @NotNull
-    private String primaryMajor;
+    private int primaryMajor;
 }

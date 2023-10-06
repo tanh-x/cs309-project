@@ -9,9 +9,7 @@ import cs309.backend.jpa.repo.UserRepository;
 import cs309.backend.models.LoginData;
 import cs309.backend.models.RegistrationData;
 import cs309.backend.models.SessionTokenData;
-import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
-import org.hibernate.Session;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -61,7 +59,7 @@ public class UserService {
         return BCrypt.checkpw(login.password(), user.getPwdBcryptHash());
     }
 
-    public UserEntity getUserById(int uid) {
+    public UserEntity getUserByUid(int uid) {
         return userRepository.getUserByUid(uid);
     }
 
