@@ -73,7 +73,7 @@ public class UserService {
     }
 
     public Boolean updateUser(int uid, String email, String display_name) {
-        UserEntity user = getUserById(uid);
+        UserEntity user = getUserByUid(uid);
         if (user == null) {
             return false;
         }
