@@ -9,7 +9,9 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button login,register, userReq;
+    Button login;
+    Button register;
+    Button userInfo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,13 +39,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        userReq = findViewById(R.id.userInfo);
+        userInfo=findViewById(R.id.userInfo);
 
-        userReq.setOnClickListener(new View.OnClickListener() {
+        userInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
             {
-                Intent intent = new Intent(MainActivity.this, request_user_api.class);
+                Intent intent = new Intent(MainActivity.this, StudentInfo.class);
                 startActivity(intent);
             }
         });
