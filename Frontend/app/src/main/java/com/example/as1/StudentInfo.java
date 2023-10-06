@@ -24,10 +24,12 @@ import java.util.Map;
 
 public class StudentInfo extends AppCompatActivity {
 
-    String URL_STRING_REQ;
+    String URL_STRING_REQ,confirm;
     Button getI, back;
     TextView res;
-    EditText email;
+    EditText email,conID,newE,newUserN;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,9 @@ public class StudentInfo extends AppCompatActivity {
 
         back = findViewById(R.id.backInfo);
         email = (EditText) findViewById(R.id.Email);
+        conID = (EditText) findViewById(R.id.userId);
+        newE = (EditText) findViewById(R.id.newEmail);
+        newUserN = (EditText) findViewById(R.id.newUsername);
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,6 +63,8 @@ public class StudentInfo extends AppCompatActivity {
 
             }
         });
+
+
 
     }
 
