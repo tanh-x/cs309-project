@@ -38,14 +38,15 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/uid"
+        android:id="@+id/Email"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:ems="10"
-        android:hint="Enter user id"
-        android:inputType="numberSigned"
+        android:hint="Enter email ID"
+        android:inputType="textEmailAddress"
         app:layout_constraintBottom_toBottomOf="@+id/getInfo"
         app:layout_constraintEnd_toStartOf="@+id/getInfo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/getInfo" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
