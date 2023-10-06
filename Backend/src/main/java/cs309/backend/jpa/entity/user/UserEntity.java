@@ -1,5 +1,6 @@
 package cs309.backend.jpa.entity.user;
 
+import cs309.backend.jpa.entity.PrivilegeEntity;
 import jakarta.persistence.*;
 import lombok.Data;
 
