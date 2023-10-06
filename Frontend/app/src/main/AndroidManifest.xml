@@ -21,9 +21,6 @@
             android:name=".RegisterScreen"
             android:exported="true" />
         <activity
-            android:name=".request_user_api"
-            android:exported="true" />
-        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

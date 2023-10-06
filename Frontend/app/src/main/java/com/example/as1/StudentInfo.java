@@ -16,14 +16,18 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class StudentInfo extends AppCompatActivity {
 
-    private static final String URL_STRING_REQ = "http://cs309.kewargs.com:8080/api/user/username/student2";
+    String URL_STRING_REQ;
     Button getI, back;
     TextView res;
+    EditText email;
 
     EditText uid,username;
 
@@ -31,7 +35,8 @@ public class StudentInfo extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.get_info);
-
+        back = findViewById(R.id.backInfo);
+        email = (EditText) findViewById(R.id.Email);
 
         uid = (EditText) findViewById(R.id.uid);
         username= (EditText) findViewById(R.id.username);
@@ -51,6 +56,7 @@ public class StudentInfo extends AppCompatActivity {
         getI.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+<<<<<<< HEAD
 
                 String userID = uid.getText().toString();
                 String uName = username.getText().toString();
@@ -63,6 +69,13 @@ public class StudentInfo extends AppCompatActivity {
                 {
                     res.setText("Missing Fields!");
                 }
+=======
+                String inpt =email.getText().toString();
+                URL_STRING_REQ = "http://cs309.kewargs.com:8080/api/user/email/"+inpt;
+                //postDataUsingVolley();
+                makeStringReq();
+
+>>>>>>> origin/nhat-old
             }
         });
 
@@ -71,6 +84,7 @@ public class StudentInfo extends AppCompatActivity {
     {
         Toast.makeText(StudentInfo.this,text,Toast.LENGTH_SHORT).show();
     }
+
 
     private void makeStringReq() {
 
@@ -89,7 +103,7 @@ public class StudentInfo extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // Handle any errors that occur during the request
-                        res.setText("Error");
+                        res.setText("Invalid email, please try again");
                         Log.e("Volley Error", error.toString());
                     }
                 }
@@ -114,4 +128,9 @@ public class StudentInfo extends AppCompatActivity {
         // Adding request to request queue
         VolleySingleton.getInstance(getApplicationContext()).addToRequestQueue(stringRequest);
     }
+    private void showToast(String text)
+    {
+        Toast.makeText(StudentInfo.this,text,Toast.LENGTH_SHORT).show();
+    }
+
 }

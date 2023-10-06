@@ -9,9 +9,9 @@
         android:id="@+id/getInfo"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:layout_marginTop="64dp"
-        android:layout_marginEnd="52dp"
-        android:text="Get Info"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="50dp"
+        android:text="get info"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -30,15 +30,24 @@
         android:id="@+id/res"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
+<<<<<<< HEAD
         android:layout_marginTop="292dp"
+=======
+        android:layout_marginTop="300dp"
+>>>>>>> origin/nhat-old
         android:text="Record:"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
+<<<<<<< HEAD
         app:layout_constraintHorizontal_bias="0.508"
+=======
+        app:layout_constraintHorizontal_bias="0.491"
+>>>>>>> origin/nhat-old
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
+<<<<<<< HEAD
         android:id="@+id/uid"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
@@ -60,5 +69,17 @@
         android:inputType="text"
         app:layout_constraintStart_toStartOf="@+id/uid"
         app:layout_constraintTop_toBottomOf="@+id/uid" />
+=======
+        android:id="@+id/Email"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:ems="10"
+        android:hint="Enter email ID"
+        android:inputType="textEmailAddress"
+        app:layout_constraintBottom_toBottomOf="@+id/getInfo"
+        app:layout_constraintEnd_toStartOf="@+id/getInfo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/getInfo" />
+>>>>>>> origin/nhat-old
 
 </androidx.constraintlayout.widget.ConstraintLayout>
