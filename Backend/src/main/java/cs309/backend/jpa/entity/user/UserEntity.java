@@ -28,13 +28,13 @@ public final class UserEntity implements User {
     @Column(name = "pwd_bcrypt_hash", length = 256, nullable = false)
     private String pwdBcryptHash;
 
-//    @ManyToOne
-//    @JoinColumn(
-//        name = "privilege_level",
-//        referencedColumnName = "privilege_level",
-//        insertable = false, updatable = false
-//    )
-//    private PrivilegeEntity privileges;
+    @ManyToOne
+    @JoinColumn(
+        name = "privilege_level",
+        referencedColumnName = "privilege_level",
+        insertable = false, updatable = false
+    )
+    private PrivilegeEntity privileges;
 
     @Column(name = "is_verified", nullable = false)
     private boolean isVerified;
