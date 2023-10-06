@@ -3,6 +3,7 @@ package cs309.backend.services;
 import cs309.backend.core.AuthorizationUtils;
 import cs309.backend.exception.InvalidCredentialsException;
 import cs309.backend.jpa.entity.TestEntity;
+import cs309.backend.jpa.entity.user.User;
 import cs309.backend.jpa.entity.user.UserEntity;
 import cs309.backend.jpa.repo.TestEntityRepository;
 import cs309.backend.jpa.repo.UserRepository;
@@ -71,4 +72,12 @@ public class UserService {
         return userRepository.getUserByEmail(email);
     }
 
+    public Boolean updateUser(int uid, String email, String display_name) {
+        UserEntity user = getUserById(uid);
+        if (user == null) {
+            return false;
+        }
+        userRepository.updateUser(uid, email, display_name);
+        return true;
+    }
 }

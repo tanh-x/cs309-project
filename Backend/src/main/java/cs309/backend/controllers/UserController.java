@@ -2,6 +2,7 @@ package cs309.backend.controllers;
 
 import cs309.backend.exception.InvalidCredentialsException;
 import cs309.backend.jpa.entity.TestEntity;
+import cs309.backend.jpa.entity.user.User;
 import cs309.backend.jpa.entity.user.UserEntity;
 import cs309.backend.models.LoginData;
 import cs309.backend.models.RegistrationData;
@@ -9,6 +10,7 @@ import cs309.backend.models.SessionTokenData;
 import cs309.backend.models.UserData;
 import cs309.backend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.support.NullValue;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -82,6 +84,16 @@ public class UserController {
             UserEntity user = userService.getUserByUsername(username);
             return ok(UserData.fromEntity(user));
         } catch (Exception e) {
+            return internalServerError().build();
+        }
+    }
+    @PutMapping("user/{id}/{email}/{display_name}")
+    public ResponseEntity<Boolean> updateUser(@PathVariable int id, String email, String display_name) {
+        try {
+            Boolean res = userService.updateUser(id, email, display_name);
+            return ok(res);
+        }
+        catch (Exception e) {
             return internalServerError().build();
         }
     }
