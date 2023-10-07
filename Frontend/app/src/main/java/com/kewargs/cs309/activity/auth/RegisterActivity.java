@@ -16,7 +16,6 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.kewargs.cs309.R;
 import com.kewargs.cs309.core.activity.AbstractActivity;
 import com.kewargs.cs309.utils.backend.factory.RequestFactory;
-import com.kewargs.cs309.utils.backend.factory.UserRequestFactory;
 
 import org.json.JSONException;
 
