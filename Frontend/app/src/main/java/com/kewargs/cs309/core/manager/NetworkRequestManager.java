@@ -1,19 +1,20 @@
 package com.kewargs.cs309.core.manager;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
-class NetworkRequestManager {
+final class NetworkRequestManager {
     private RequestQueue requestQueue = null;
 
-    synchronized void enqueue(Request<?> request) {
-
+    synchronized <T> void enqueue(Request<T> request) {
+        if (requestQueue == null) throw new IllegalStateException("Volley queue not instantiated");
+        Log.i("NetworkRequestManager", "Making request to " + request.getUrl());
+        requestQueue.add(request);
     }
-
 
 
     // ====== Housekeeping stuff ======
@@ -26,8 +27,9 @@ class NetworkRequestManager {
         return instance;
     }
 
-    synchronized void addContext(Context providedContext) {
+    synchronized NetworkRequestManager addContext(Context providedContext) {
         if (requestQueue != null) throw new IllegalStateException("Volley already has context");
         requestQueue = Volley.newRequestQueue(providedContext.getApplicationContext());
+        return this;
     }
 }

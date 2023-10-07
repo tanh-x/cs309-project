@@ -2,7 +2,7 @@ package com.kewargs.cs309.core.manager;
 
 import android.content.Context;
 
-class ContextManager {
+final class ContextManager {
     Context context = null;
 
     private ContextManager() { }

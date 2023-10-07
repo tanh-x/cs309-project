@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.kewargs.cs309.activity.auth.LoginActivity;
+import com.kewargs.cs309.activity.dashboard.DashboardActivity;
 import com.kewargs.cs309.core.activity.AbstractActivity;
+import com.kewargs.cs309.core.manager.SessionManager;
 
 public class MainActivity extends AbstractActivity {
     public MainActivity() { super(R.layout.activity_main); }
@@ -12,9 +14,10 @@ public class MainActivity extends AbstractActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SessionManager.initialize(this);
 
-        if (session.getSessionToken() == null) switchToLogin();
-        else switchToDashboard();
+        if (session.isLoggedIn()) switchToDashboard();
+        else switchToLogin();
     }
 
     private void switchToLogin() {
@@ -23,6 +26,7 @@ public class MainActivity extends AbstractActivity {
     }
 
     private void switchToDashboard() {
-        throw new UnsupportedOperationException();
+        Intent intent = new Intent(MainActivity.this, DashboardActivity.class);
+        startActivity(intent);
     }
 }

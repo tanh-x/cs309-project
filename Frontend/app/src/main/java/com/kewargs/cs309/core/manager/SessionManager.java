@@ -2,13 +2,32 @@ package com.kewargs.cs309.core.manager;
 
 import android.content.Context;
 
-public class SessionManager {
+import com.android.volley.Request;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public final class SessionManager {
     // ====== Authentication ======
     private AuthenticationManager authentication = null;
 
-    public String getSessionToken() { return authentication.sessionToken; }
+    public String getSessionToken() { return authentication.getSessionToken(); }
 
-    public void setSessionToken(String token) { authentication.sessionToken = token; }
+    public Integer userId() { return authentication.getUserId(); }
+
+    public Boolean tokenExpired() { return authentication.getIsExpired(); }
+
+    public boolean isLoggedIn() { return authentication.isLoggedIn(); }
+
+    public void setSessionToken(String token) { authentication.setSessionToken(token); }
+
+    public void setSessionFromLogin(JSONObject response) {
+        try {
+            setSessionToken((String) response.get("sessionJwt"));
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     // ====== Android context ======
     private ContextManager context = null;
@@ -16,6 +35,9 @@ public class SessionManager {
     // ====== Volley ======
     private NetworkRequestManager networkRequest = null;
 
+    public synchronized <T> void addRequest(Request<T> request) {
+        networkRequest.enqueue(request);
+    }
 
     // ====== Housekeeping stuff ======
     private static SessionManager instance = null;
@@ -28,7 +50,7 @@ public class SessionManager {
         return instance;
     }
 
-    public static synchronized SessionManager initialize(Context appContext) {
+    public static synchronized void initialize(Context appContext) {
         SessionManager manager = getInstance();
         if (manager.isInitialized) throw new IllegalStateException("Do not reinitialize manager");
 
@@ -39,11 +61,9 @@ public class SessionManager {
         if (manager.context == null) manager.context = ContextManager.create(appContext);
 
         // Get Volley manager
-        manager.networkRequest = NetworkRequestManager.getInstance();
+        manager.networkRequest = NetworkRequestManager.getInstance().addContext(appContext);
 
         // Prevent reinitialization
         manager.isInitialized = true;
-
-        return manager;
     }
 }

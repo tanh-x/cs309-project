@@ -25,6 +25,7 @@
 
         <activity android:name="com.kewargs.cs309.activity.auth.LoginActivity" />
         <activity android:name="com.kewargs.cs309.activity.auth.RegisterActivity" />
+        <activity android:name="com.kewargs.cs309.activity.dashboard.DashboardActivity" />
     </application>
 
 </manifest>
