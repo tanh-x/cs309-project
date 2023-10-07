@@ -1,4 +1,4 @@
-package com.kewargs.cs309.utils.backend.factory;
+package com.kewargs.cs309.utils.backend.request;
 
 import com.android.volley.toolbox.JsonObjectRequest;
 
