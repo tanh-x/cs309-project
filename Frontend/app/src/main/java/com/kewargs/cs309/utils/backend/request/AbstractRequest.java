@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import com.android.volley.Request;
 import com.android.volley.Response;
 
+@SuppressWarnings("unchecked")
 public abstract class AbstractRequest<S, R extends AbstractRequest<S, R>> implements RequestCall<S, R> {
     protected int requestMethod;
     protected String requestUrl;

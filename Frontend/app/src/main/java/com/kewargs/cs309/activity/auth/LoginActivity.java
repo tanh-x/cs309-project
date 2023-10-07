@@ -34,7 +34,7 @@ public class LoginActivity extends AbstractActivity {
     /**
      * @noinspection MismatchedQueryAndUpdateOfCollection
      */
-    private LinkedHashSet<View> loginFormElements;
+    private LinkedHashSet<View> formElements;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,11 +47,11 @@ public class LoginActivity extends AbstractActivity {
         loginButton.setOnClickListener(this::loginButtonCallback);
         registerButton.setOnClickListener(this::registerButtonCallback);
 
-        debugInfoText.setText("Current backend address: " + UniversalConstants.ENDPOINT);
+        debugInfoText.setText(String.format("Current backend address: %s", UniversalConstants.ENDPOINT));
     }
 
     private void loginButtonCallback(View view) {
-        loginFormElements.forEach(v -> v.setEnabled(false));
+        formElements.forEach(v -> v.setEnabled(false));
 
         String emailValue = parse(emailField);
         String passwordValue = parse(passwordField);
@@ -66,7 +66,7 @@ public class LoginActivity extends AbstractActivity {
 
         session.addRequest(request);
 
-        loginFormElements.forEach(v -> v.setEnabled(true));
+        formElements.forEach(v -> v.setEnabled(true));
     }
 
 
@@ -92,14 +92,14 @@ public class LoginActivity extends AbstractActivity {
 
     @Override
     protected void collectElements() {
-        emailField = findViewById(R.id.emailField);
+        emailField = findViewById(R.id.nameField);
         passwordField = findViewById(R.id.passwordField);
         forgotPasswordLink = findViewById(R.id.forgotPasswordLink);
         loginButton = findViewById(R.id.signUpButton);
-        registerButton = findViewById(R.id.registerButton);
+        registerButton = findViewById(R.id.loginButton);
         debugInfoText = findViewById(R.id.debugInfoText);
 
-        loginFormElements = new LinkedHashSet<View>() {{
+        formElements = new LinkedHashSet<View>() {{
             add(emailField);
             add(passwordField);
             add(loginButton);

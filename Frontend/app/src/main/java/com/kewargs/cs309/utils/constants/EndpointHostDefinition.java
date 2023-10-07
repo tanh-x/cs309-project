@@ -30,8 +30,8 @@ class EndpointHostDefinition {
     static String guessEndpoint() {
         String[] endpoints = {
             LOCAL_ENDPOINT,
-            REVERSE_TUNNEL_ENDPOINT,
-            VM_ENDPOINT
+            VM_ENDPOINT,
+            REVERSE_TUNNEL_ENDPOINT
         };
         for (String endpoint : endpoints) {
             try {
