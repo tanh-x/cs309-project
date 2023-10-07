@@ -4,7 +4,6 @@ import cs309.backend.jpa.entity.user.StudentEntity;
 import cs309.backend.models.StudentData;
 import cs309.backend.services.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
