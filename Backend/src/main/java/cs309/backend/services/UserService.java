@@ -46,6 +46,7 @@ public class UserService {
 
     public SessionTokenData loginUser(LoginData args) {
         UserEntity user = getUserByEmail(args.email());
+        user = (user != null) ? user : getUserByUsername(args.email());
 
         // Check if credentials were correct
         if (!validateLoginCredentials(user, args)) throw new InvalidCredentialsException();

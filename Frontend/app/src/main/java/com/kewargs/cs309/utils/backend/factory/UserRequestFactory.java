@@ -1,8 +1,7 @@
 package com.kewargs.cs309.utils.backend.factory;
 
-import static com.kewargs.cs309.utils.UniversalConstants.USER_ENDPOINT;
+import static com.kewargs.cs309.utils.constants.UniversalConstants.USER_ENDPOINT;
 
-import com.kewargs.cs309.utils.backend.factory.RequestFactory;
 import com.kewargs.cs309.utils.backend.request.JsonRequestCall;
 import com.kewargs.cs309.utils.backend.request.PlainTextRequestCall;
 

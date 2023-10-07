@@ -15,6 +15,7 @@ import com.kewargs.cs309.R;
 import com.kewargs.cs309.activity.dashboard.DashboardActivity;
 import com.kewargs.cs309.core.activity.AbstractActivity;
 import com.kewargs.cs309.utils.backend.factory.UserRequestFactory;
+import com.kewargs.cs309.utils.constants.UniversalConstants;
 
 import org.json.JSONObject;
 
@@ -28,6 +29,7 @@ public class LoginActivity extends AbstractActivity {
     private TextView forgotPasswordLink;
     private Button loginButton;
     private Button registerButton;
+    private TextView debugInfoText;
 
     /**
      * @noinspection MismatchedQueryAndUpdateOfCollection
@@ -39,9 +41,13 @@ public class LoginActivity extends AbstractActivity {
         if (session.isLoggedIn()) switchToActivity(DashboardActivity.class);
 
         super.onCreate(savedInstanceState);
+
         if (forgotPasswordLink != null) forgotPasswordLink.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
+
         loginButton.setOnClickListener(this::loginButtonCallback);
         registerButton.setOnClickListener(this::registerButtonCallback);
+
+        debugInfoText.setText("Current backend address: " + UniversalConstants.ENDPOINT);
     }
 
     private void loginButtonCallback(View view) {
@@ -91,6 +97,7 @@ public class LoginActivity extends AbstractActivity {
         forgotPasswordLink = findViewById(R.id.forgotPasswordLink);
         loginButton = findViewById(R.id.signUpButton);
         registerButton = findViewById(R.id.registerButton);
+        debugInfoText = findViewById(R.id.debugInfoText);
 
         loginFormElements = new LinkedHashSet<View>() {{
             add(emailField);
