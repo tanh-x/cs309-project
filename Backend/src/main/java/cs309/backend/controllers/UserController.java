@@ -39,7 +39,7 @@ public class UserController {
     public ResponseEntity<String> registerEndpoint(@RequestBody RegistrationData args) {
         try {
             userService.registerUser(args);
-            return ok("Successfully registered new user");
+            return ok("{\"message\": \"Successfully registered new user\"}");
         } catch (RuntimeException e) {
             return internalServerError().body(e.toString());
         }
