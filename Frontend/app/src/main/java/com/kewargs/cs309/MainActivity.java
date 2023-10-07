@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.kewargs.cs309.activity.auth.LoginActivity;
-import com.kewargs.cs309.core.AbstractActivity;
+import com.kewargs.cs309.core.activity.AbstractActivity;
 
 public class MainActivity extends AbstractActivity {
     public MainActivity() { super(R.layout.activity_main); }
@@ -15,11 +15,6 @@ public class MainActivity extends AbstractActivity {
 
         if (session.getSessionToken() == null) switchToLogin();
         else switchToDashboard();
-    }
-
-    @Override
-    protected void collectElements() {
-        
     }
 
     private void switchToLogin() {

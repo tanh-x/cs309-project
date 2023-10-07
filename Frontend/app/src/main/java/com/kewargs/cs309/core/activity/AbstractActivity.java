@@ -1,14 +1,19 @@
-package com.kewargs.cs309.core;
+package com.kewargs.cs309.core.activity;
 
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.kewargs.cs309.core.manager.SessionManager;
+
 public abstract class AbstractActivity extends AppCompatActivity {
-    protected final SessionManager session = SessionManager.getInstance();
     private final int layoutId;
 
-    public AbstractActivity(int layout) { this.layoutId = layout; }
+    protected final SessionManager session = SessionManager.getInstance();
+
+    public AbstractActivity(int layout) {
+        this.layoutId = layout;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
