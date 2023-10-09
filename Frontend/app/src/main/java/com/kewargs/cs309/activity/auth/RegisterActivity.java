@@ -1,7 +1,7 @@
 package com.kewargs.cs309.activity.auth;
 
-import static com.kewargs.cs309.utils.ElementHelpers.parse;
-import static com.kewargs.cs309.utils.constants.UniversalConstants.USER_ENDPOINT;
+import static com.kewargs.cs309.core.utils.ElementHelpers.parse;
+import static com.kewargs.cs309.core.utils.constants.UniversalConstants.USER_ENDPOINT;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,8 +14,8 @@ import android.widget.Spinner;
 
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.kewargs.cs309.R;
-import com.kewargs.cs309.core.activity.AbstractActivity;
-import com.kewargs.cs309.utils.backend.factory.RequestFactory;
+import com.kewargs.cs309.activity.AbstractActivity;
+import com.kewargs.cs309.core.utils.backend.factory.RequestFactory;
 
 import org.json.JSONException;
 
@@ -64,6 +64,7 @@ public class RegisterActivity extends AbstractActivity implements AdapterView.On
         String displayName = parse(nameField);
 
         if (username.isEmpty() || email.isEmpty() || password.isEmpty() || displayName.isEmpty()) {
+            showToast("Please complete the registration form first", RegisterActivity.this);
             return;
         }
 

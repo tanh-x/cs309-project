@@ -6,8 +6,8 @@ import android.widget.TextView;
 import org.json.*;
 
 import com.kewargs.cs309.R;
-import com.kewargs.cs309.core.activity.AbstractActivity;
-import com.kewargs.cs309.utils.backend.factory.UserRequestFactory;
+import com.kewargs.cs309.activity.AbstractActivity;
+import com.kewargs.cs309.core.utils.backend.factory.UserRequestFactory;
 
 public class DashboardActivity extends AbstractActivity {
     public DashboardActivity() { super(R.layout.activity_dashboard); }
@@ -29,7 +29,6 @@ public class DashboardActivity extends AbstractActivity {
                     userInfo = new JSONObject(response);
                     dashboardGreeting.setText("Hello " + userInfo.getString("displayName"));
                 } catch (JSONException ignored) { }
-
             })
             .build()
         );

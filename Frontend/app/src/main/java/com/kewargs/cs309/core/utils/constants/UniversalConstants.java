@@ -1,4 +1,4 @@
-package com.kewargs.cs309.utils.constants;
+package com.kewargs.cs309.core.utils.constants;
 
 public final class UniversalConstants {
     public static final String ENDPOINT = EndpointHostDefinition.guessEndpoint();

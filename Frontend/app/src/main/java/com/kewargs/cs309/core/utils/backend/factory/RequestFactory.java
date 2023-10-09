@@ -1,9 +1,9 @@
-package com.kewargs.cs309.utils.backend.factory;
+package com.kewargs.cs309.core.utils.backend.factory;
 
 import static com.android.volley.Request.Method.POST;
 
-import com.kewargs.cs309.utils.backend.request.JsonRequestCall;
-import com.kewargs.cs309.utils.backend.request.PlainTextRequestCall;
+import com.kewargs.cs309.core.utils.backend.request.PlainTextRequestCall;
+import com.kewargs.cs309.core.utils.backend.request.JsonRequestCall;
 
 public final class RequestFactory {
     public static PlainTextRequestCall GET() { return new PlainTextRequestCall(null); }

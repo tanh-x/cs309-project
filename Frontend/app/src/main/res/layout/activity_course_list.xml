@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="8dp">
+
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:id="@+id/courseListHeader"
+                android:layout_marginVertical="4dp">
+
+            <EditText
+                    android:layout_width="329dp"
+                    android:layout_height="match_parent"
+                    android:inputType="text"
+                    android:ems="10"
+                    android:id="@+id/courseSearchField"
+                    android:background="@drawable/default_border"
+                    android:paddingLeft="18dp"
+                    android:paddingTop="12dp"
+                    android:paddingRight="12dp"
+                    android:paddingBottom="12dp"
+                    android:hint="Search for course"
+                    android:textSize="16dp" />
+
+            <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    app:srcCompat="?android:attr/actionModeWebSearchDrawable"
+                    android:id="@+id/searchButton"
+                    android:layout_weight="1"
+                    android:background="@drawable/default_border"
+                    android:layout_marginLeft="8dp" />
+        </LinearLayout>
+
+        <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:layout_marginStart="1dp"
+                android:id="@+id/courseScroll" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
