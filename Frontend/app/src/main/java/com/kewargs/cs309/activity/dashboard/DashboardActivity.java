@@ -1,14 +1,13 @@
 package com.kewargs.cs309.activity.dashboard;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
+import android.widget.Button;
 import org.json.*;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.drawerlayout.widget.DrawerLayout;
-import android.os.Bundle;
-import android.view.MenuItem;
 import com.kewargs.cs309.R;
+import com.kewargs.cs309.activity.auth.RegisterActivity;
 import com.kewargs.cs309.core.activity.AbstractActivity;
 import com.kewargs.cs309.utils.backend.factory.UserRequestFactory;
 
@@ -16,6 +15,8 @@ public class DashboardActivity extends AbstractActivity {
     public DashboardActivity() { super(R.layout.activity_dashboard); }
 
     private TextView userInfoDump, dashboardGreeting;
+
+    private Button toEditInfo  = findViewById(R.id.updateInfo);
     JSONObject userInfo;
 
 
@@ -36,7 +37,16 @@ public class DashboardActivity extends AbstractActivity {
             .build()
         );
 
+        toEditInfo.setOnClickListener(this::editInfoButtonCallBack);
 
+    }
+    private void editInfoButtonCallBack(View view) {
+        switchToActivity(UpdateInfoActivity.class);
+    }
+
+    private void switchToActivity(Class<?> newActivity) {
+        Intent intent = new Intent(DashboardActivity.this, newActivity);
+        startActivity(intent);
     }
 
     @Override
