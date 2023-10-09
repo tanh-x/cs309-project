@@ -2,9 +2,12 @@ package com.kewargs.cs309.activity.dashboard;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Button;
+
 import org.json.*;
+
 import com.kewargs.cs309.R;
 import com.kewargs.cs309.activity.AbstractActivity;
 import com.kewargs.cs309.activity.course.CourseListActivity;
@@ -26,6 +29,8 @@ public class DashboardActivity extends AbstractActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        coursesButton.setOnClickListener(this::coursesButtonCallback);
+        updateInfo.setOnClickListener(this::updateInfoCallback);
     }
 
     @Override
@@ -44,20 +49,19 @@ public class DashboardActivity extends AbstractActivity {
             .build()
         );
 
-        updateInfo.setOnClickListener(this::updateInfoCallback);
 
     }
+
     private void updateInfoCallback(View view) {
         switchToActivity(UpdateInfoActivity.class);
     }
 
-    private void switchToActivity(Class<?> newActivity) {
-        Intent intent = new Intent(DashboardActivity.this, newActivity);
-        startActivity(intent);
+    private void coursesButtonCallback(View view) {
+        switchToActivity(CourseListActivity.class);
     }
 
-    private void coursesButtonCallback(View view) {
-        Intent intent = new Intent(DashboardActivity.this, CourseListActivity.class);
+    private void switchToActivity(Class<?> newActivity) {
+        Intent intent = new Intent(DashboardActivity.this, newActivity);
         startActivity(intent);
     }
 
