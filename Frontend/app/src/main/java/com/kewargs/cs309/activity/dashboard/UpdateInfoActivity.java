@@ -1,14 +1,20 @@
 package com.kewargs.cs309.activity.dashboard;
 
 
+import static com.kewargs.cs309.core.utils.ElementHelpers.parse;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.kewargs.cs309.R;
 import com.kewargs.cs309.activity.AbstractActivity;
+import com.kewargs.cs309.core.utils.backend.factory.UserRequestFactory;
+
+import java.util.LinkedHashSet;
 
 
 public class UpdateInfoActivity extends AbstractActivity {
@@ -18,14 +24,34 @@ public class UpdateInfoActivity extends AbstractActivity {
 
     private EditText newUser, newEmail;
 
+    private LinkedHashSet<View> formElements;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         dashBack.setOnClickListener(this::dashBackButtonCallBack);
+        confirmUpdate.setOnClickListener(this::updateConfirmationCallback);
 
     }
 
     private void dashBackButtonCallBack(View view) {
         switchToActivity(DashboardActivity.class);
+    }
+
+    private void updateConfirmationCallback(View view) {
+        formElements.forEach(v -> v.setEnabled(false));
+
+        String nEmail = parse(newEmail);
+        String newDisplayName = parse(newUser);
+        JsonObjectRequest request = UserRequestFactory
+                .updateInfo(nEmail, newDisplayName)
+                .onError(error -> {
+                    error.printStackTrace();
+                })
+                .build();
+
+        session.addRequest(request);
+
+        formElements.forEach(v -> v.setEnabled(true));
     }
 
     private void switchToActivity(Class<?> newActivity) {
@@ -36,7 +62,13 @@ public class UpdateInfoActivity extends AbstractActivity {
     protected void collectElements() {
 
         dashBack = findViewById(R.id.updateBack);
-        newUser =  findViewById(R.id.nameField);
-        newEmail =  findViewById(R.id.nameField);
+        confirmUpdate = findViewById(R.id.updateConfirmation);
+        newUser =  findViewById(R.id.newDisplay);
+        newEmail =  findViewById(R.id.newname);
+
+        formElements = new LinkedHashSet<View>() {{
+            add(newUser);
+            add(newEmail);
+        }};
     }
 }

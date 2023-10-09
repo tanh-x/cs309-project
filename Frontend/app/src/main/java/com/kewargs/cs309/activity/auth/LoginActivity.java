@@ -92,8 +92,8 @@ public class LoginActivity extends AbstractActivity {
 
     @Override
     protected void collectElements() {
-        emailField = findViewById(R.id.nameField);
-        passwordField = findViewById(R.id.passwordField);
+        emailField = findViewById(R.id.newname);
+        passwordField = findViewById(R.id.newDisplay);
         forgotPasswordLink = findViewById(R.id.forgotPasswordLink);
         loginButton = findViewById(R.id.coursesButton);
         registerButton = findViewById(R.id.loginButton);
