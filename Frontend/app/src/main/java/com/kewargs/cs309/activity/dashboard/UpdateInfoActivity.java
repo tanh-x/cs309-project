@@ -10,6 +10,7 @@ import android.widget.EditText;
 import com.kewargs.cs309.R;
 import com.kewargs.cs309.activity.AbstractActivity;
 
+
 public class UpdateInfoActivity extends AbstractActivity {
     public UpdateInfoActivity() { super(R.layout.activity_update_info); }
 
@@ -22,6 +23,7 @@ public class UpdateInfoActivity extends AbstractActivity {
         dashBack.setOnClickListener(this::dashBackButtonCallBack);
 
     }
+
     private void dashBackButtonCallBack(View view) {
         switchToActivity(DashboardActivity.class);
     }
@@ -29,5 +31,9 @@ public class UpdateInfoActivity extends AbstractActivity {
     private void switchToActivity(Class<?> newActivity) {
         Intent intent = new Intent(UpdateInfoActivity.this, newActivity);
         startActivity(intent);
+    }
+
+    protected void collectElements() {
+        dashBack = findViewById(R.id.updateBack);
     }
 }
