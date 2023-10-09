@@ -21,4 +21,16 @@ public class UserRequestFactory {
     public static PlainTextRequestCall getUserById(int id) {
         return RequestFactory.GET().url(UniversalConstants.USER_ENDPOINT + "id/" + id);
     }
+
+    public static JsonRequestCall updateInfo(String email,String displayName){
+        try {
+            return RequestFactory.PUT()
+                    .url(USER_ENDPOINT + "login")
+                    .putBody("email", email)
+                    .putBody("password", displayName);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
 }
