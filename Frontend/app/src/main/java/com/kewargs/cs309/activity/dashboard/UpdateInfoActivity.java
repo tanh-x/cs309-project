@@ -35,7 +35,10 @@ public class UpdateInfoActivity extends AbstractActivity {
     }
 
     protected void collectElements() {
+
         dashBack = findViewById(R.id.updateBack);
+        newUser =  findViewById(R.id.nameField);
+        newEmail =  findViewById(R.id.nameField);
     }
 
 
