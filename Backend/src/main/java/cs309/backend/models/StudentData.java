@@ -12,7 +12,7 @@ public record StudentData(
     @NotNull @NotBlank String email,
     @NotNull @NotBlank String displayName,
     @NotNull @NotBlank boolean isVerified,
-    @Nullable Integer primary_major
+    @Nullable Integer primaryMajor
 ) {
     public static StudentData fromEntity(StudentEntity ent) {
         UserEntity userEnt = ent.getUser();

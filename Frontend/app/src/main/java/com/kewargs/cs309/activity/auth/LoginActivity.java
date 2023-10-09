@@ -1,6 +1,6 @@
 package com.kewargs.cs309.activity.auth;
 
-import static com.kewargs.cs309.utils.ElementHelpers.parse;
+import static com.kewargs.cs309.core.utils.ElementHelpers.parse;
 
 import android.content.Intent;
 import android.graphics.Paint;
@@ -13,9 +13,9 @@ import android.widget.TextView;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.kewargs.cs309.R;
 import com.kewargs.cs309.activity.dashboard.DashboardActivity;
-import com.kewargs.cs309.core.activity.AbstractActivity;
-import com.kewargs.cs309.utils.backend.factory.UserRequestFactory;
-import com.kewargs.cs309.utils.constants.UniversalConstants;
+import com.kewargs.cs309.activity.AbstractActivity;
+import com.kewargs.cs309.core.utils.backend.factory.UserRequestFactory;
+import com.kewargs.cs309.core.utils.constants.UniversalConstants;
 
 import org.json.JSONObject;
 
@@ -95,7 +95,7 @@ public class LoginActivity extends AbstractActivity {
         emailField = findViewById(R.id.nameField);
         passwordField = findViewById(R.id.passwordField);
         forgotPasswordLink = findViewById(R.id.forgotPasswordLink);
-        loginButton = findViewById(R.id.signUpButton);
+        loginButton = findViewById(R.id.coursesButton);
         registerButton = findViewById(R.id.loginButton);
         debugInfoText = findViewById(R.id.debugInfoText);
 

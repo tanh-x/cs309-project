@@ -1,4 +1,4 @@
-package com.kewargs.cs309.utils;
+package com.kewargs.cs309.core.utils;
 
 import android.widget.TextView;
 

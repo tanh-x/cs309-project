@@ -1,4 +1,4 @@
-package com.kewargs.cs309.utils.constants;
+package com.kewargs.cs309.core.utils.constants;
 
 import android.util.Log;
 
