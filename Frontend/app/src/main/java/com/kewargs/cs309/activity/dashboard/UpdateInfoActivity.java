@@ -46,6 +46,7 @@ public class UpdateInfoActivity extends AbstractActivity {
                 .updateInfo(nEmail, newDisplayName)
                 .onError(error -> {
                     error.printStackTrace();
+                    showToast(error.toString());
                 })
                 .build();
 
