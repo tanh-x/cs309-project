@@ -36,6 +36,10 @@ public class UpdateInfoActivity extends AbstractActivity {
         startActivity(intent);
     }
 
+    protected void collectElements() {
+        dashBack = findViewById(R.id.updateBack);
+    }
+
 
 
 

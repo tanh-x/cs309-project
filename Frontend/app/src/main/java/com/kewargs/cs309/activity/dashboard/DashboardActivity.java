@@ -55,9 +55,8 @@ public class DashboardActivity extends AbstractActivity {
     protected void collectElements() {
         userInfoDump = findViewById(R.id.userInfoDump);
         dashboardGreeting = findViewById(R.id.dashboardGreeting);
+        toEditInfo = findViewById(R.id.updateInfo);;
     }
-
-    
 
 
 }
