@@ -48,8 +48,6 @@ public class DashboardActivity extends AbstractActivity {
             })
             .build()
         );
-
-
     }
 
     private void updateInfoCallback(View view) {

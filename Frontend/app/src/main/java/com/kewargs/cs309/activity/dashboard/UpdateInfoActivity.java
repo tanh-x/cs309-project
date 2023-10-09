@@ -4,13 +4,11 @@ package com.kewargs.cs309.activity.dashboard;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Button;
 import android.widget.EditText;
-import org.json.*;
+
 import com.kewargs.cs309.R;
-import com.kewargs.cs309.core.activity.AbstractActivity;
-import com.kewargs.cs309.utils.backend.factory.UserRequestFactory;
+import com.kewargs.cs309.activity.AbstractActivity;
 
 public class UpdateInfoActivity extends AbstractActivity {
     public UpdateInfoActivity() { super(R.layout.activity_update_info); }
@@ -21,9 +19,6 @@ public class UpdateInfoActivity extends AbstractActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-
         dashBack.setOnClickListener(this::dashBackButtonCallBack);
 
     }
@@ -35,10 +30,4 @@ public class UpdateInfoActivity extends AbstractActivity {
         Intent intent = new Intent(UpdateInfoActivity.this, newActivity);
         startActivity(intent);
     }
-
-
-
-
-
-
 }
