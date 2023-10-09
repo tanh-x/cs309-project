@@ -2,9 +2,12 @@ package com.kewargs.cs309.activity.dashboard;
 
 import android.os.Bundle;
 import android.widget.TextView;
-
 import org.json.*;
-
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.drawerlayout.widget.DrawerLayout;
+import android.os.Bundle;
+import android.view.MenuItem;
 import com.kewargs.cs309.R;
 import com.kewargs.cs309.core.activity.AbstractActivity;
 import com.kewargs.cs309.utils.backend.factory.UserRequestFactory;
@@ -12,10 +15,9 @@ import com.kewargs.cs309.utils.backend.factory.UserRequestFactory;
 public class DashboardActivity extends AbstractActivity {
     public DashboardActivity() { super(R.layout.activity_dashboard); }
 
-    private TextView userInfoDump;
-
-    private TextView dashboardGreeting;
+    private TextView userInfoDump, dashboardGreeting;
     JSONObject userInfo;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +35,8 @@ public class DashboardActivity extends AbstractActivity {
             })
             .build()
         );
+
+
     }
 
     @Override
@@ -40,6 +44,8 @@ public class DashboardActivity extends AbstractActivity {
         userInfoDump = findViewById(R.id.userInfoDump);
         dashboardGreeting = findViewById(R.id.dashboardGreeting);
     }
+
+
 
 
 }
