@@ -21,9 +21,6 @@ public class UpdateInfoActivity extends AbstractActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-
         dashBack.setOnClickListener(this::dashBackButtonCallBack);
 
     }
