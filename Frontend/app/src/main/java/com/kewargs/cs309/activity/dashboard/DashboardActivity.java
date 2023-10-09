@@ -27,7 +27,7 @@ public class DashboardActivity extends AbstractActivity {
                 userInfoDump.setText(response);
                 try {
                     userInfo = new JSONObject(response);
-                    //dashboardGreeting.setText("Hello " + userInfo.getString("displayName"));
+                    dashboardGreeting.setText("Hello " + userInfo.getString("displayName"));
                 } catch (JSONException ignored) { }
 
             })
