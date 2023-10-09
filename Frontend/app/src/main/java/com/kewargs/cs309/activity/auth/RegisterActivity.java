@@ -112,10 +112,10 @@ public class RegisterActivity extends AbstractActivity implements AdapterView.On
 
     @Override
     protected void collectElements() {
-        nameField = findViewById(R.id.nameField);
+        nameField = findViewById(R.id.newname);
         emailField = findViewById(R.id.emailField);
         usernameField = findViewById(R.id.usernameField);
-        passwordField = findViewById(R.id.passwordField);
+        passwordField = findViewById(R.id.newDisplay);
         accountTypeSpinner = findViewById(R.id.accountTypeSpinner);
         signUpButton = findViewById(R.id.coursesButton);
         loginButton = findViewById(R.id.loginButton);

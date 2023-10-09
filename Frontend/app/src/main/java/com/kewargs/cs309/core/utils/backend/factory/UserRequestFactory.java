@@ -23,10 +23,10 @@ public class UserRequestFactory {
         return RequestFactory.GET().url(USER_ENDPOINT + "id/" + id);
     }
 
-    public static JsonRequestCall updateInfo(String email,String displayName){
+    public static JsonRequestCall updateInfo(int id, String email,String displayName){
         try {
             return RequestFactory.PUT()
-                    .url(USER_ENDPOINT + "login")
+                    .url(USER_ENDPOINT)
                     .putBody("email", email)
                     .putBody("password", displayName);
         } catch (JSONException e) {
