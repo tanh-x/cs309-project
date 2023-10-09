@@ -44,5 +44,4 @@ public class UpdateInfoActivity extends AbstractActivity {
 
 
 
-
 }
