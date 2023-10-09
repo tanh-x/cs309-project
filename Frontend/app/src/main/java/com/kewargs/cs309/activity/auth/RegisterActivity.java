@@ -117,7 +117,7 @@ public class RegisterActivity extends AbstractActivity implements AdapterView.On
         usernameField = findViewById(R.id.usernameField);
         passwordField = findViewById(R.id.passwordField);
         accountTypeSpinner = findViewById(R.id.accountTypeSpinner);
-        signUpButton = findViewById(R.id.signUpButton);
+        signUpButton = findViewById(R.id.coursesButton);
         loginButton = findViewById(R.id.loginButton);
 
         formElements = new LinkedHashSet<>() {{

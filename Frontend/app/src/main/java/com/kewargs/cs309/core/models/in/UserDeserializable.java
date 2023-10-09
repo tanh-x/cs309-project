@@ -1,4 +1,4 @@
-package com.kewargs.cs309.core.models;
+package com.kewargs.cs309.core.models.in;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -9,9 +9,8 @@ public record UserDeserializable(
     String email,
     String displayName,
     boolean isVerified
-) implements DeserializableModel<UserDeserializable> {
-    @Override
-    public UserDeserializable deserializeFrom(JSONObject json) throws JSONException {
+) {
+    public static UserDeserializable from(JSONObject json) throws JSONException {
         return new UserDeserializable(
             json.getInt("uid"),
             json.getString("username"),
@@ -19,5 +18,9 @@ public record UserDeserializable(
             json.getString("displayName"),
             json.getBoolean("isVerified")
         );
+    }
+
+    public static UserDeserializable from(String serializedJson) throws JSONException {
+        return from(new JSONObject(serializedJson));
     }
 }
