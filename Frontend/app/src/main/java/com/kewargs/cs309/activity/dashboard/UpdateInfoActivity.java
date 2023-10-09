@@ -12,6 +12,7 @@ import com.kewargs.cs309.R;
 import com.kewargs.cs309.core.activity.AbstractActivity;
 import com.kewargs.cs309.utils.backend.factory.UserRequestFactory;
 
+
 public class UpdateInfoActivity extends AbstractActivity {
     public UpdateInfoActivity() { super(R.layout.activity_update_info); }
 
