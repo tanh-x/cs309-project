@@ -7,16 +7,15 @@ import android.widget.TextView;
 import android.widget.Button;
 import org.json.*;
 import com.kewargs.cs309.R;
-import com.kewargs.cs309.activity.auth.RegisterActivity;
 import com.kewargs.cs309.core.activity.AbstractActivity;
 import com.kewargs.cs309.utils.backend.factory.UserRequestFactory;
 
 public class DashboardActivity extends AbstractActivity {
     public DashboardActivity() { super(R.layout.activity_dashboard); }
 
-    private TextView userInfoDump, dashboardGreeting;
-
-    private Button toEditInfo  = findViewById(R.id.updateInfo);
+    private TextView userInfoDump;
+    private TextView dashboardGreeting;
+    private Button updateInfo;
     JSONObject userInfo;
 
 
@@ -37,10 +36,10 @@ public class DashboardActivity extends AbstractActivity {
             .build()
         );
 
-        toEditInfo.setOnClickListener(this::editInfoButtonCallBack);
+        updateInfo.setOnClickListener(this::updateInfoCallback);
 
     }
-    private void editInfoButtonCallBack(View view) {
+    private void updateInfoCallback(View view) {
         switchToActivity(UpdateInfoActivity.class);
     }
 
@@ -53,6 +52,7 @@ public class DashboardActivity extends AbstractActivity {
     protected void collectElements() {
         userInfoDump = findViewById(R.id.userInfoDump);
         dashboardGreeting = findViewById(R.id.dashboardGreeting);
+        updateInfo = findViewById(R.id.updateInfo);
     }
 
 
