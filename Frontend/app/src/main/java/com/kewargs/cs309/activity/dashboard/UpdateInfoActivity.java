@@ -43,12 +43,12 @@ public class UpdateInfoActivity extends AbstractActivity {
         String nEmail = parse(newEmail);
         String newDisplayName = parse(newUser);
         JsonObjectRequest request = UserRequestFactory
-                .updateInfo(nEmail, newDisplayName)
-                .onError(error -> {
-                    error.printStackTrace();
-                    showToast(error.toString());
-                })
-                .build();
+            .updateInfo(session.getUserId(), nEmail, newDisplayName)
+            .onError(error -> {
+                error.printStackTrace();
+                showToast(error.toString(), UpdateInfoActivity.this);
+            })
+            .build();
 
         session.addRequest(request);
 
@@ -64,8 +64,8 @@ public class UpdateInfoActivity extends AbstractActivity {
 
         dashBack = findViewById(R.id.updateBack);
         confirmUpdate = findViewById(R.id.updateConfirmation);
-        newUser =  findViewById(R.id.newDisplay);
-        newEmail =  findViewById(R.id.newname);
+        newUser = findViewById(R.id.newDisplay);
+        newEmail = findViewById(R.id.newname);
 
         formElements = new LinkedHashSet<View>() {{
             add(newUser);
