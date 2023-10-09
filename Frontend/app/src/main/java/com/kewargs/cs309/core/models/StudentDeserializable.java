@@ -3,20 +3,20 @@ package com.kewargs.cs309.core.models;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public record StudentData(
+public record StudentDeserializable(
     int uid,
     String username,
     String email,
     String displayName,
     boolean isVerified,
     Integer primaryMajor
-) implements DataModel<StudentData> {
+) implements DeserializableModel<StudentDeserializable> {
     @Override
-    public StudentData deserializeFrom(JSONObject json) throws JSONException {
+    public StudentDeserializable deserializeFrom(JSONObject json) throws JSONException {
         Integer primaryMajor = null;
         try { primaryMajor = json.getInt("primaryMajor"); } catch (JSONException ignored) { }
 
-        return new StudentData(
+        return new StudentDeserializable(
             json.getInt("uid"),
             json.getString("username"),
             json.getString("email"),

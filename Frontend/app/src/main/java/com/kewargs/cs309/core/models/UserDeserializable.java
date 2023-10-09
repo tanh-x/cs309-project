@@ -3,16 +3,16 @@ package com.kewargs.cs309.core.models;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public record UserData(
+public record UserDeserializable(
     int uid,
     String username,
     String email,
     String displayName,
     boolean isVerified
-) implements DataModel<UserData> {
+) implements DeserializableModel<UserDeserializable> {
     @Override
-    public UserData deserializeFrom(JSONObject json) throws JSONException {
-        return new UserData(
+    public UserDeserializable deserializeFrom(JSONObject json) throws JSONException {
+        return new UserDeserializable(
             json.getInt("uid"),
             json.getString("username"),
             json.getString("email"),
