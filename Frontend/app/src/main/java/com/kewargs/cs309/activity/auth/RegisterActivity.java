@@ -58,15 +58,24 @@ public class RegisterActivity extends AbstractActivity implements AdapterView.On
     }
 
     private void signUpButtonCallback(View view) {
+        String username = parse(usernameField);
+        String email = parse(emailField);
+        String password = parse(passwordField);
+        String displayName = parse(nameField);
+
+        if (username.isEmpty() || email.isEmpty() || password.isEmpty() || displayName.isEmpty()) {
+            return;
+        }
+
         formElements.forEach(v -> v.setEnabled(false));
 
         try {
             JsonObjectRequest request = RequestFactory.POST()
                 .url(USER_ENDPOINT + "register")
-                .putBody("username", parse(usernameField))
-                .putBody("email", parse(emailField))
-                .putBody("password", parse(passwordField))
-                .putBody("displayName", parse(nameField))
+                .putBody("username", username)
+                .putBody("email", email)
+                .putBody("password", password)
+                .putBody("displayName", displayName)
                 .putBody("privilegeLevel", "" + accountTypeValue)
                 .onResponse(response -> {
                     showToast("Registration was successful!", RegisterActivity.this);
