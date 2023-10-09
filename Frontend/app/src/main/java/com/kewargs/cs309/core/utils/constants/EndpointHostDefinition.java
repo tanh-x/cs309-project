@@ -1,4 +1,4 @@
-package com.kewargs.cs309.utils.constants;
+package com.kewargs.cs309.core.utils.constants;
 
 import android.util.Log;
 
@@ -38,6 +38,7 @@ class EndpointHostDefinition {
                 URL url = new URL(endpoint);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("HEAD");
+                connection.setConnectTimeout(1232);
                 int responseCode = connection.getResponseCode();
                 Log.e("AAAAAA", endpoint + " - " + responseCode + "");
                 if (responseCode >= 200 && responseCode < 300) return endpoint;

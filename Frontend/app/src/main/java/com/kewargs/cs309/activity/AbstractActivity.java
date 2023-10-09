@@ -1,4 +1,4 @@
-package com.kewargs.cs309.core.activity;
+package com.kewargs.cs309.activity;
 
 import android.content.Context;
 import android.os.Bundle;

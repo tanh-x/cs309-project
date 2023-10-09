@@ -1,7 +1,7 @@
 package com.kewargs.cs309.activity.auth;
 
-import static com.kewargs.cs309.utils.ElementHelpers.parse;
-import static com.kewargs.cs309.utils.constants.UniversalConstants.USER_ENDPOINT;
+import static com.kewargs.cs309.core.utils.ElementHelpers.parse;
+import static com.kewargs.cs309.core.utils.constants.UniversalConstants.USER_ENDPOINT;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,8 +14,8 @@ import android.widget.Spinner;
 
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.kewargs.cs309.R;
-import com.kewargs.cs309.core.activity.AbstractActivity;
-import com.kewargs.cs309.utils.backend.factory.RequestFactory;
+import com.kewargs.cs309.activity.AbstractActivity;
+import com.kewargs.cs309.core.utils.backend.factory.RequestFactory;
 
 import org.json.JSONException;
 
@@ -58,15 +58,25 @@ public class RegisterActivity extends AbstractActivity implements AdapterView.On
     }
 
     private void signUpButtonCallback(View view) {
+        String username = parse(usernameField);
+        String email = parse(emailField);
+        String password = parse(passwordField);
+        String displayName = parse(nameField);
+
+        if (username.isEmpty() || email.isEmpty() || password.isEmpty() || displayName.isEmpty()) {
+            showToast("Please complete the registration form first", RegisterActivity.this);
+            return;
+        }
+
         formElements.forEach(v -> v.setEnabled(false));
 
         try {
             JsonObjectRequest request = RequestFactory.POST()
                 .url(USER_ENDPOINT + "register")
-                .putBody("username", parse(usernameField))
-                .putBody("email", parse(emailField))
-                .putBody("password", parse(passwordField))
-                .putBody("displayName", parse(nameField))
+                .putBody("username", username)
+                .putBody("email", email)
+                .putBody("password", password)
+                .putBody("displayName", displayName)
                 .putBody("privilegeLevel", "" + accountTypeValue)
                 .onResponse(response -> {
                     showToast("Registration was successful!", RegisterActivity.this);
@@ -102,12 +112,12 @@ public class RegisterActivity extends AbstractActivity implements AdapterView.On
 
     @Override
     protected void collectElements() {
-        nameField = findViewById(R.id.nameField);
+        nameField = findViewById(R.id.newname);
         emailField = findViewById(R.id.emailField);
         usernameField = findViewById(R.id.usernameField);
-        passwordField = findViewById(R.id.passwordField);
+        passwordField = findViewById(R.id.newDisplay);
         accountTypeSpinner = findViewById(R.id.accountTypeSpinner);
-        signUpButton = findViewById(R.id.signUpButton);
+        signUpButton = findViewById(R.id.coursesButton);
         loginButton = findViewById(R.id.loginButton);
 
         formElements = new LinkedHashSet<>() {{
