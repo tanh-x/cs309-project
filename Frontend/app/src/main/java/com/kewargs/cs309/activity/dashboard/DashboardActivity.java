@@ -2,7 +2,9 @@ package com.kewargs.cs309.activity.dashboard;
 
 import android.os.Bundle;
 import android.widget.TextView;
+
 import org.json.*;
+
 import com.kewargs.cs309.R;
 import com.kewargs.cs309.core.activity.AbstractActivity;
 import com.kewargs.cs309.utils.backend.factory.UserRequestFactory;
@@ -25,14 +27,9 @@ public class DashboardActivity extends AbstractActivity {
                 userInfoDump.setText(response);
                 try {
                     userInfo = new JSONObject(response);
-                } catch (JSONException e) {
-                    throw new RuntimeException(e);
-                }
-                try {
-                    dashboardGreeting.setText("Hello "+ userInfo.getString("display_name"));
-                } catch (JSONException e) {
-                    throw new RuntimeException(e);
-                }
+                    dashboardGreeting.setText("Hello " + userInfo.getString("displayName"));
+                } catch (JSONException ignored) { }
+
             })
             .build()
         );
