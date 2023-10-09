@@ -11,12 +11,14 @@ import com.kewargs.cs309.activity.auth.RegisterActivity;
 import com.kewargs.cs309.core.activity.AbstractActivity;
 import com.kewargs.cs309.utils.backend.factory.UserRequestFactory;
 
+import java.util.LinkedHashSet;
+
 public class DashboardActivity extends AbstractActivity {
     public DashboardActivity() { super(R.layout.activity_dashboard); }
 
     private TextView userInfoDump, dashboardGreeting;
 
-    private Button toEditInfo  = findViewById(R.id.updateInfo);
+    private Button toEditInfo ;
     JSONObject userInfo;
 
 
@@ -55,7 +57,7 @@ public class DashboardActivity extends AbstractActivity {
         dashboardGreeting = findViewById(R.id.dashboardGreeting);
     }
 
-
+    
 
 
 }
