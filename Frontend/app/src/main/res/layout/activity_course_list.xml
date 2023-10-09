@@ -48,6 +48,12 @@
                 android:layout_marginTop="1dp"
                 android:layout_marginStart="1dp"
                 android:id="@+id/courseScroll" />
+
+        <TextView
+                android:text="TextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/debugText" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
