@@ -71,7 +71,6 @@ public class UserService {
     public UserEntity getUserByEmail(String email) {
         return userRepository.getUserByEmail(email);
     }
-
     public Boolean updateUser(int uid, String email, String display_name) {
         UserEntity user = getUserById(uid);
         if (user == null) {
