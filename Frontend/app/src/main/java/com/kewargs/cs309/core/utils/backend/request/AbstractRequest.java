@@ -6,10 +6,11 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 
 @SuppressWarnings("unchecked")
-public abstract class AbstractRequest<S, R extends AbstractRequest<S, R>> implements RequestCall<S, R> {
+public abstract class AbstractRequest<ResponseType, RequestType extends AbstractRequest<ResponseType, RequestType>>
+    implements RequestCall<ResponseType, RequestType> {
     protected int requestMethod;
     protected String requestUrl;
-    protected Response.Listener<S> responseListener = null;
+    protected Response.Listener<ResponseType> responseListener = null;
     protected Response.ErrorListener errorListener = Throwable::printStackTrace;
 
     protected AbstractRequest(int method, String url) {
@@ -18,27 +19,27 @@ public abstract class AbstractRequest<S, R extends AbstractRequest<S, R>> implem
     }
 
     @Override
-    public R method(int method) {
+    public RequestType method(int method) {
         this.requestMethod = method;
-        return (R) this;
+        return (RequestType) this;
     }
 
     @Override
-    public R url(String url) {
+    public RequestType url(String url) {
         this.requestUrl = url;
-        return (R) this;
+        return (RequestType) this;
     }
 
     @Override
-    public R onResponse(Response.Listener<S> callback) {
+    public RequestType onResponse(Response.Listener<ResponseType> callback) {
         responseListener = callback;
-        return (R) this;
+        return (RequestType) this;
     }
 
     @Override
-    public R onError(Response.ErrorListener callback) {
+    public RequestType onError(Response.ErrorListener callback) {
         errorListener = callback;
-        return (R) this;
+        return (RequestType) this;
     }
 
     abstract public <T> Request<T> build();

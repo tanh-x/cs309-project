@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.kewargs.cs309.R;
 import com.kewargs.cs309.activity.AbstractActivity;
@@ -42,8 +43,12 @@ public class UpdateInfoActivity extends AbstractActivity {
 
         String nEmail = parse(newEmail);
         String newDisplayName = parse(newUser);
-        JsonObjectRequest request = UserRequestFactory
+        Request<String> request = UserRequestFactory
             .updateInfo(session.getUserId(), nEmail, newDisplayName)
+            .onResponse(response -> {
+                showToast("Successfully updated information", UpdateInfoActivity.this);
+                switchToActivity(DashboardActivity.class);
+            })
             .onError(error -> {
                 error.printStackTrace();
                 showToast(error.toString(), UpdateInfoActivity.this);
@@ -67,7 +72,7 @@ public class UpdateInfoActivity extends AbstractActivity {
         newUser = findViewById(R.id.newDisplay);
         newEmail = findViewById(R.id.newname);
 
-        formElements = new LinkedHashSet<View>() {{
+        formElements = new LinkedHashSet<>() {{
             add(newUser);
             add(newEmail);
         }};

@@ -13,7 +13,9 @@ public final class SessionManager {
 
     public String getSessionToken() { return authentication.getSessionToken(); }
 
-    public Integer getUserId() { return authentication.getUserId(); }
+    public Integer getUserId() {
+        return authentication.getUserId();
+    }
 
     public Boolean tokenExpired() { return authentication.getIsExpired(); }
 

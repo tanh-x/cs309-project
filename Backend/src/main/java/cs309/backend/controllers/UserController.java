@@ -3,10 +3,7 @@ package cs309.backend.controllers;
 import cs309.backend.exception.InvalidCredentialsException;
 import cs309.backend.jpa.entity.TestEntity;
 import cs309.backend.jpa.entity.user.UserEntity;
-import cs309.backend.models.LoginData;
-import cs309.backend.models.RegistrationData;
-import cs309.backend.models.SessionTokenData;
-import cs309.backend.models.UserData;
+import cs309.backend.models.*;
 import cs309.backend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -61,7 +58,7 @@ public class UserController {
     }
 
 
-    @GetMapping("id/{id}")
+    @GetMapping("/id/{id}")
     public ResponseEntity<UserData> getUserById(@PathVariable int id) {
         try {
             UserEntity user = userService.getUserByUid(id);
@@ -72,7 +69,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("email/{email}")
+    @GetMapping("/email/{email}")
     public ResponseEntity<UserData> getUserByEmail(@PathVariable String email) {
         try {
             UserEntity user = userService.getUserByEmail(email);
@@ -84,7 +81,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("username/{username}")
+    @GetMapping("/username/{username}")
     public ResponseEntity<UserData> getUserByUsername(@PathVariable String username) {
         try {
             UserEntity user = userService.getUserByUsername(username);
@@ -96,11 +93,15 @@ public class UserController {
         }
     }
 
-    @PutMapping("{id}/{email}/{display_name}")
-    public ResponseEntity<Boolean> updateUser(@PathVariable int id, @PathVariable String email, @PathVariable String display_name) {
+    @PutMapping("/update")
+    public ResponseEntity<String> updateUser(@RequestBody UpdateInfoData updateInfo) {
         try {
-            Boolean res = userService.updateUser(id, email, display_name);
-            return ok(res);
+            Boolean res = userService.updateUser(
+                updateInfo.id(),
+                updateInfo.email(),
+                updateInfo.displayName()
+            );
+            return res ? ok("Success") : badRequest().build();
         } catch (RuntimeException e) {
             e.printStackTrace();
             return internalServerError().build();
