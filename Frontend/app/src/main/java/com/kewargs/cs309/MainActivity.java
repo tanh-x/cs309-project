@@ -6,7 +6,7 @@ import android.os.StrictMode;
 
 import com.kewargs.cs309.activity.auth.LoginActivity;
 import com.kewargs.cs309.activity.dashboard.DashboardActivity;
-import com.kewargs.cs309.core.activity.AbstractActivity;
+import com.kewargs.cs309.activity.AbstractActivity;
 import com.kewargs.cs309.core.manager.SessionManager;
 
 public class MainActivity extends AbstractActivity {
