@@ -23,12 +23,13 @@ public class UserRequestFactory {
         return RequestFactory.GET().url(USER_ENDPOINT + "id/" + id);
     }
 
-    public static JsonRequestCall updateInfo(int id, String email,String displayName){
+    public static JsonRequestCall updateInfo(int id, String email, String displayName) {
         try {
             return RequestFactory.PUT()
-                    .url(USER_ENDPOINT)
-                    .putBody("email", email)
-                    .putBody("password", displayName);
+                .url(USER_ENDPOINT + "update")
+                .putBody("id", id + "")
+                .putBody("email", email)
+                .putBody("displayName", displayName);
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }

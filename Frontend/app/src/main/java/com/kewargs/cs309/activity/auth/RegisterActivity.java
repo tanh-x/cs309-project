@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.kewargs.cs309.R;
 import com.kewargs.cs309.activity.AbstractActivity;
@@ -71,7 +72,7 @@ public class RegisterActivity extends AbstractActivity implements AdapterView.On
         formElements.forEach(v -> v.setEnabled(false));
 
         try {
-            JsonObjectRequest request = RequestFactory.POST()
+            Request<String> request = RequestFactory.POST()
                 .url(USER_ENDPOINT + "register")
                 .putBody("username", username)
                 .putBody("email", email)
