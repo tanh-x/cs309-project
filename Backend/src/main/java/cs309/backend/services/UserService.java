@@ -51,7 +51,7 @@ public class UserService {
         if (!validateLoginCredentials(user, args)) throw new InvalidCredentialsException();
 
         // Else, we give them the session token
-        return new SessionTokenData(true, AuthorizationUtils.createSessionJwt(user.getUid()));
+        return new SessionTokenData(true, AuthorizationUtils.createSessionJwt(user.getUsername()));
     }
 
     private boolean validateLoginCredentials(UserEntity user, LoginData login) {

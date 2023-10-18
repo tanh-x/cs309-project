@@ -34,6 +34,7 @@ public final class UserEntity implements UserDetails, User{
     @Column(name = "pwd_bcrypt_hash", length = 256, nullable = false)
     private String pwdBcryptHash;
 
+    @Enumerated(EnumType.STRING)
     private Role role;
 
     @Override
@@ -46,7 +47,7 @@ public final class UserEntity implements UserDetails, User{
 
     @Override
     public String getUsername() {
-        return email;
+        return username;
     }
 
     @Override
