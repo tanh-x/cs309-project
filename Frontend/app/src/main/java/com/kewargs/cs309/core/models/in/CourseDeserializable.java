@@ -4,6 +4,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 public record CourseDeserializable(
     int id,
     int programId,
@@ -23,10 +25,10 @@ public record CourseDeserializable(
         return from(new JSONObject(serializedJson));
     }
 
-    public static CourseDeserializable[] fromArray(JSONArray jsonArray) throws JSONException {
+    public static ArrayList<CourseDeserializable> fromArray(JSONArray jsonArray) throws JSONException {
         int n = jsonArray.length();
-        CourseDeserializable[] courses = new CourseDeserializable[n];
-        for (int i = 0; i < n; i++) { courses[i] = from(jsonArray.get(i).toString()); }
+        ArrayList<CourseDeserializable> courses = new ArrayList<>(n);
+        for (int i = 0; i < n; i++) { courses.add(from(jsonArray.get(i).toString())); }
         return courses;
     }
 }
