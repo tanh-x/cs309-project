@@ -1,5 +1,6 @@
 package cs309.backend.core;
 
+import cs309.backend.jpa.entity.user.UserEntity;
 import cs309.backend.jpa.repo.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -15,6 +16,12 @@ public class ApplicationConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return repository::getUserByUsername;
+        return username -> {
+            UserEntity user = repository.getUserByUsername(username);
+            if (user == null) {
+                throw new UsernameNotFoundException("User not found with username: " + username);
+            }
+            return user;
+        };
     }
 }

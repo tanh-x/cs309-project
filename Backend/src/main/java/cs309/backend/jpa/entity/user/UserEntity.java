@@ -33,14 +33,21 @@ public final class UserEntity implements UserDetails, User{
 
     @Column(name = "pwd_bcrypt_hash", length = 256, nullable = false)
     private String pwdBcryptHash;
-
-    @Enumerated(EnumType.STRING)
-    private Role role;
-
+    private Role mapPrivilegeLevelToRole(int privilegeLevel) {
+        if (privilegeLevel == 1) {
+            return Role.USER;
+        } else if (privilegeLevel == 2) {
+            return Role.ADMIN;
+        } else {
+            return Role.STAFF;
+        }
+    }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+        Role role = mapPrivilegeLevelToRole(privilegeLevel);
         return List.of(new SimpleGrantedAuthority(role.name()));
     }
+
     public String getPassword() {
         return pwdBcryptHash;
     }
