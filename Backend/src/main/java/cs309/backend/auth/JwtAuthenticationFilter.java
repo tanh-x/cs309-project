@@ -49,7 +49,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     .build()
                     .verify(token);
 
-            String userName = decodedJWT.getClaim("userName").asString();
+            String userName = decodedJWT.getClaim("userId").asString();
             Date expireDate = decodedJWT.getExpiresAt();
 
             if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
