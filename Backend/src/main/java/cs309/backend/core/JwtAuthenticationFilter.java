@@ -48,7 +48,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             String userName = decodedJWT.getClaim("userName").asString();
             Date expireDate = decodedJWT.getExpiresAt();
 
-            if (userName != null) {
+            if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 UserDetails userDetails = this.userDetailsService.loadUserByUsername(userName);
                 if (!expireDate.before(new Date())) {
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
