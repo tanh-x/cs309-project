@@ -26,9 +26,9 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private UserDetailsService userDetailsService;
+
     @Value("${jwt.secret}")
     private String jwtSecret;
-    //private jwtService jwtService;
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request,@NonNull HttpServletResponse response,@NonNull FilterChain filterChain)
@@ -44,7 +44,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 filterChain.doFilter(request, response);
                 return;
             }*/
-            jwt = token.substring(7); //remove Bearer
+            jwt = token.substring(7);      //remove Bearer
             DecodedJWT decodedJWT = JWT.require(Algorithm.HMAC384(jwtSecret))
                     .build()
                     .verify(token);
@@ -59,11 +59,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                             userDetails,
                             null,
                             userDetails.getAuthorities()
-                    );//create a token keeps user information and which permission it has
+                    );      //create a token keeps user information and which permission it has
 
                     authToken.setDetails(
                             new WebAuthenticationDetailsSource().buildDetails(request)
-                    );  //adding client's IP address and session ID
+                    );      //adding client's IP address and session ID
 
                     SecurityContextHolder.getContext().setAuthentication(authToken);
                 }
