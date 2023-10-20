@@ -33,10 +33,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request,@NonNull HttpServletResponse response,@NonNull FilterChain filterChain)
             throws ServletException, IOException {
-        /*if (request.getServletPath().contains("/api/auth")) {       //means login and register
+        if (request.getServletPath().contains("/api/auth")) {       //means login and register
             filterChain.doFilter(request, response);
             return;
-        }*/
+        }
         final String jwt;
         try {
             String token = request.getHeader("Authorization");
