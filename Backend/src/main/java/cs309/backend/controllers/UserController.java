@@ -36,29 +36,6 @@ public class UserController {
         return userService.readTestTable(id);
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<String> registerEndpoint(@RequestBody RegistrationData args) {
-        try {
-            userService.registerUser(args);
-            return ok("Successfully registered new user");
-        } catch (RuntimeException e) {
-            return internalServerError().body(e.toString());
-        }
-    }
-
-    @PostMapping("/login")
-    public ResponseEntity<SessionTokenData> loginEndpoint(@RequestBody LoginData args) {
-        try {
-            SessionTokenData jwt = userService.loginUser(args);
-            return ok(jwt);
-        } catch (InvalidCredentialsException e) {
-            return status(UNAUTHORIZED).body(SessionTokenData.FAILED_LOGIN);
-        } finally {
-            System.out.println("Handled login request for " + args.email());
-        }
-    }
-
-
     @GetMapping("id/{id}")
     public ResponseEntity<UserData> getUserById(@PathVariable int id) {
         try {
