@@ -1,4 +1,4 @@
-package cs309.backend.core;
+package cs309.backend.auth;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
