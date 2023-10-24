@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import jakarta.transaction.Transactional;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,7 +26,7 @@ import java.util.Date;
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-    private UserDetailsService userDetailsService;
+    private final UserDetailsService userDetailsService;
 
     @Value("${jwt.secret}")
     private String jwtSecret;
@@ -33,23 +34,19 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request,@NonNull HttpServletResponse response,@NonNull FilterChain filterChain)
             throws ServletException, IOException {
-        if (request.getServletPath().contains("/api/auth")) {       //means login and register
-            filterChain.doFilter(request, response);
-            return;
-        }
         final String jwt;
         try {
             String token = request.getHeader("Authorization");
-            /*if (token == null || !token.startsWith("Bearer ")) {
+            if (token == null || !token.startsWith("Bearer ")) {
                 filterChain.doFilter(request, response);
                 return;
-            }*/
+            }
             jwt = token.substring(7);      //remove Bearer
             DecodedJWT decodedJWT = JWT.require(Algorithm.HMAC384(jwtSecret))
                     .build()
-                    .verify(token);
+                    .verify(jwt);
 
-            String userName = decodedJWT.getClaim("userId").asString();
+            String userName = decodedJWT.getClaim("userName").asString();
             Date expireDate = decodedJWT.getExpiresAt();
 
             if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {

@@ -2,6 +2,8 @@ package cs309.backend.auth;
 
 import cs309.backend.jpa.entity.user.UserEntity;
 import cs309.backend.jpa.repo.UserRepository;
+import cs309.backend.services.UserService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,18 +17,12 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 @Configuration
 @RequiredArgsConstructor
-public class ApplicationConfig {
-    private final UserRepository repository;
 
+public class ApplicationConfig {
+    private final UserService userService;
     @Bean
     public UserDetailsService userDetailsService() {
-        return username -> {
-            UserEntity user = repository.getUserByUsername(username);
-            if (user == null) {
-                throw new UsernameNotFoundException("User not found with username: " + username);
-            }
-            return user;
-        };
+        return userService::getUserByUsername;
     }
 
     @Bean

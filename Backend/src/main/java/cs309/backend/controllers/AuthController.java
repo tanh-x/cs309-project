@@ -17,11 +17,11 @@ import static org.springframework.http.ResponseEntity.*;
 
 @RestController
 @RequestMapping("/api/auth")
-public class AuthenticationController {
+public class AuthController {
     private final UserService userService;
 
     @Autowired
-    public AuthenticationController(UserService userService) {
+    public AuthController(UserService userService) {
         this.userService = userService;
     }
     @PostMapping("/register")
