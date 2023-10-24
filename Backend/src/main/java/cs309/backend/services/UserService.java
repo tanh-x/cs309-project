@@ -14,6 +14,8 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
+
 
 @Service
 @Transactional
@@ -45,6 +47,7 @@ public class UserService {
 
     public SessionTokenData loginUser(LoginData args) {
         UserEntity user = getUserByEmail(args.email());
+        user = (user != null) ? user : getUserByUsername(args.email());
 
         // Check if credentials were correct
         if (!validateLoginCredentials(user, args)) throw new InvalidCredentialsException();
@@ -59,7 +62,7 @@ public class UserService {
         return BCrypt.checkpw(login.password(), user.getPwdBcryptHash());
     }
 
-    public UserEntity getUserById(int uid) {
+    public UserEntity getUserByUid(int uid) {
         return userRepository.getUserByUid(uid);
     }
 
@@ -70,12 +73,17 @@ public class UserService {
     public UserEntity getUserByEmail(String email) {
         return userRepository.getUserByEmail(email);
     }
-    public Boolean updateUser(int uid, String email, String display_name) {
-        UserEntity user = getUserById(uid);
+
+    public Boolean updateUser(int uid, String email, String displayName) {
+        UserEntity user = getUserByUid(uid);
         if (user == null) {
             return false;
         }
-        userRepository.updateUser(uid, email, display_name);
+        userRepository.updateUser(
+            uid,
+            Objects.equals(email, "") ? null : email,
+            Objects.equals(displayName, "") ? null : displayName
+        );
         return true;
     }
 }

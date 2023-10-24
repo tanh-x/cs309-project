@@ -1,3 +1,12 @@
 <resources>
-    <string name="app_name">AS1</string>
+
+    <string name="app_name">cs309</string>
+
+    <string name="nav_open">Open</string>
+    <string name="nav_close">Close</string>
+
+    <string-array name="privilege_array">
+        <item>Student account</item>
+        <item>Staff account</item>
+    </string-array>
 </resources>
