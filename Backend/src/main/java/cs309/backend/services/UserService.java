@@ -1,6 +1,6 @@
 package cs309.backend.services;
 
-import cs309.backend.core.AuthorizationUtils;
+import cs309.backend.auth.AuthorizationUtils;
 import cs309.backend.exception.InvalidCredentialsException;
 import cs309.backend.jpa.entity.TestEntity;
 import cs309.backend.jpa.entity.user.UserEntity;
@@ -53,7 +53,7 @@ public class UserService {
         if (!validateLoginCredentials(user, args)) throw new InvalidCredentialsException();
 
         // Else, we give them the session token
-        return new SessionTokenData(true, AuthorizationUtils.createSessionJwt(user.getUid()));
+        return new SessionTokenData(true, AuthorizationUtils.createSessionJwt(user.getUsername()));
     }
 
     private boolean validateLoginCredentials(UserEntity user, LoginData login) {

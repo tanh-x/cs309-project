@@ -1,4 +1,4 @@
-package cs309.backend.core;
+package cs309.backend.auth;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -14,17 +14,17 @@ public final class AuthorizationUtils {
 
     public static String bcryptHash(String pwd) { return BCrypt.hashpw(pwd, BCrypt.gensalt(BCRYPT_LOG_ROUNDS)); }
 
-    public static String createSessionJwt(int userId) {
+    public static String createSessionJwt(String username) {
         Date iat = new Date();  // Issued at
         Date exp = new Date(iat.getTime() + SESSION_EXPIRATION_MILLIS);  // Expires at
 
         String token = JWT.create()
-            .withClaim("userId", userId)
+            .withClaim("userName", username)
             .withIssuedAt(iat)
             .withExpiresAt(exp)
             .sign(jwtAlgorithm);
 
-        System.out.println("Creating new token for " + userId + ": " + token);
+        System.out.println("Creating new token for " + username + ": " + token);
         return token;
     }
 
