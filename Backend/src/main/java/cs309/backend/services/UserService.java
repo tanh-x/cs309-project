@@ -3,17 +3,20 @@ package cs309.backend.services;
 import cs309.backend.auth.AuthorizationUtils;
 import cs309.backend.exception.InvalidCredentialsException;
 import cs309.backend.jpa.entity.TestEntity;
+import cs309.backend.jpa.entity.user.User;
 import cs309.backend.jpa.entity.user.UserEntity;
 import cs309.backend.jpa.repo.TestEntityRepository;
 import cs309.backend.jpa.repo.UserRepository;
+import cs309.backend.models.ChangePasswordData;
 import cs309.backend.models.LoginData;
 import cs309.backend.models.RegistrationData;
 import cs309.backend.models.SessionTokenData;
 import jakarta.transaction.Transactional;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
-
+import java.security.Principal;
 import java.util.Objects;
 
 
@@ -80,10 +83,24 @@ public class UserService {
             return false;
         }
         userRepository.updateUser(
-            uid,
-            Objects.equals(email, "") ? null : email,
-            Objects.equals(displayName, "") ? null : displayName
+                uid,
+                Objects.equals(email, "") ? null : email,
+                Objects.equals(displayName, "") ? null : displayName
         );
         return true;
+    }
+
+    public String changePassword(ChangePasswordData req, Principal user) {
+        var curUser = (UserEntity) ((UsernamePasswordAuthenticationToken) user).getPrincipal();
+        if (!BCrypt.checkpw(req.currentPassword(), curUser.getPwdBcryptHash())) {
+            return "Wrong password";
+        }
+        if (!req.newPassword().equals(req.confirmationPassword())) {
+            return "Passwords are not the same";
+        }
+        curUser.setPwdBcryptHash(AuthorizationUtils.bcryptHash(req.newPassword()));
+        //userRepository.changePass
+        //userRepository.save(curUser);     Procedure
+        return "Successful";
     }
 }
