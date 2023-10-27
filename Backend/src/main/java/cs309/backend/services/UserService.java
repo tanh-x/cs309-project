@@ -98,9 +98,8 @@ public class UserService {
         if (!req.newPassword().equals(req.confirmationPassword())) {
             return "Passwords are not the same";
         }
-        curUser.setPwdBcryptHash(AuthorizationUtils.bcryptHash(req.newPassword()));
-        //userRepository.changePass
-        //userRepository.save(curUser);     Procedure
+        String newPass = AuthorizationUtils.bcryptHash(req.newPassword());
+        userRepository.changePassword(newPass, curUser.getUid());
         return "Successful";
     }
 }
