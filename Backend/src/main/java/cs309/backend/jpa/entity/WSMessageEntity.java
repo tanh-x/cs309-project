@@ -17,13 +17,13 @@ import lombok.Data;
 @Entity
 @Table(name = "ws_messages")
 @Data
-public class MessageEntity {
+public class WSMessageEntity {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column
-    private String userName;
+    private String username;
 
     @Lob
     private String content;
@@ -33,14 +33,14 @@ public class MessageEntity {
     private Date sent = new Date();
 	
 	
-	public MessageEntity() {};
+	public WSMessageEntity() {};
 	
-	public MessageEntity(String userName, String content) {
-		this.userName = userName;
+	public WSMessageEntity(String username, String content) {
+		this.username = username;
 		this.content = content;
 	}
 
-    public Long getId() {
+    public Long getuid() {
         return id;
     }
 
@@ -49,11 +49,11 @@ public class MessageEntity {
     }
 
     public String getUserName() {
-        return userName;
+        return username;
     }
 
     public void setUserName(String userName) {
-        this.userName = userName;
+        this.username = username;
     }
 
     public String getContent() {
