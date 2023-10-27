@@ -3,6 +3,9 @@ package com.kewargs.cs309.components;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+
+import com.kewargs.cs309.R;
 
 abstract sealed class InflatableComponent<T extends View>
     implements ViewComponent<T>
@@ -19,7 +22,11 @@ abstract sealed class InflatableComponent<T extends View>
         parentView.addView(this.render());
     }
 
-    protected abstract T render();
+    @SuppressWarnings("unchecked")
+    protected T render() {
+        this.stub = (T) inflater.inflate(R.layout.component_course_list, null);
+        return stub;
+    };
 
     public <R extends View> R findViewById(int id) { return stub.findViewById(id); }
 }
