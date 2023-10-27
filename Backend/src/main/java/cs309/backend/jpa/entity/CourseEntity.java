@@ -1,5 +1,6 @@
 package cs309.backend.jpa.entity;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -15,6 +16,9 @@ public class CourseEntity {
     @Column(name = "program_id")
     private int programId;
 
+    @Nullable
+    @Column(name = "program_identifier")
+    private String programIdentifier;
 
     @Column(name = "num")
     private int num;
