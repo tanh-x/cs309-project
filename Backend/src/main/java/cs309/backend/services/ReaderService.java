@@ -3,7 +3,6 @@ package cs309.backend.services;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,5 +15,10 @@ public class ReaderService {
         String text = pdfTextStripper.getText(document);
         document.close();
         return text;
+    }
+
+    private String textFilter(String args) {
+        
+        return args;
     }
 }
