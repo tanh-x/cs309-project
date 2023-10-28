@@ -7,7 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
+import java.util.LinkedHashSet;
 
 @RestController
 @RequiredArgsConstructor
@@ -16,7 +16,7 @@ public class DegreeAuditController {
     private final ReaderService readerService;
 
     @PostMapping("/pdf")
-    public ArrayList<String> readingDegreeAudit(@RequestParam("file") MultipartFile file) throws IOException {
+    public LinkedHashSet<String> readingDegreeAudit(@RequestParam("file") MultipartFile file) throws IOException {
         try (InputStream inputStream = file.getInputStream()) {
             return readerService.extractTextFromPdf(inputStream);
         }
