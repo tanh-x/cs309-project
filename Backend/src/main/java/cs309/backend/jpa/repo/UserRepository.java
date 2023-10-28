@@ -31,4 +31,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
 
     @Procedure(name = "changePassword")
     void changePassword(@Param("p_pass") String password, @Param("p_uid") int uid);
+
+    @Procedure(name = "deleteUser")
+    void deleteUser(@Param("p_uid") int uid, @Param("p_privilege_level") int privilege_level);
 }

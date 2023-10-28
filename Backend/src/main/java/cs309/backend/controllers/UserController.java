@@ -90,4 +90,24 @@ public class UserController {
     public Principal principal(Principal p) {
         return p;
     }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<Boolean> deleteUser(Principal user) {
+        try {
+            return ok(userService.deleteUser(user));
+        }
+        catch (Exception e) {
+            return internalServerError().build();
+        }
+    }
+
+    /*@DeleteMapping("/test/delete/{id}")
+    public ResponseEntity<Boolean> testDeleteUser(@PathVariable int id) {
+        try {
+            return ok(userService.testDeleteUser(id));
+        }
+        catch (Exception e) {
+            return internalServerError().build();
+        }
+    }*/
 }

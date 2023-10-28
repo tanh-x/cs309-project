@@ -14,6 +14,7 @@ import cs309.backend.models.SessionTokenData;
 import jakarta.transaction.Transactional;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 import java.security.Principal;
@@ -102,4 +103,16 @@ public class UserService {
         userRepository.changePassword(newPass, curUser.getUid());
         return "Successful";
     }
+
+    public Boolean deleteUser(Principal user) {
+        var curUser = (UserEntity) ((UsernamePasswordAuthenticationToken) user).getPrincipal();
+        userRepository.deleteUser(curUser.getUid(), curUser.getPrivilegeLevel());
+        return true;
+    }
+
+    /*public Boolean testDeleteUser(int uid) {
+        var curUser =  getUserByUid(uid);
+        userRepository.deleteUser(curUser.getUid(), curUser.getPrivilegeLevel());
+        return true;
+    }*/
 }
