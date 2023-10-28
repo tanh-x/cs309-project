@@ -6,8 +6,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Scanner;
 
@@ -18,15 +16,14 @@ public class ReaderService {
         PDFTextStripper pdfTextStripper = new PDFTextStripper();
         String text = pdfTextStripper.getText(document);
         document.close();
-        LinkedHashSet<String> arr = textFilter(text);
-        return arr;
+        return textFilter(text);
     }
 
     private LinkedHashSet<String> textFilter(String args) {
         LinkedHashSet<String> arr = new LinkedHashSet<>();
-        Scanner scnr = new Scanner(args);
-        while (scnr.hasNextLine()) {
-            String line = scnr.nextLine();
+        Scanner scr = new Scanner(args);
+        while (scr.hasNextLine()) {
+            String line = scr.nextLine();
             if (line.startsWith("F") || line.startsWith("S")) {
                 if(line.length() != 6) {
                     if (!line.contains(".")) {
@@ -41,7 +38,7 @@ public class ReaderService {
                 }
             }
         }
-        scnr.close();
+        scr.close();
         return arr;
     }
 }
