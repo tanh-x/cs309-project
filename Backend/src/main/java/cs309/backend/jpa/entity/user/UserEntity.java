@@ -37,9 +37,9 @@ public final class UserEntity implements UserDetails, User{
         if (privilegeLevel == 1) {
             return Role.USER;
         } else if (privilegeLevel == 2) {
-            return Role.ADMIN;
-        } else {
             return Role.STAFF;
+        } else {
+            return Role.ADMIN;
         }
     }
     @Override
