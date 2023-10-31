@@ -1,21 +1,25 @@
 package cs309.backend.services;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import cs309.backend.Component.SessionStore;
+import cs309.backend.jpa.entity.MessageEntity;
+import cs309.backend.jpa.entity.user.UserEntity;
 import cs309.backend.jpa.repo.MessageRepository;
 import cs309.backend.jpa.repo.UserRepository;
-import cs309.backend.jpa.entity.MessageEntity;
 import cs309.backend.models.MessageData;
+import jakarta.transaction.Transactional;
 import jakarta.websocket.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 @Service
+@Transactional
 public class MessageService {
     private final Logger logger = LoggerFactory.getLogger(MessageService.class);
     private final SessionStore sessionStore;
@@ -30,7 +34,7 @@ public class MessageService {
     }
 
     // For WebSocket
-    public void handleOpenSession(Session session, String username) throws IOException {
+    public void handleOpenSession(Session session, String username) {
         sessionStore.getSessionUsernameMap().put(session, username);
         sessionStore.getUsernameSessionMap().put(username, session);
         sendMessageToParticularUser(username, getChatHistory());
@@ -38,17 +42,24 @@ public class MessageService {
 
     public void handleIncomingMessage(Session session, String message) {
         String username = sessionStore.getSessionUsernameMap().get(session);
-        int uid = userRepository.getIdByUsername(username);
-        if(uid != -1) {
-            if (message.startsWith("@")) {
-                String destUsername = message.split(" ")[0].substring(1);
-                sendMessageToParticularUser(destUsername, "[DM] " + username + ": " + message);
-                sendMessageToParticularUser(username, "[DM] " + username + ": " + message);
-            } else {
-                broadcast(username + ": " + message);
-            }
-            saveMessage(uid, message);
+
+        UserEntity user = userRepository.getUserByUsername(username);
+        if (user == null || !Objects.equals(user.getUsername(), username))
+            throw new IllegalArgumentException("Invalid user");
+
+        if (message.startsWith("@")) {
+            String receiverUsername = message.split(" ")[0].substring(1);
+            UserEntity receiverUser = userRepository.getUserByUsername(receiverUsername);
+
+            sendMessageToParticularUser(receiverUsername, "[DM] " + username + ": " + message);
+            sendMessageToParticularUser(username, "[DM] " + username + ": " + message);
+
+            saveMessage(new MessageData(user.getUid(), receiverUser.getUid(), message));
+        } else {
+            broadcast(username + ": " + message);
+            saveMessage(new MessageData(user.getUid(), null, message));
         }
+
     }
 
     public void handleCloseSession(Session session) {
@@ -56,10 +67,6 @@ public class MessageService {
         sessionStore.getSessionUsernameMap().remove(session);
         sessionStore.getUsernameSessionMap().remove(username);
         broadcast(username + " disconnected");
-    }
-
-    public void handleError(Session session, Throwable throwable) {
-        throwable.printStackTrace();
     }
 
     private void sendMessageToParticularUser(String username, String message) {
@@ -78,28 +85,11 @@ public class MessageService {
     // For CRUD
 
     public void saveMessage(MessageData args) {
-        int senderId = args.sender();
-        int receiverId = args.receiver();
-        String content = args.content();
-        java.util.Date sentDate = args.sentDate();
-        String messageTypeStr = args.messageType().toString();
-
-        messageRepository.saveMessage(senderId, receiverId, content, sentDate, messageTypeStr);
-
-    }
-    public void saveMessage(int uid, String messageContent) {
-        MessageEntity message = new MessageEntity();
-        message.setSender(uid);
-        message.setContent(messageContent);
-        messageRepository.save(message);
+        messageRepository.saveMessage(args.sender(), args.receiver(), args.content());
     }
 
-    public List<MessageData> getAllMessages() {
-
-        return messageRepository.getAllMessages().stream()
-                .map(MessageData::fromEntity)
-                .collect(Collectors.toList());
-
+    public List<MessageEntity> getAllMessages() {
+        return new ArrayList<>(messageRepository.getAllMessages());
     }
 
     public MessageEntity getMessageById(int messageId) {
@@ -109,7 +99,6 @@ public class MessageService {
     public void deleteMessage(int messageId) {
         messageRepository.deleteById(messageId);
     }
-
 
 
     private String getChatHistory() {
@@ -122,6 +111,7 @@ public class MessageService {
         }
         return history.toString();
     }
+
     private void broadcast(String message) {
         sessionStore.getSessionUsernameMap().forEach((session, user) -> {
             try {

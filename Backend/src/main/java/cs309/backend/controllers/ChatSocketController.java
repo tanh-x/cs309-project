@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import cs309.backend.Component.SessionStore;
 
+import cs309.backend.config.CustomConfigurator;
 import cs309.backend.services.MessageService;
 
 import jakarta.websocket.*;
@@ -16,12 +17,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 @Controller
-@ServerEndpoint(value = "/chat/{username}")
+@ServerEndpoint(value = "/chat/{username}", configurator = CustomConfigurator.class)
 public class ChatSocketController {
-
     private final Logger logger = LoggerFactory.getLogger(ChatSocketController.class);
 
-    @Autowired
     private final SessionStore sessionStore;
     private final MessageService messageService;
 

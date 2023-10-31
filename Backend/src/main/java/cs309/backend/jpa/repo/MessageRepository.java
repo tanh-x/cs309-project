@@ -9,18 +9,14 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface MessageRepository extends JpaRepository<MessageEntity, Integer> {
-
-    @Procedure(name = "saveMessage")
-    void saveMessage(
-            @Param("p_sender") int sender,
-            @Param("p_receiver") int receiver,
-            @Param("p_content") String content,
-            @Param("p_sent_date") java.util.Date sentDate,
-            @Param("p_message_type") String messageType
-    );
-
     @Procedure(name = "getAllMessages")
     List<MessageEntity> getAllMessages();
+
+    @Procedure(name = "saveMessage")
+    void saveMessage(@Param("p_sender") int sender, @Param("p_receiver") Integer receiver, @Param("content") String content);
+
+
+    // TODO: All the following procedures don't exist yet
 
     @Procedure(name = "getMessageById")
     MessageEntity getMessageById(@Param("p_message_id") int messageId);
@@ -33,6 +29,7 @@ public interface MessageRepository extends JpaRepository<MessageEntity, Integer>
 
     @Procedure(name = "getSenderIdByUsername")
     List<MessageEntity> getIdSenderByUsername(@Param("p_username") String username);
+
     @Procedure(name = "getReceiverIdByUser")
     List<MessageEntity> getReceiverIdByUser(@Param("p_username") String username);
 

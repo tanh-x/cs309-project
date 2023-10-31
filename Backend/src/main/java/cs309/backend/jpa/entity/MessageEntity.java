@@ -11,15 +11,15 @@ import java.util.Date;
 public class MessageEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "message_id")
+    @Column(name = "id")
     private int id;
 
 
     @JoinColumn(name = "sender", referencedColumnName = "uid")
-    private int sender;
+    private Integer sender;
 
     @JoinColumn(name = "receiver", referencedColumnName = "uid")
-    private int receiver;
+    private Integer receiver;
 
     @Lob
     @Column(name = "content", nullable = false)

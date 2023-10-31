@@ -1,7 +1,6 @@
 package cs309.backend.controllers;
 
 import cs309.backend.jpa.entity.MessageEntity;
-import cs309.backend.jpa.entity.user.UserEntity;
 import cs309.backend.models.MessageData;
 import cs309.backend.services.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static org.springframework.http.ResponseEntity.internalServerError;
 import static org.springframework.http.ResponseEntity.ok;
 
 //import static org.springframework.http.ResponseEntity.ok;
@@ -26,23 +26,19 @@ public class ChatRestController {
     }
 
     @GetMapping("/messages")
-    public ResponseEntity<List<MessageData>> getAllMessages() {
+    public ResponseEntity<List<MessageEntity>> getAllMessages() {
         return ok(messageService.getAllMessages());
     }
 
     @GetMapping("/message/{messageId}")
-    public ResponseEntity<MessageData> getMessageById(@PathVariable int messageId) {
+    public ResponseEntity<MessageEntity> getMessageById(@PathVariable int messageId) {
         try {
             MessageEntity messageEntity = messageService.getMessageById(messageId);
-            if (messageEntity == null) {
-                return ResponseEntity.notFound().build();
-            }
-            MessageData messageData = MessageData.fromEntity(messageEntity);
-
-            return ok(messageData);
+            if (messageEntity == null) return ResponseEntity.notFound().build();
+            return ok(messageEntity);
         } catch (RuntimeException e) {
             e.printStackTrace();
-            return ResponseEntity.internalServerError().build();
+            return internalServerError().build();
         }
     }
 
@@ -53,7 +49,7 @@ public class ChatRestController {
             return ok("Message saved successfully");
         } catch (RuntimeException e) {
             e.printStackTrace();
-            return ResponseEntity.internalServerError().build();
+            return internalServerError().build();
         }
     }
 
@@ -65,7 +61,7 @@ public class ChatRestController {
             return ok().build();
         } catch (RuntimeException e) {
             e.printStackTrace();
-            return ResponseEntity.internalServerError().build();
+            return internalServerError().build();
         }
     }
 }
