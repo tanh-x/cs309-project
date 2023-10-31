@@ -76,7 +76,8 @@ public class LoginActivity extends AppCompatActivity {
     private void validateLogin(String username, String password) {
         // Define the API endpoint where you can validate the login
         //String apiUrl = "https://8304f33b-fccf-4bea-b375-70ce054820da.mock.pstmn.io/api/login"; // Replace with your API endpoint
-            String apiUrl ="http://cs309.kewargs.com:8080/api/user/username";
+
+                String apiUrl ="http://localhost.com:8080/api/user/username";
                 // Create a JSON object to hold user data
         JSONObject userData = new JSONObject();
         try {
@@ -98,7 +99,7 @@ public class LoginActivity extends AppCompatActivity {
 
                         if (loginSuccessful) {
                             // Login successful, navigate to MainActivity
-                            Intent intent = new Intent(LoginActivity.this, RequestSVActivity.class);
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
                         } else {
                             // Login failed, display an error message

@@ -3,7 +3,6 @@ package cs309.backend.services;
 import cs309.backend.auth.AuthorizationUtils;
 import cs309.backend.exception.InvalidCredentialsException;
 import cs309.backend.jpa.entity.TestEntity;
-import cs309.backend.jpa.entity.user.User;
 import cs309.backend.jpa.entity.user.UserEntity;
 import cs309.backend.jpa.repo.TestEntityRepository;
 import cs309.backend.jpa.repo.UserRepository;
@@ -14,9 +13,9 @@ import cs309.backend.models.SessionTokenData;
 import jakarta.transaction.Transactional;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
+
 import java.security.Principal;
 import java.util.Objects;
 
@@ -39,6 +38,7 @@ public class UserService {
 
     public void registerUser(RegistrationData args) {
         String pwdBcryptHash = AuthorizationUtils.bcryptHash(args.password());
+
         userRepository.registerUser(
             args.username(),
             args.email(),
@@ -68,6 +68,14 @@ public class UserService {
     public UserEntity getUserByUid(int uid) {
         return userRepository.getUserByUid(uid);
     }
+    public int getUidByUsername(String username) {
+        UserEntity user = getUserByUsername(username);
+        if(user != null) {
+            return user.getUid();
+        }
+        return -1; // or throw an exception or handle accordingly
+    }
+
 
     public UserEntity getUserByUsername(String username) {
         return userRepository.getUserByUsername(username);
