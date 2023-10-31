@@ -1,23 +1,18 @@
 package cs309.backend.controllers;
 
-import cs309.backend.exception.InvalidCredentialsException;
 import cs309.backend.jpa.entity.TestEntity;
-import cs309.backend.jpa.entity.user.User;
 import cs309.backend.jpa.entity.user.UserEntity;
-import cs309.backend.models.*;
+import cs309.backend.models.ChangePasswordData;
+import cs309.backend.models.UserData;
 import cs309.backend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.support.NullValue;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
-import static org.springframework.http.ResponseEntity.ok;
-import static org.springframework.http.ResponseEntity.status;
 import static org.springframework.http.ResponseEntity.internalServerError;
-import static org.springframework.http.HttpStatus.UNAUTHORIZED;
+import static org.springframework.http.ResponseEntity.ok;
 
 @RestController
 @RequestMapping("/api/user")
@@ -84,10 +79,5 @@ public class UserController {
         catch (Exception e) {
             return internalServerError().build();
         }
-    }
-
-    @GetMapping("/principal")
-    public Principal principal(Principal p) {
-        return p;
     }
 }
