@@ -9,8 +9,8 @@ import java.util.Date;
 
 public record MessageData(
         @NotNull int id,
-        @NotNull UserEntity sender,
-        @NotNull UserEntity receiver,
+        @NotNull int sender,
+        @NotNull int receiver,
         @NotNull @NotBlank String content,
         @NotNull Date sentDate,
         @NotNull MessageEntity.MessageType messageType

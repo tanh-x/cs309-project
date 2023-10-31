@@ -12,6 +12,8 @@ import java.util.List;
 
 import static org.springframework.http.ResponseEntity.ok;
 
+//import static org.springframework.http.ResponseEntity.ok;
+
 @RestController
 @RequestMapping("/api/chat")
 public class ChatRestController {
@@ -25,14 +27,7 @@ public class ChatRestController {
 
     @GetMapping("/messages")
     public ResponseEntity<List<MessageData>> getAllMessages() {
-        try {
-
-            return messageService.getAllMessages();
-
-        } catch (RuntimeException e) {
-            e.printStackTrace();
-            return ResponseEntity.internalServerError().build();
-        }
+        return ok(messageService.getAllMessages());
     }
 
     @GetMapping("/message/{messageId}")
@@ -44,7 +39,7 @@ public class ChatRestController {
             }
             MessageData messageData = MessageData.fromEntity(messageEntity);
 
-            return ResponseEntity.ok(messageData);
+            return ok(messageData);
         } catch (RuntimeException e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();
@@ -55,7 +50,7 @@ public class ChatRestController {
     public ResponseEntity<String> sendMessage(@RequestBody MessageData args) {
         try {
             messageService.saveMessage(args);
-            return ResponseEntity.ok("Message saved successfully");
+            return ok("Message saved successfully");
         } catch (RuntimeException e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();
@@ -67,7 +62,7 @@ public class ChatRestController {
         try {
 
             messageService.deleteMessage(messageId);
-            return ResponseEntity.ok().build();
+            return ok().build();
         } catch (RuntimeException e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();

@@ -17,16 +17,11 @@ import org.springframework.stereotype.Controller;
 @ServerEndpoint(value = "/chat/{username}")
 public class ChatSocketController {
 
-
-
-
 	private final Logger logger = LoggerFactory.getLogger(ChatSocketController.class);
 
 	@Autowired
 	private final SessionStore sessionStore;
 	private final MessageService messageService;
-
-
 
 	@Autowired
 	public ChatSocketController(MessageService messageService, SessionStore sessionStore) {

@@ -70,15 +70,7 @@ public class MessageService {
         }
     }
 
-    private void broadcast(String message) {
-        sessionStore.getSessionUsernameMap().forEach((session, user) -> {
-            try {
-                session.getBasicRemote().sendText(message);
-            } catch (IOException e) {
-                logger.error("Exception: " + e.getMessage());
-            }
-        });
-    }
+
     public void sendMessageToUser(String username, String message) {
 
         sendMessageToParticularUser(username, message);
@@ -86,8 +78,8 @@ public class MessageService {
     // For CRUD
 
     public void saveMessage(MessageData args) {
-        int senderId = args.sender().getUid();
-        int receiverId = args.receiver().getUid();
+        int senderId = args.sender();
+        int receiverId = args.receiver();
         String content = args.content();
         java.util.Date sentDate = args.sentDate();
         String messageTypeStr = args.messageType().toString();
@@ -130,5 +122,13 @@ public class MessageService {
         }
         return history.toString();
     }
-
+    private void broadcast(String message) {
+        sessionStore.getSessionUsernameMap().forEach((session, user) -> {
+            try {
+                session.getBasicRemote().sendText(message);
+            } catch (IOException e) {
+                logger.error("Exception: " + e.getMessage());
+            }
+        });
+    }
 }
