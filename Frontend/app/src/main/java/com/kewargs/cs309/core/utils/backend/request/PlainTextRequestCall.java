@@ -3,6 +3,10 @@ package com.kewargs.cs309.core.utils.backend.request;
 import static com.android.volley.Request.Method.GET;
 
 import com.android.volley.toolbox.StringRequest;
+import com.kewargs.cs309.core.manager.SessionManager;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class PlainTextRequestCall extends AbstractRequest<String, PlainTextRequestCall> {
     public PlainTextRequestCall(int method, String url) {
@@ -16,6 +20,13 @@ public class PlainTextRequestCall extends AbstractRequest<String, PlainTextReque
     @Override
     @SuppressWarnings("unchecked")
     public StringRequest build() {
-        return new StringRequest(requestMethod, requestUrl, responseListener, errorListener);
+        return new StringRequest(requestMethod, requestUrl, responseListener, errorListener) {
+            @Override
+            public Map<String, String> getHeaders() {
+                return new HashMap<>() {{
+                    if (bearerToken != null) put("Authorization", "Bearer " + bearerToken);
+                }};
+            }
+        };
     }
 }

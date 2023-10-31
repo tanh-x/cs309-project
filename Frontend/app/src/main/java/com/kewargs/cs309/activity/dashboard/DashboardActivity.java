@@ -29,14 +29,6 @@ public class DashboardActivity extends AbstractActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        coursesButton.setOnClickListener(this::coursesButtonCallback);
-        updateInfo.setOnClickListener(this::updateInfoCallback);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
         session.addRequest(UserRequestFactory
             .getUserById(session.getUserId())
             .onResponse(response -> {
@@ -46,8 +38,19 @@ public class DashboardActivity extends AbstractActivity {
                     dashboardGreeting.setText("Hello " + userInfo.displayName());
                 } catch (JSONException ignored) { }
             })
+            .bearer(session.getSessionToken())
             .build()
         );
+
+        coursesButton.setOnClickListener(this::coursesButtonCallback);
+        updateInfo.setOnClickListener(this::updateInfoCallback);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+
     }
 
     private void updateInfoCallback(View view) {

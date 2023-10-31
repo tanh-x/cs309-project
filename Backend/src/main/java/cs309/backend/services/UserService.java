@@ -28,7 +28,6 @@ public class UserService {
     }
 
     public TestEntity readTestTable(int id) {
-
         return testRepository.readTestTable(id);
     }
 
@@ -80,15 +79,42 @@ public class UserService {
     public UserEntity getUserByEmail(String email) {
         return userRepository.getUserByEmail(email);
     }
-    public Boolean updateUser(int uid, String email, String display_name) {
+
+    public Boolean updateUser(int uid, String email, String displayName) {
         UserEntity user = getUserByUid(uid);
         if (user == null) {
             return false;
         }
-        userRepository.updateUser(uid, email, display_name);
+        userRepository.updateUser(
+                uid,
+                Objects.equals(email, "") ? null : email,
+                Objects.equals(displayName, "") ? null : displayName
+        );
         return true;
     }
 
+    public String changePassword(ChangePasswordData req, Principal user) {
+        var curUser = (UserEntity) ((UsernamePasswordAuthenticationToken) user).getPrincipal();
+        if (!BCrypt.checkpw(req.currentPassword(), curUser.getPwdBcryptHash())) {
+            return "Wrong password";
+        }
+        if (!req.newPassword().equals(req.confirmationPassword())) {
+            return "Passwords are not the same";
+        }
+        String newPass = AuthorizationUtils.bcryptHash(req.newPassword());
+        userRepository.changePassword(newPass, curUser.getUid());
+        return "Successful";
+    }
 
+    public Boolean deleteUser(Principal user) {
+        var curUser = (UserEntity) ((UsernamePasswordAuthenticationToken) user).getPrincipal();
+        userRepository.deleteUser(curUser.getUid(), curUser.getPrivilegeLevel());
+        return true;
+    }
 
+    /*public Boolean testDeleteUser(int uid) {
+        var curUser =  getUserByUid(uid);
+        userRepository.deleteUser(curUser.getUid(), curUser.getPrivilegeLevel());
+        return true;
+    }*/
 }

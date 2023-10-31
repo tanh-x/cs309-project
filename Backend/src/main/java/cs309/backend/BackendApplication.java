@@ -7,8 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 
 @SpringBootApplication
-//@EntityScan(basePackages = "cs309.backend.jpa.entity")
-
 @OpenAPIDefinition(info = @Info(title = "Library APIs", version = "1.0", description =  "Library Management APIs"))
 public class BackendApplication {
     public static void main(String[] args) {

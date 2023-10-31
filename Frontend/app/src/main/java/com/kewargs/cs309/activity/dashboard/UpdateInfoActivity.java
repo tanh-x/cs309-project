@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.Request;
 import com.kewargs.cs309.R;
 import com.kewargs.cs309.activity.AbstractActivity;
 import com.kewargs.cs309.core.utils.backend.factory.UserRequestFactory;
@@ -22,7 +22,8 @@ public class UpdateInfoActivity extends AbstractActivity {
 
     private Button dashBack, confirmUpdate;
 
-    private EditText newUser, newEmail;
+    private EditText newUserText;
+    private EditText newEmailText;
 
     private LinkedHashSet<View> formElements;
 
@@ -40,14 +41,19 @@ public class UpdateInfoActivity extends AbstractActivity {
     private void updateConfirmationCallback(View view) {
         formElements.forEach(v -> v.setEnabled(false));
 
-        String nEmail = parse(newEmail);
-        String newDisplayName = parse(newUser);
-        JsonObjectRequest request = UserRequestFactory
-            .updateInfo(session.getUserId(), nEmail, newDisplayName)
+        String newEmail = parse(newEmailText);
+        String newDisplayName = parse(newUserText);
+        Request<String> request = UserRequestFactory
+            .updateInfo(session.getUserId(), newEmail, newDisplayName)
+            .onResponse(response -> {
+                showToast("Successfully updated information", UpdateInfoActivity.this);
+                switchToActivity(DashboardActivity.class);
+            })
             .onError(error -> {
                 error.printStackTrace();
                 showToast(error.toString(), UpdateInfoActivity.this);
             })
+            .bearer(session.getSessionToken())
             .build();
 
         session.addRequest(request);
@@ -64,12 +70,12 @@ public class UpdateInfoActivity extends AbstractActivity {
 
         dashBack = findViewById(R.id.updateBack);
         confirmUpdate = findViewById(R.id.updateConfirmation);
-        newUser = findViewById(R.id.newDisplay);
-        newEmail = findViewById(R.id.newname);
+        newUserText = findViewById(R.id.newDisplay);
+        newEmailText = findViewById(R.id.newname);
 
-        formElements = new LinkedHashSet<View>() {{
-            add(newUser);
-            add(newEmail);
+        formElements = new LinkedHashSet<>() {{
+            add(newUserText);
+            add(newEmailText);
         }};
     }
 }

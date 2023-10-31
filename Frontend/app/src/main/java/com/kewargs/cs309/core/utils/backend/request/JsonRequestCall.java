@@ -1,11 +1,19 @@
 package com.kewargs.cs309.core.utils.backend.request;
 
-import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.toolbox.StringRequest;
+import com.kewargs.cs309.core.manager.SessionManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class JsonRequestCall extends AbstractRequest<JSONObject, JsonRequestCall> {
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
+
+public class JsonRequestCall extends AbstractRequest<String, JsonRequestCall> {
     JSONObject requestBody = new JSONObject();
 
     public JsonRequestCall(int method, String url) { super(method, url); }
@@ -16,11 +24,34 @@ public class JsonRequestCall extends AbstractRequest<JSONObject, JsonRequestCall
     }
 
     @Override
+    public JsonRequestCall onResponse(Response.Listener<String> callback) {
+        return super.onResponse(callback);
+    }
+
+    @Override
     @SuppressWarnings("unchecked")
-    public JsonObjectRequest build() {
+    public Request<String> build() {
         if (responseListener == null) {
             throw new IllegalArgumentException("You have not added a response listener to request object: " + this);
         }
-        return new JsonObjectRequest(requestMethod, requestUrl, requestBody, responseListener, errorListener);
+
+        return new StringRequest(requestMethod, requestUrl, responseListener, errorListener) {
+            @Override
+            public Map<String, String> getHeaders() {
+                return new HashMap<>() {{
+                    if (bearerToken != null) put("Authorization", "Bearer " + bearerToken);
+                }};
+            }
+
+            @Override
+            public byte[] getBody() {
+                return requestBody.toString().getBytes(StandardCharsets.UTF_8);
+            }
+
+            @Override
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
+            }
+        };
     }
 }

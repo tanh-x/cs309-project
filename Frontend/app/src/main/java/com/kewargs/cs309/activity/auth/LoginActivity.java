@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.kewargs.cs309.R;
 import com.kewargs.cs309.activity.dashboard.DashboardActivity;
@@ -17,6 +18,7 @@ import com.kewargs.cs309.activity.AbstractActivity;
 import com.kewargs.cs309.core.utils.backend.factory.UserRequestFactory;
 import com.kewargs.cs309.core.utils.constants.UniversalConstants;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.LinkedHashSet;
@@ -38,7 +40,7 @@ public class LoginActivity extends AbstractActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if (session.isLoggedIn()) switchToActivity(DashboardActivity.class);
+        if (session != null && session.isLoggedIn()) switchToActivity(DashboardActivity.class);
 
         super.onCreate(savedInstanceState);
 
@@ -55,7 +57,7 @@ public class LoginActivity extends AbstractActivity {
 
         String emailValue = parse(emailField);
         String passwordValue = parse(passwordField);
-        JsonObjectRequest request = UserRequestFactory
+        Request<String> request = UserRequestFactory
             .login(emailValue, passwordValue)
             .onResponse(this::onSuccessfulLogin)
             .onError(error -> {
@@ -74,10 +76,16 @@ public class LoginActivity extends AbstractActivity {
         switchToActivity(RegisterActivity.class);
     }
 
-    private void onSuccessfulLogin(JSONObject response) {
-        showToast("Successfully logged in!");
-        session.setSessionFromLogin(response);
-        switchToActivity(DashboardActivity.class);
+    private void onSuccessfulLogin(String response) {
+        try {
+            JSONObject deserializedResponse = new JSONObject(response);
+            showToast("Successfully logged in!");
+            session.setSessionFromLogin(deserializedResponse);
+            switchToActivity(DashboardActivity.class);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     private void switchToActivity(Class<?> newActivity) {
