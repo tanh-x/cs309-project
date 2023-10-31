@@ -47,9 +47,13 @@ public class CourseListActivity extends AbstractActivity {
                 } catch (JSONException e) {
                     debugText.setText("Error while fetching course information. " + e);
                 }
-            }).onError(error -> {
+            })
+            .onError(error -> {
                 debugText.setText("Error while fetching course information: " + error.toString());
-            }).build());
+            })
+            .bearer(session.getSessionToken())
+            .build()
+        );
     }
 
 

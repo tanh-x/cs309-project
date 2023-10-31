@@ -6,10 +6,13 @@ final class AuthenticationManager {
     private final static int TOKEN_EXPIRATION_LEEWAY = 12;
 
     private String sessionToken = null;
+    private String username = null;
     private Integer userId = null;
     private Boolean isExpired = null;
 
     String getSessionToken() { return sessionToken; }
+
+    String getUsername() { return username; }
 
     Integer getUserId() { return userId; }
 
@@ -19,6 +22,7 @@ final class AuthenticationManager {
         return sessionToken != null
             && sessionToken.length() > 0
             && userId != null
+            && username != null
             && !isExpired;
     }
 
@@ -26,6 +30,7 @@ final class AuthenticationManager {
         this.sessionToken = sessionToken;
 
         JWT token = new JWT(this.sessionToken);
+        username = token.getClaim("userName").asString();
         userId = token.getClaim("userId").asInt();
         isExpired = token.isExpired(TOKEN_EXPIRATION_LEEWAY);
     }

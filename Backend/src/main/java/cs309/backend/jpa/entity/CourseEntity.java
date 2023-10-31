@@ -13,10 +13,6 @@ public class CourseEntity {
     @Column(name = "id")
     private int id;
 
-    @Column(name = "program_id")
-    private int programId;
-
-    @Null
     @Column(name = "program_identifier")
     private String programIdentifier;
 

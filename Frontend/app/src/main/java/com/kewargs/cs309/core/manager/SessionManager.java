@@ -13,6 +13,10 @@ public final class SessionManager {
 
     public String getSessionToken() { return authentication.getSessionToken(); }
 
+    public String getUsername() {
+        return authentication.getUsername();
+    }
+
     public Integer getUserId() {
         return authentication.getUserId();
     }
