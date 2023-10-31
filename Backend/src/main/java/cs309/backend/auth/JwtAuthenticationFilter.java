@@ -4,7 +4,10 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import jakarta.transaction.Transactional;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,10 +19,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 import java.util.Date;
 
@@ -32,8 +32,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private String jwtSecret;
 
     @Override
-    protected void doFilterInternal(@NonNull HttpServletRequest request,@NonNull HttpServletResponse response,@NonNull FilterChain filterChain)
-            throws ServletException, IOException {
+    protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain)
+        throws ServletException, IOException {
         final String jwt;
         try {
             String token = request.getHeader("Authorization");
@@ -41,10 +41,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 filterChain.doFilter(request, response);
                 return;
             }
-            jwt = token.substring(7);      //remove Bearer
-            DecodedJWT decodedJWT = JWT.require(Algorithm.HMAC384(jwtSecret))
-                    .build()
-                    .verify(jwt);
+
+            // Remove "Bearer"
+            jwt = token.substring(7);
+            DecodedJWT decodedJWT = JWT.require(Algorithm.HMAC384(jwtSecret)).build().verify(jwt);
 
             String userName = decodedJWT.getClaim("userName").asString();
             Date expireDate = decodedJWT.getExpiresAt();
@@ -52,15 +52,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 UserDetails userDetails = this.userDetailsService.loadUserByUsername(userName);
                 if (!expireDate.before(new Date())) {
+                    // Create a token keeps user information and which permission it has
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                            userDetails,
-                            null,
-                            userDetails.getAuthorities()
-                    );      //create a token keeps user information and which permission it has
+                        userDetails,
+                        null,
+                        userDetails.getAuthorities()
+                    );
 
+                    // Adding client's IP address and session ID
                     authToken.setDetails(
-                            new WebAuthenticationDetailsSource().buildDetails(request)
-                    );      //adding client's IP address and session ID
+                        new WebAuthenticationDetailsSource().buildDetails(request)
+                    );
 
                     SecurityContextHolder.getContext().setAuthentication(authToken);
                 }

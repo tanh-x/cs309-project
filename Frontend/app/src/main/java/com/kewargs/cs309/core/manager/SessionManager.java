@@ -13,13 +13,17 @@ public final class SessionManager {
 
     public String getSessionToken() { return authentication.getSessionToken(); }
 
+    public String getUsername() {
+        return authentication.getUsername();
+    }
+
     public Integer getUserId() {
         return authentication.getUserId();
     }
 
-    public Boolean tokenExpired() { return authentication.getIsExpired(); }
+    public Boolean tokenExpired() { return authentication != null && authentication.getIsExpired(); }
 
-    public boolean isLoggedIn() { return authentication.isLoggedIn(); }
+    public boolean isLoggedIn() { return authentication != null && authentication.isLoggedIn(); }
 
     public void setSessionToken(String token) { authentication.setSessionToken(token); }
 

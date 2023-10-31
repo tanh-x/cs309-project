@@ -14,11 +14,12 @@ public final class AuthorizationUtils {
 
     public static String bcryptHash(String pwd) { return BCrypt.hashpw(pwd, BCrypt.gensalt(BCRYPT_LOG_ROUNDS)); }
 
-    public static String createSessionJwt(String username) {
+    public static String createSessionJwt(Integer uid, String username) {
         Date iat = new Date();  // Issued at
         Date exp = new Date(iat.getTime() + SESSION_EXPIRATION_MILLIS);  // Expires at
 
         String token = JWT.create()
+            .withClaim("userId", uid)
             .withClaim("userName", username)
             .withIssuedAt(iat)
             .withExpiresAt(exp)

@@ -1,23 +1,19 @@
 package cs309.backend.controllers;
 
-import cs309.backend.exception.InvalidCredentialsException;
 import cs309.backend.jpa.entity.TestEntity;
-import cs309.backend.jpa.entity.user.User;
 import cs309.backend.jpa.entity.user.UserEntity;
-import cs309.backend.models.*;
+import cs309.backend.models.ChangePasswordData;
+import cs309.backend.models.UpdateInfoData;
+import cs309.backend.models.UserData;
 import cs309.backend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.support.NullValue;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
-import static org.springframework.http.ResponseEntity.ok;
-import static org.springframework.http.ResponseEntity.status;
 import static org.springframework.http.ResponseEntity.internalServerError;
-import static org.springframework.http.HttpStatus.UNAUTHORIZED;
+import static org.springframework.http.ResponseEntity.ok;
 
 @RestController
 @RequestMapping("/api/user")
@@ -64,24 +60,39 @@ public class UserController {
             return internalServerError().build();
         }
     }
+
     @PutMapping("{id}/{email}/{display_name}")
     public ResponseEntity<Boolean> updateUser(@PathVariable int id, @PathVariable String email, @PathVariable String display_name) {
         try {
             Boolean res = userService.updateUser(id, email, display_name);
             return ok(res);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             return internalServerError().build();
         }
     }
+
+    @PutMapping("/update")
+    public ResponseEntity<Boolean> updateUser(@RequestBody UpdateInfoData updateInfo) {
+        try {
+            Boolean res = userService.updateUser(
+                updateInfo.id(),
+                updateInfo.email(),
+                updateInfo.displayName()
+            );
+            return ok(res);
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            return internalServerError().build();
+        }
+    }
+
 
     @PutMapping("/password")
     public ResponseEntity<String> changePassword(@RequestBody ChangePasswordData req, Principal user) {
         try {
             String res = userService.changePassword(req, user);
             return ok(res);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             return internalServerError().build();
         }
     }
@@ -95,8 +106,7 @@ public class UserController {
     public ResponseEntity<Boolean> deleteUser(Principal user) {
         try {
             return ok(userService.deleteUser(user));
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             return internalServerError().build();
         }
     }

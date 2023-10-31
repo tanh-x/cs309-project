@@ -34,12 +34,10 @@ public final class UserEntity implements UserDetails, User{
     @Column(name = "pwd_bcrypt_hash", length = 256, nullable = false)
     private String pwdBcryptHash;
     private Role mapPrivilegeLevelToRole(int privilegeLevel) {
-        if (privilegeLevel == 1) {
-            return Role.USER;
-        } else if (privilegeLevel == 2) {
-            return Role.ADMIN;
-        } else {
-            return Role.STAFF;
+        switch (privilegeLevel) {
+            default -> { return Role.USER; }  // If unknown privilege level, give the lowest privilege
+            case 2 -> { return Role.ADMIN; }
+            case 3 -> { return Role.STAFF; }
         }
     }
     @Override

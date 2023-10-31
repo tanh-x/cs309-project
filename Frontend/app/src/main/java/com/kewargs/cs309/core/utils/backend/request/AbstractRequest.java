@@ -13,6 +13,8 @@ public abstract class AbstractRequest<ResponseType, RequestType extends Abstract
     protected Response.Listener<ResponseType> responseListener = null;
     protected Response.ErrorListener errorListener = Throwable::printStackTrace;
 
+    protected String bearerToken = null;
+
     protected AbstractRequest(int method, String url) {
         this.requestMethod = method;
         this.requestUrl = url;
@@ -39,6 +41,11 @@ public abstract class AbstractRequest<ResponseType, RequestType extends Abstract
     @Override
     public RequestType onError(Response.ErrorListener callback) {
         errorListener = callback;
+        return (RequestType) this;
+    }
+
+    public RequestType bearer(String token) {
+        bearerToken = token;
         return (RequestType) this;
     }
 

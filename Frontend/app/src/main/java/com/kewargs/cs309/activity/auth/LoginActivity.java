@@ -40,7 +40,7 @@ public class LoginActivity extends AbstractActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if (session.isLoggedIn()) switchToActivity(DashboardActivity.class);
+        if (session != null && session.isLoggedIn()) switchToActivity(DashboardActivity.class);
 
         super.onCreate(savedInstanceState);
 

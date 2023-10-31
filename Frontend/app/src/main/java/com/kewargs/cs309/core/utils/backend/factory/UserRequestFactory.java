@@ -1,5 +1,6 @@
 package com.kewargs.cs309.core.utils.backend.factory;
 
+import static com.kewargs.cs309.core.utils.constants.UniversalConstants.AUTH_ENDPOINT;
 import static com.kewargs.cs309.core.utils.constants.UniversalConstants.USER_ENDPOINT;
 
 import com.kewargs.cs309.core.utils.backend.request.JsonRequestCall;
@@ -11,7 +12,7 @@ public class UserRequestFactory {
     public static JsonRequestCall login(String email, String password) {
         try {
             return RequestFactory.POST()
-                .url(USER_ENDPOINT + "login")
+                .url(AUTH_ENDPOINT + "login")
                 .putBody("email", email)
                 .putBody("password", password);
         } catch (JSONException e) {

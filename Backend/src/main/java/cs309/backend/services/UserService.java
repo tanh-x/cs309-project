@@ -39,7 +39,6 @@ public class UserService {
 
     public void registerUser(RegistrationData args) {
         String pwdBcryptHash = AuthorizationUtils.bcryptHash(args.password());
-        String token = AuthorizationUtils.createSessionJwt(args.username());
         userRepository.registerUser(
             args.username(),
             args.email(),
@@ -57,7 +56,7 @@ public class UserService {
         if (!validateLoginCredentials(user, args)) throw new InvalidCredentialsException();
 
         // Else, we give them the session token
-        return new SessionTokenData(true, AuthorizationUtils.createSessionJwt(user.getUsername()));
+        return new SessionTokenData(true, AuthorizationUtils.createSessionJwt(user.getUid(), user.getUsername()));
     }
 
     private boolean validateLoginCredentials(UserEntity user, LoginData login) {
