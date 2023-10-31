@@ -1,6 +1,7 @@
 package cs309.backend.jpa.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Null;
 import lombok.Data;
 
 @Data
@@ -12,9 +13,8 @@ public class CourseEntity {
     @Column(name = "id")
     private int id;
 
-    @Column(name = "program_id")
-    private int programId;
-
+    @Column(name = "program_identifier")
+    private String programIdentifier;
 
     @Column(name = "num")
     private int num;

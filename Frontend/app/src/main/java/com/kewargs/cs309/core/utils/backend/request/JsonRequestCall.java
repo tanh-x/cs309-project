@@ -1,13 +1,17 @@
 package com.kewargs.cs309.core.utils.backend.request;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
+import com.kewargs.cs309.core.manager.SessionManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 
 public class JsonRequestCall extends AbstractRequest<String, JsonRequestCall> {
     JSONObject requestBody = new JSONObject();
@@ -32,6 +36,13 @@ public class JsonRequestCall extends AbstractRequest<String, JsonRequestCall> {
         }
 
         return new StringRequest(requestMethod, requestUrl, responseListener, errorListener) {
+            @Override
+            public Map<String, String> getHeaders() {
+                return new HashMap<>() {{
+                    if (bearerToken != null) put("Authorization", "Bearer " + bearerToken);
+                }};
+            }
+
             @Override
             public byte[] getBody() {
                 return requestBody.toString().getBytes(StandardCharsets.UTF_8);

@@ -8,8 +8,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.kewargs.cs309.R;
@@ -22,7 +20,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 @SuppressLint("SetTextI18n")
 public class CourseListActivity extends AbstractActivity {
@@ -55,11 +52,13 @@ public class CourseListActivity extends AbstractActivity {
                 } catch (JSONException e) {
                     debugText.setText("Error while fetching course information. " + e);
                 }
-
                 buildCourseListComponent();
             }).onError(error -> {
                 debugText.setText("Error while fetching course information: " + error.toString());
-            }).build());
+            })
+            .bearer(session.getSessionToken())
+            .build()
+        );
     }
 
 

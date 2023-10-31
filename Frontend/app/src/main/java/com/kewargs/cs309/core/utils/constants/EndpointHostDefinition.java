@@ -40,7 +40,8 @@ class EndpointHostDefinition {
                 connection.setRequestMethod("HEAD");
                 connection.setConnectTimeout(1232);
                 int responseCode = connection.getResponseCode();
-                if (responseCode >= 200 && responseCode < 300) return endpoint;
+                Log.e("AAAAAA", endpoint + " - " + responseCode + "");
+                if (responseCode == 403 || responseCode >= 200 && responseCode < 300) return endpoint;
             } catch (IOException ignored) { }
         }
 
