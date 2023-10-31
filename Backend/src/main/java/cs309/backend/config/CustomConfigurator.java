@@ -1,13 +1,12 @@
 package cs309.backend.config;
 
-import javax.websocket.server.ServerEndpointConfig;
 
+import jakarta.websocket.server.ServerEndpointConfig;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
 public class CustomConfigurator extends ServerEndpointConfig.Configurator implements ApplicationContextAware {
-
     private static volatile ApplicationContext context;
 
     @Override

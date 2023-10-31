@@ -1,18 +1,23 @@
 package cs309.backend.services;
 
-import cs309.backend.core.AuthorizationUtils;
+import cs309.backend.auth.AuthorizationUtils;
 import cs309.backend.exception.InvalidCredentialsException;
 import cs309.backend.jpa.entity.TestEntity;
 import cs309.backend.jpa.entity.user.UserEntity;
 import cs309.backend.jpa.repo.TestEntityRepository;
 import cs309.backend.jpa.repo.UserRepository;
+import cs309.backend.models.ChangePasswordData;
 import cs309.backend.models.LoginData;
 import cs309.backend.models.RegistrationData;
 import cs309.backend.models.SessionTokenData;
 import jakarta.transaction.Transactional;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
+
+import java.security.Principal;
+import java.util.Objects;
 
 
 @Service
@@ -51,7 +56,7 @@ public class UserService {
         if (!validateLoginCredentials(user, args)) throw new InvalidCredentialsException();
 
         // Else, we give them the session token
-        return new SessionTokenData(true, AuthorizationUtils.createSessionJwt(user.getUid()));
+        return new SessionTokenData(true, AuthorizationUtils.createSessionJwt(user.getUid(), user.getUsername()));
     }
 
     private boolean validateLoginCredentials(UserEntity user, LoginData login) {

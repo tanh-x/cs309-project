@@ -3,13 +3,13 @@ package cs309.backend.services;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
-import javax.websocket.Session;
 
 import cs309.backend.Component.SessionStore;
 import cs309.backend.jpa.repo.MessageRepository;
 import cs309.backend.jpa.repo.UserRepository;
 import cs309.backend.jpa.entity.MessageEntity;
 import cs309.backend.models.MessageData;
+import jakarta.websocket.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
