@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/chat")
@@ -22,34 +21,47 @@ public class ChatRestController {
     }
 
     @GetMapping("/messages")
-    public List<MessageData> getAllMessages() {
-        return messageService.getAllMessages().stream()
-                .map(MessageData::fromEntity)
-                .collect(Collectors.toList());
+    public ResponseEntity<List<MessageData>> getAllMessages() {
+        try {
+            return ResponseEntity.ok(messageService.getAllMessages());
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
     @GetMapping("/message/{messageId}")
-    public ResponseEntity<MessageData> getMessageById(@PathVariable Long messageId) {
-        return messageService.getMessageById(messageId)
-                .map(message -> ResponseEntity.ok(MessageData.fromEntity(message)))
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<MessageData> getMessageById(@PathVariable int messageId) {
+        try {
+            MessageData message = messageService.getMessageById(messageId);
+            if (message == null) {
+                return ResponseEntity.notFound().build();
+            }
+            return ResponseEntity.ok(message);
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
     @PostMapping("/send")
     public ResponseEntity<MessageData> sendMessage(@RequestBody MessageData messageData) {
-        if (messageData.sender() == null || messageData.content().isEmpty()) {
-            return ResponseEntity.badRequest().body(null);
+        try {
+            return ResponseEntity.ok(messageService.saveMessage(messageData));
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
         }
-        MessageEntity savedMessage = messageService.saveMessage(messageData.toEntity());
-        return ResponseEntity.ok(MessageData.fromEntity(savedMessage));
     }
 
     @DeleteMapping("/message/{messageId}")
     public ResponseEntity<Void> deleteMessage(@PathVariable Long messageId) {
-        if (!messageService.existsById(messageId)) {
-            return ResponseEntity.notFound().build();
+        try {
+            messageService.deleteMessage(messageId);
+            return ResponseEntity.ok().build();
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
         }
-        messageService.deleteMessage(messageId);
-        return ResponseEntity.ok().build();
     }
 }

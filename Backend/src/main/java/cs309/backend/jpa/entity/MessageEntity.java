@@ -11,8 +11,8 @@ import java.util.Date;
 public class MessageEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
+    @Column(name = "message_id")
+    private int id;
 
     @ManyToOne
     @JoinColumn(name = "sender", referencedColumnName = "uid")

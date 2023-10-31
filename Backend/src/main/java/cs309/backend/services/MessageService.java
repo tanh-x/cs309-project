@@ -18,10 +18,8 @@ public class MessageService {
 
     private final Logger logger = LoggerFactory.getLogger(MessageService.class);
     private final SessionStore sessionStore;
-
-    // Constructor with SessionStore injection (you might also need other injections)
     private final MessageRepository messageRepository;
-
+    //FOR SOCKET
     @Autowired
     public MessageService(SessionStore sessionStore, MessageRepository messageRepository) {
         this.sessionStore = sessionStore;
@@ -63,6 +61,12 @@ public class MessageService {
     public void handleError(Session session, Throwable throwable) {
         throwable.printStackTrace();
     }
+    //// FOR CHAT
+
+
+    public MessageEntity readMessageTable(int id) {
+        return MessageRepository.readMessageTable(id);
+    }
 
     private void sendMessageToParticularUser(String username, String message) {
         try {
@@ -92,29 +96,57 @@ public class MessageService {
         messageRepository.save(message);
     }
 
-    public Optional<MessageEntity> getMessageByIdFromRepo(Long id) {
-        return messageRepository.findById(id);  // Sử dụng phương thức tiêu chuẩn của JPA
-    }
 
-
-    public List<MessageEntity> getAllMessagesFromRepo() {
-        return messageRepository.getAllMessages();
-    }
-
-    public void deleteMessageFromRepo(Long id) {
-        messageRepository.deleteMessageById(id);
-    }
-
-    public List<MessageEntity> findMessagesBySenderUsernameFromRepo(String username) {
-        return messageRepository.findBySenderUsername(username);
-    }
 
     private String getChatHistory() {
-        List<MessageEntity> recentMessages = getAllMessagesFromRepo();
+        List<MessageEntity> recentMessages = getAllMessages();
         StringBuilder history = new StringBuilder();
         for (MessageEntity message : recentMessages) {
             history.append(message.getSender()).append(": ").append(message.getContent()).append("\n");
         }
         return history.toString();
     }
+
+    public List<MessageEntity> getAllMessages() {
+        List<MessageEntity> messages = messageRepository.findAll();
+        return messages.stream()
+                .map(MessageEntity::fromEntity)
+                .collect(Collectors.toList());
+    }
+
+    public MessageEntity getMessageById(int messageId) {
+        MessageEntity messageEntity = messageRepository.findById(messageId);
+        if (messageEntity != null) {
+            return MessageData.fromEntity(messageEntity);
+        }
+        return null;
+    }
+
+    public MessageData saveMessage(MessageData messageData) {
+        MessageEntity savedMessageEntity = messageRepository.save(messageData.toEntity());
+        return MessageData.fromEntity(savedMessageEntity);
+    }
+
+    public void deleteMessage(Long messageId) {
+        messageRepository.deleteById(messageId);
+    }
+    ///////////////////////////////////////
+
+    public MessageEntity getMessageById(int id) {
+        return messageRepository.getMessageById(id);
+    }
+
+    public MessageEntity getMessageByUsername(String username) {
+        return messageRepository.getUserByUsername(username);
+    }
+
+    public MessageEntity getMessageBy(String email) {
+        return messageRepository.getUserByEmail(email);
+    }
+//
+
+
+
+
+
 }

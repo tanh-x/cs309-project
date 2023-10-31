@@ -8,7 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import java.util.Date;
 
 public record MessageData(
-        @NotNull Long id,
+        @NotNull int id,
         @NotNull UserEntity sender,
         @NotNull UserEntity receiver,
         @NotNull @NotBlank String content,
