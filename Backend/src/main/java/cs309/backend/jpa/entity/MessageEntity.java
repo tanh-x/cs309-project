@@ -14,13 +14,12 @@ public class MessageEntity {
     @Column(name = "message_id")
     private int id;
 
-    @ManyToOne
-    @JoinColumn(name = "sender", referencedColumnName = "uid")
-    private UserEntity sender;
 
-    @ManyToOne
-    @JoinColumn(name = "receiver", referencedColumnName = "")
-    private UserEntity receiver;
+    @JoinColumn(name = "sender", referencedColumnName = "uid")
+    private int sender;
+
+    @JoinColumn(name = "receiver", referencedColumnName = "uid")
+    private int receiver;
 
     @Lob
     @Column(name = "content", nullable = false)

@@ -1,6 +1,7 @@
 package cs309.backend.controllers;
 
 import cs309.backend.jpa.entity.MessageEntity;
+import cs309.backend.jpa.entity.user.UserEntity;
 import cs309.backend.models.MessageData;
 import cs309.backend.services.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static org.springframework.http.ResponseEntity.ok;
 
 @RestController
 @RequestMapping("/api/chat")
@@ -23,7 +26,9 @@ public class ChatRestController {
     @GetMapping("/messages")
     public ResponseEntity<List<MessageData>> getAllMessages() {
         try {
-            return ResponseEntity.ok(messageService.getAllMessages());
+
+            return messageService.getAllMessages();
+
         } catch (RuntimeException e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();
@@ -33,11 +38,13 @@ public class ChatRestController {
     @GetMapping("/message/{messageId}")
     public ResponseEntity<MessageData> getMessageById(@PathVariable int messageId) {
         try {
-            MessageData message = messageService.getMessageById(messageId);
-            if (message == null) {
+            MessageEntity messageEntity = messageService.getMessageById(messageId);
+            if (messageEntity == null) {
                 return ResponseEntity.notFound().build();
             }
-            return ResponseEntity.ok(message);
+            MessageData messageData = MessageData.fromEntity(messageEntity);
+
+            return ResponseEntity.ok(messageData);
         } catch (RuntimeException e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();
@@ -45,9 +52,10 @@ public class ChatRestController {
     }
 
     @PostMapping("/send")
-    public ResponseEntity<MessageData> sendMessage(@RequestBody MessageData messageData) {
+    public ResponseEntity<String> sendMessage(@RequestBody MessageData args) {
         try {
-            return ResponseEntity.ok(messageService.saveMessage(messageData));
+            messageService.saveMessage(args);
+            return ResponseEntity.ok("Message saved successfully");
         } catch (RuntimeException e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();
@@ -55,8 +63,9 @@ public class ChatRestController {
     }
 
     @DeleteMapping("/message/{messageId}")
-    public ResponseEntity<Void> deleteMessage(@PathVariable Long messageId) {
+    public ResponseEntity<Void> deleteMessage(@PathVariable int messageId) {
         try {
+
             messageService.deleteMessage(messageId);
             return ResponseEntity.ok().build();
         } catch (RuntimeException e) {

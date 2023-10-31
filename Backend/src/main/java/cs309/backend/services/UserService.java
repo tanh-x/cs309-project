@@ -64,6 +64,14 @@ public class UserService {
     public UserEntity getUserByUid(int uid) {
         return userRepository.getUserByUid(uid);
     }
+    public int getUidByUsername(String username) {
+        UserEntity user = getUserByUsername(username);
+        if(user != null) {
+            return user.getUid();
+        }
+        return -1; // or throw an exception or handle accordingly
+    }
+
 
     public UserEntity getUserByUsername(String username) {
         return userRepository.getUserByUsername(username);

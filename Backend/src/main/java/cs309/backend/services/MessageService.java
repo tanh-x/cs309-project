@@ -2,78 +2,71 @@ package cs309.backend.services;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 import javax.websocket.Session;
 
+import cs309.backend.Component.SessionStore;
 import cs309.backend.jpa.repo.MessageRepository;
+import cs309.backend.jpa.repo.UserRepository;
+import cs309.backend.jpa.entity.MessageEntity;
+import cs309.backend.models.MessageData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import cs309.backend.Component.SessionStore;
-import cs309.backend.jpa.entity.MessageEntity;
 
 @Service
 public class MessageService {
-
     private final Logger logger = LoggerFactory.getLogger(MessageService.class);
     private final SessionStore sessionStore;
     private final MessageRepository messageRepository;
-    //FOR SOCKET
+    private final UserRepository userRepository;
+
     @Autowired
-    public MessageService(SessionStore sessionStore, MessageRepository messageRepository) {
+    public MessageService(SessionStore sessionStore, MessageRepository messageRepository, UserRepository userRepository) {
         this.sessionStore = sessionStore;
         this.messageRepository = messageRepository;
-    }
-    public void sendMessageToUser(String username, String message) {
-        sendMessageToParticularUser(username, message);
+        this.userRepository = userRepository;
     }
 
+    // For WebSocket
     public void handleOpenSession(Session session, String username) throws IOException {
         sessionStore.getSessionUsernameMap().put(session, username);
         sessionStore.getUsernameSessionMap().put(username, session);
         sendMessageToParticularUser(username, getChatHistory());
-
     }
-
 
     public void handleIncomingMessage(Session session, String message) {
         String username = sessionStore.getSessionUsernameMap().get(session);
-        if (message.startsWith("@")) {
-            String destUsername = message.split(" ")[0].substring(1);
-            sendMessageToParticularUser(destUsername, "[DM] " + username + ": " + message);
-            sendMessageToParticularUser(username, "[DM] " + username + ": " + message);
-        } else {
-            broadcast(username + ": " + message);
+        int uid = userRepository.getIdByUsername(username);
+        if(uid != -1) {
+            if (message.startsWith("@")) {
+                String destUsername = message.split(" ")[0].substring(1);
+                sendMessageToParticularUser(destUsername, "[DM] " + username + ": " + message);
+                sendMessageToParticularUser(username, "[DM] " + username + ": " + message);
+            } else {
+                broadcast(username + ": " + message);
+            }
+            saveMessage(uid, message);
         }
-        // Assuming you have a repo for messages, save it here.
-        // msgRepo.save(new MessageEntity(username, message));
     }
 
     public void handleCloseSession(Session session) {
         String username = sessionStore.getSessionUsernameMap().get(session);
         sessionStore.getSessionUsernameMap().remove(session);
         sessionStore.getUsernameSessionMap().remove(username);
-        String message = username + " disconnected";
-        broadcast(message);
+        broadcast(username + " disconnected");
     }
 
     public void handleError(Session session, Throwable throwable) {
         throwable.printStackTrace();
-    }
-    //// FOR CHAT
-
-
-    public MessageEntity readMessageTable(int id) {
-        return MessageRepository.readMessageTable(id);
     }
 
     private void sendMessageToParticularUser(String username, String message) {
         try {
             sessionStore.getUsernameSessionMap().get(username).getBasicRemote().sendText(message);
         } catch (IOException e) {
-            logger.info("Exception: " + e.getMessage().toString());
-            e.printStackTrace();
+            logger.error("Exception: " + e.getMessage());
         }
     }
 
@@ -82,71 +75,60 @@ public class MessageService {
             try {
                 session.getBasicRemote().sendText(message);
             } catch (IOException e) {
-                logger.info("Exception: " + e.getMessage().toString());
-                e.printStackTrace();
+                logger.error("Exception: " + e.getMessage());
             }
         });
     }
+    public void sendMessageToUser(String username, String message) {
 
+        sendMessageToParticularUser(username, message);
+    }
+    // For CRUD
 
-    public void saveMessageToRepo(Long sender, String content) {
+    public void saveMessage(MessageData args) {
+        int senderId = args.sender().getUid();
+        int receiverId = args.receiver().getUid();
+        String content = args.content();
+        java.util.Date sentDate = args.sentDate();
+        String messageTypeStr = args.messageType().toString();
+
+        messageRepository.saveMessage(senderId, receiverId, content, sentDate, messageTypeStr);
+
+    }
+    public void saveMessage(int uid, String messageContent) {
         MessageEntity message = new MessageEntity();
-        message.setSender(sender); // Save UID ínstead of username
-        message.setContent(content);
+        message.setSender(uid);
+        message.setContent(messageContent);
         messageRepository.save(message);
+    }
+
+    public List<MessageData> getAllMessages() {
+
+        return messageRepository.getAllMessages().stream()
+                .map(MessageData::fromEntity)
+                .collect(Collectors.toList());
+
+    }
+
+    public MessageEntity getMessageById(int messageId) {
+        return messageRepository.findById(messageId).orElse(null);
+    }
+
+    public void deleteMessage(int messageId) {
+        messageRepository.deleteById(messageId);
     }
 
 
 
     private String getChatHistory() {
-        List<MessageEntity> recentMessages = getAllMessages();
+        List<MessageEntity> recentMessages = messageRepository.getAllMessages();
         StringBuilder history = new StringBuilder();
         for (MessageEntity message : recentMessages) {
-            history.append(message.getSender()).append(": ").append(message.getContent()).append("\n");
+            int senderUid = message.getSender();
+            String senderName = userRepository.getUserByUid(senderUid).toString();
+            history.append(senderName).append(": ").append(message.getContent()).append("\n");
         }
         return history.toString();
     }
-
-    public List<MessageEntity> getAllMessages() {
-        List<MessageEntity> messages = messageRepository.findAll();
-        return messages.stream()
-                .map(MessageEntity::fromEntity)
-                .collect(Collectors.toList());
-    }
-
-    public MessageEntity getMessageById(int messageId) {
-        MessageEntity messageEntity = messageRepository.findById(messageId);
-        if (messageEntity != null) {
-            return MessageData.fromEntity(messageEntity);
-        }
-        return null;
-    }
-
-    public MessageData saveMessage(MessageData messageData) {
-        MessageEntity savedMessageEntity = messageRepository.save(messageData.toEntity());
-        return MessageData.fromEntity(savedMessageEntity);
-    }
-
-    public void deleteMessage(Long messageId) {
-        messageRepository.deleteById(messageId);
-    }
-    ///////////////////////////////////////
-
-    public MessageEntity getMessageById(int id) {
-        return messageRepository.getMessageById(id);
-    }
-
-    public MessageEntity getMessageByUsername(String username) {
-        return messageRepository.getUserByUsername(username);
-    }
-
-    public MessageEntity getMessageBy(String email) {
-        return messageRepository.getUserByEmail(email);
-    }
-//
-
-
-
-
 
 }
