@@ -25,7 +25,7 @@ public final class CourseCardComponent extends InflatableComponent<ConstraintLay
         identifierText = findViewById(R.id.courseIdentifierText);
         nameText = findViewById(R.id.courseNameText);
 
-        identifierText.setText("" + course.num());
+        identifierText.setText(course.programIdentifier() + " " + course.num());
         nameText.setText(course.displayName());
 
         return stub;
