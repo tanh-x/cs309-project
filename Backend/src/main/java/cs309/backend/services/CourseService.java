@@ -19,4 +19,7 @@ public class CourseService {
     public CourseEntity[] getAllCourseInformation(int term) {
         return courseRepository.getAllCourseInformation(term);
     }
+
+    public CourseEntity getCourseById(int id) { return courseRepository.getCourseById(id);
+    }
 }

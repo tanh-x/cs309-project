@@ -117,6 +117,21 @@ public class UserService {
         return true;
     }
 
+    public String grantPermission(int id, int newPrivilege) {
+        if (newPrivilege != 2 && newPrivilege != 3) {
+            return "Not a correct privilege";
+        }
+        var user = getUserByUid(id);
+        if (user == null) {
+            return "Cannot Find User";
+        }
+        if (newPrivilege == user.getPrivilegeLevel()) {
+            return "This is you current privilege";
+        }
+        userRepository.grantPermission(id, newPrivilege);
+        return "Successful";
+    }
+
     /*public Boolean testDeleteUser(int uid) {
         var curUser =  getUserByUid(uid);
         userRepository.deleteUser(curUser.getUid(), curUser.getPrivilegeLevel());
