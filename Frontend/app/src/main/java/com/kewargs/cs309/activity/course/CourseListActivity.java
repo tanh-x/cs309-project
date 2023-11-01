@@ -1,5 +1,9 @@
 package com.kewargs.cs309.activity.course;
 
+import static android.view.KeyEvent.ACTION_DOWN;
+import static android.view.KeyEvent.KEYCODE_ENTER;
+import static com.kewargs.cs309.core.utils.Helpers.toQuantifierPattern;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
@@ -30,6 +34,8 @@ public class CourseListActivity extends AbstractActivity {
     private LinearLayout courseList;
     private TextView debugText;
 
+    private String searchPattern = "";
+
     private ArrayList<CourseDeserializable> courses;
 
 
@@ -38,6 +44,14 @@ public class CourseListActivity extends AbstractActivity {
         super.onCreate(savedInstanceState);
 
         searchButton.setOnClickListener(this::searchButtonCallback);
+
+        courseSearchField.setOnKeyListener((v, keyCode, event) -> {
+            if (event.getAction() == ACTION_DOWN && keyCode == KEYCODE_ENTER) {
+                searchButtonCallback(v);
+                return true;
+            }
+            return false;
+        });
     }
 
     @Override
@@ -47,12 +61,12 @@ public class CourseListActivity extends AbstractActivity {
         session.addRequest(CourseRequestFactory.getAllCourseInformation()
             .onResponse(response -> {
                 try {
-                    debugText.setText(response);
+                    debugText.setText("End of list");
                     courses = CourseDeserializable.fromArray(new JSONArray(response));
                 } catch (JSONException e) {
                     debugText.setText("Error while fetching course information. " + e);
                 }
-                buildCourseListComponent();
+                rebuildCourseListComponent();
             }).onError(error -> {
                 debugText.setText("Error while fetching course information: " + error.toString());
             })
@@ -62,28 +76,29 @@ public class CourseListActivity extends AbstractActivity {
     }
 
 
-    private void buildCourseListComponent() {
+    private void rebuildCourseListComponent() {
+        // Clear out all children
+        courseList.removeAllViews();
+
+        // Make an inflater
         LayoutInflater layoutInflater = (LayoutInflater) getBaseContext()
             .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         courses.stream()
-            .map(course -> new CourseCardComponent(layoutInflater, course))
-            .forEach(component -> component.bindTo(courseList));
-//        courses.stream()
-//            .map(course -> {
-//                View v = layoutInflater.inflate(R.layout.component_course_list, null);
-//                TextView idText = v.findViewById(R.id.courseIdentifierText);
-//                TextView nameText = v.findViewById(R.id.courseNameText);
-//                idText.setText("" + course.num());
-//                nameText.setText(course.displayName());
-//                return v;
-//            })
-//            .forEach(v -> new CourseCardComponent());
+            .filter(this::searchPatternMatches) // Only get those that matches the search
+            .map(course -> new CourseCardComponent(layoutInflater, course)) // Build into components
+            .forEach(component -> component.bindTo(courseList)); // Add to view
+    }
+
+    private boolean searchPatternMatches(CourseDeserializable course) {
+        if (searchPattern.length() == 0) return true;
+        return course.toQuantifierString().contains(searchPattern);
     }
 
 
     private void searchButtonCallback(View view) {
-
+        searchPattern = toQuantifierPattern(courseSearchField.getText().toString());
+        rebuildCourseListComponent();
     }
 
 

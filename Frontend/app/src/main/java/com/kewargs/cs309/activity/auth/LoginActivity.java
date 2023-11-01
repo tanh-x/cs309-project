@@ -1,5 +1,7 @@
 package com.kewargs.cs309.activity.auth;
 
+import static android.view.KeyEvent.ACTION_DOWN;
+import static android.view.KeyEvent.KEYCODE_ENTER;
 import static com.kewargs.cs309.core.utils.ElementHelpers.parse;
 
 import android.content.Intent;
@@ -11,10 +13,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.android.volley.Request;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.kewargs.cs309.R;
-import com.kewargs.cs309.activity.dashboard.DashboardActivity;
 import com.kewargs.cs309.activity.AbstractActivity;
+import com.kewargs.cs309.activity.dashboard.DashboardActivity;
 import com.kewargs.cs309.core.utils.backend.factory.UserRequestFactory;
 import com.kewargs.cs309.core.utils.constants.UniversalConstants;
 
@@ -48,6 +49,14 @@ public class LoginActivity extends AbstractActivity {
 
         loginButton.setOnClickListener(this::loginButtonCallback);
         registerButton.setOnClickListener(this::registerButtonCallback);
+
+        passwordField.setOnKeyListener((v, keyCode, event) -> {
+            if (event.getAction() == ACTION_DOWN && keyCode == KEYCODE_ENTER) {
+                loginButtonCallback(v);
+                return true;
+            }
+            return false;
+        });
 
         debugInfoText.setText(String.format("Current backend address: %s", UniversalConstants.ENDPOINT));
     }
@@ -107,7 +116,7 @@ public class LoginActivity extends AbstractActivity {
         registerButton = findViewById(R.id.loginButton);
         debugInfoText = findViewById(R.id.debugInfoText);
 
-        formElements = new LinkedHashSet<View>() {{
+        formElements = new LinkedHashSet<>() {{
             add(emailField);
             add(passwordField);
             add(loginButton);

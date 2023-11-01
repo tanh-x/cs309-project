@@ -9,7 +9,7 @@ import com.kewargs.cs309.R;
 import com.kewargs.cs309.core.models.in.CourseDeserializable;
 
 public final class CourseCardComponent extends InflatableComponent<ConstraintLayout> {
-    private CourseDeserializable course;
+    private final CourseDeserializable course;
 
     private TextView identifierText;
     private TextView nameText;
@@ -25,7 +25,7 @@ public final class CourseCardComponent extends InflatableComponent<ConstraintLay
         identifierText = findViewById(R.id.courseIdentifierText);
         nameText = findViewById(R.id.courseNameText);
 
-        identifierText.setText(course.programIdentifier() + " " + course.num());
+        identifierText.setText(course.toString());
         nameText.setText(course.displayName());
 
         return stub;
