@@ -32,4 +32,15 @@ public class CourseController {
             return internalServerError().build();
         }
     }
+
+    @GetMapping("/course/{id}")
+    public ResponseEntity<CourseEntity> getCourseById(@PathVariable int id) {
+        try {
+            CourseEntity res = courseService.getCourseById(id);
+            return ok(res);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return internalServerError().build();
+        }
+    }
 }
