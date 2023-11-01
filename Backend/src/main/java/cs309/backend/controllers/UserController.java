@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.concurrent.ExecutionException;
 
 import static org.springframework.http.ResponseEntity.internalServerError;
 import static org.springframework.http.ResponseEntity.ok;
@@ -120,4 +121,15 @@ public class UserController {
             return internalServerError().build();
         }
     }*/
+
+    @PutMapping("/grant/{id}/{new_privilege}")
+    public ResponseEntity<String> grantPermission(@PathVariable int id, @PathVariable int new_privilege) {
+        try {
+            return ok(userService.grantPermission(id, new_privilege));
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return internalServerError().build();
+        }
+    }
 }
