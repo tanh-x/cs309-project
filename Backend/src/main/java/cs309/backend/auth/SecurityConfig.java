@@ -41,7 +41,7 @@ public class SecurityConfig{
         http.csrf(AbstractHttpConfigurer::disable).
                 authorizeHttpRequests(authorize -> authorize.
                         requestMatchers(WHITE_LIST_URL).permitAll()         //don't need token for swagger, don't authenticate the token for these http requests(ex: login and register)
-                        .requestMatchers(PUT,"/api/user/grant/**").hasAnyAuthority(ADMIN.name())
+                        .requestMatchers(PUT,"/api/user/grant/**").hasAnyAuthority(ADMIN.name())        //only admin can make this request
                     .anyRequest().authenticated())                          //other requests should be authenticated
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(authenticationProvider)
