@@ -47,8 +47,8 @@ public class ChattingActivity extends AbstractActivity implements WebSocketListe
                 .build()
         );
 
-        //String serverUrl = "ws://coms-309-029.class.las.iastate.edu:8080/chat/" + username;
-        String serverUrl = "ws://cs309.kewargs.com:8080/" + userEmail;
+        //String serverUrl = "ws://coms-309-029.class.las.iastate.edu:8080/chat/" + userEmail;
+        String serverUrl = "ws://cs309.kewargs.com:8080/chat/" + userEmail;
         WebSocketManager.getInstance().connectWebSocket(serverUrl);
         WebSocketManager.getInstance().setWebSocketListener(ChattingActivity.this);
 
