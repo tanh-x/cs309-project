@@ -27,7 +27,8 @@
         <activity android:name="com.kewargs.cs309.activity.auth.RegisterActivity" />
         <activity android:name="com.kewargs.cs309.activity.dashboard.DashboardActivity" />
         <activity android:name="com.kewargs.cs309.activity.course.CourseListActivity" />
-        <activity android:name="com.kewargs.cs309.activity.dashboard.UpdateInfoActivity" />
+        <activity android:name="com.kewargs.cs309.activity.dashboard.UpdateInfoActivity" />/>
+        <activity android:name="com.kewargs.cs309.activity.dashboard.ChattingActivity" />
     </application>
 
 </manifest>

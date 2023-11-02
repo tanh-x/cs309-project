@@ -34,6 +34,25 @@
             android:textAlignment="center"
             app:layout_constraintHorizontal_bias="0.495" />
 
+    <Button
+        android:id="@+id/toChat"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:paddingLeft="32dp"
+        android:paddingTop="10dp"
+        android:paddingRight="32dp"
+        android:paddingBottom="10dp"
+        android:text="Contact  Devs"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        app:cornerRadius="8dp"
+        app:iconPadding="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/coursesButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <TextView
         android:id="@+id/dashboardGreeting"
         android:layout_width="match_parent"

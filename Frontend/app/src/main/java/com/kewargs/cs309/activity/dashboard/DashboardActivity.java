@@ -22,6 +22,8 @@ public class DashboardActivity extends AbstractActivity {
     private Button updateInfo;
     private Button coursesButton;
 
+    private Button toChat;
+
     UserDeserializable userInfo;
 
 
@@ -44,6 +46,7 @@ public class DashboardActivity extends AbstractActivity {
 
         coursesButton.setOnClickListener(this::coursesButtonCallback);
         updateInfo.setOnClickListener(this::updateInfoCallback);
+        toChat.setOnClickListener(this::toChatButtonCallback);
     }
 
     @Override
@@ -61,6 +64,10 @@ public class DashboardActivity extends AbstractActivity {
         switchToActivity(CourseListActivity.class);
     }
 
+    private void toChatButtonCallback(View view) {
+        switchToActivity(ChattingActivity.class);
+    }
+
     private void switchToActivity(Class<?> newActivity) {
         Intent intent = new Intent(DashboardActivity.this, newActivity);
         startActivity(intent);
@@ -72,5 +79,6 @@ public class DashboardActivity extends AbstractActivity {
         dashboardGreeting = findViewById(R.id.dashboardGreeting);
         updateInfo = findViewById(R.id.updateInfo);
         coursesButton = findViewById(R.id.coursesButton);
+        toChat = findViewById(R.id.toChat);
     }
 }
