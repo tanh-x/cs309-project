@@ -14,14 +14,30 @@ public record CourseDeserializable(
     int id,
     String programIdentifier,
     int num,
-    String displayName
+    String displayName,
+    String description,
+    int credits,
+    boolean isVariableCredit,
+    Boolean springOffered,
+    Boolean summerOffered,
+    Boolean fallOffered,
+    Boolean winterOffered,
+    Boolean isGraded
 ) {
     public static CourseDeserializable from(JSONObject json) throws JSONException {
         return new CourseDeserializable(
             json.getInt("id"),
             json.getString("programIdentifier"),
             json.getInt("num"),
-            json.getString("displayName")
+            json.getString("displayName"),
+            json.getString("description"),
+            json.getInt("credits"),
+            json.getBoolean("isVariableCredit"),
+            json.isNull("springOffered") ? null : json.getBoolean("springOffered"),
+            json.isNull("summerOffered") ? null : json.getBoolean("summerOffered"),
+            json.isNull("fallOffered") ? null : json.getBoolean("fallOffered"),
+            json.isNull("winterOffered") ? null : json.getBoolean("winterOffered"),
+            json.isNull("isGraded") ? null : json.getBoolean("isGraded")
         );
     }
 

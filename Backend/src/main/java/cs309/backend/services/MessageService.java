@@ -51,12 +51,13 @@ public class MessageService {
             String receiverUsername = message.split(" ")[0].substring(1);
             UserEntity receiverUser = userRepository.getUserByUsername(receiverUsername);
 
-            sendMessageToUser(receiverUsername, "[DM] " + username + ": " + message);
-            sendMessageToUser(username, "[DM] " + username + ": " + message);
+            String messageContent = "[DM] " + user.getDisplayName() + ": " + message;
+            sendMessageToUser(receiverUsername, messageContent);
+            sendMessageToUser(username, messageContent);
 
             saveMessage(new MessageData(user.getUid(), receiverUser.getUid(), message));
         } else {
-            broadcast(username + ": " + message);
+            broadcast(user.getDisplayName() + ": " + message);
             saveMessage(new MessageData(user.getUid(), null, message));
         }
 
@@ -120,7 +121,11 @@ public class MessageService {
         return history.toString();
     }
 
-    private void broadcast(String message) {
+    public void broadcastJoinMessage(String username) {
+        broadcast(userRepository.getUserByUsername(username).getDisplayName() + "has joined the chat.");
+    }
+
+    public void broadcast(String message) {
         sessionStore.getSessionUsernameMap().forEach((session, user) -> {
             try {
                 session.getBasicRemote().sendText(message);

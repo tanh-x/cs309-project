@@ -1,7 +1,9 @@
 package com.kewargs.cs309.activity.course;
 
+import static com.kewargs.cs309.core.utils.Helpers.boolToYesNo;
+
+import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -11,6 +13,9 @@ import com.kewargs.cs309.core.models.in.CourseDeserializable;
 import com.kewargs.cs309.core.utils.backend.factory.CourseRequestFactory;
 
 import org.json.JSONException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Must pass in a courseId
@@ -24,6 +29,14 @@ public final class CourseInfoActivity extends AbstractActivity {
     private Integer courseId = null;
     private CourseDeserializable course;
 
+
+    private TextView titleText;
+    private TextView descriptionText;
+    private TextView creditsText;
+    private TextView variableCreditsText;
+    private TextView deliveryText;
+    private TextView gradedText;
+    private TextView seasonsText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +59,7 @@ public final class CourseInfoActivity extends AbstractActivity {
             .onResponse(response -> {
                 try {
                     course = CourseDeserializable.from(response);
-                    buildCourseInfoComponents();
+                    buildCourseInfoComponents(course);
                 } catch (JSONException e) {
                     showToast("Invalid response from server", this);
                 }
@@ -59,8 +72,20 @@ public final class CourseInfoActivity extends AbstractActivity {
             .build());
     }
 
-    private void buildCourseInfoComponents() {
+    @SuppressLint("SetTextI18n")
+    private void buildCourseInfoComponents(CourseDeserializable courseInfo) {
+        titleText.setText(courseInfo.toString() + ": " + courseInfo.displayName());
+        descriptionText.setText(courseInfo.description());
+        creditsText.setText("" + courseInfo.credits());
+        variableCreditsText.setText(boolToYesNo(courseInfo.isVariableCredit()));
+        gradedText.setText(boolToYesNo(courseInfo.isGraded()));
 
+        seasonsText.setText(String.join(" · ", new ArrayList<>() {{
+            if (Boolean.TRUE.equals(courseInfo.springOffered())) add("Spring");
+            if (Boolean.TRUE.equals(courseInfo.summerOffered())) add("Summer");
+            if (Boolean.TRUE.equals(courseInfo.fallOffered())) add("Fall");
+            if (Boolean.TRUE.equals(courseInfo.winterOffered())) add("Winter");
+        }}));
     }
 
     private void buildSectionComponents() {
@@ -71,5 +96,13 @@ public final class CourseInfoActivity extends AbstractActivity {
     protected void collectElements() {
         backButton = findViewById(R.id.backButton);
         headerTitle = findViewById(R.id.headerTitle);
+
+        titleText = findViewById(R.id.titleText);
+        descriptionText = findViewById(R.id.descriptionText);
+        creditsText = findViewById(R.id.creditsText);
+        variableCreditsText = findViewById(R.id.variableCreditsText);
+        deliveryText = findViewById(R.id.deliveryText);
+        gradedText = findViewById(R.id.gradedText);
+        seasonsText = findViewById(R.id.seasonsText);
     }
 }

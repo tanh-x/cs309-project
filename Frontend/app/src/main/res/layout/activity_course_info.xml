@@ -77,14 +77,14 @@
                         android:text="COURSE 000: Introduction to Placeholder Titles"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/courseTitleText"
+                        android:id="@+id/titleText"
                         android:textSize="14sp"
                         android:textStyle="bold" />
 
                 <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/courseDescriptionText"
+                        android:id="@+id/descriptionText"
                         android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." />
 
                 <View
@@ -180,8 +180,8 @@
                                     android:layout_weight="1" />
 
                             <TextView
-                                    android:text="In-person · Online"
-                                    android:layout_width="128dp"
+                                    android:text="Both"
+                                    android:layout_width="64dp"
                                     android:layout_height="wrap_content"
                                     android:id="@+id/deliveryText"
                                     android:textAlignment="textEnd"
@@ -196,7 +196,7 @@
                                 android:layout_margin="2dp">
 
                             <TextView
-                                    android:text="Graded?"
+                                    android:text="Graded"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:id="@+id/textView7"
@@ -235,7 +235,7 @@
                             android:text="Spring · Summer · Fall · Winter"
                             android:layout_width="256dp"
                             android:layout_height="wrap_content"
-                            android:id="@+id/variableCreditsText"
+                            android:id="@+id/seasonsText"
                             android:textAlignment="textEnd"
                             android:textStyle="bold" />
                 </LinearLayout>

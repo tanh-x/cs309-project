@@ -10,6 +10,6 @@ public class CourseRequestFactory {
     }
 
     public static PlainTextRequestCall getCourseInfo(int id) {
-        return RequestFactory.GET().url(COURSE_ENDPOINT + "course/" + id);
+        return RequestFactory.GET().url(COURSE_ENDPOINT + id);
     }
 }
