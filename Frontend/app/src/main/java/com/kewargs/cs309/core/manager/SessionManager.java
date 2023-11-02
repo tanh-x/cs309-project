@@ -78,4 +78,9 @@ public final class SessionManager {
         manager.isInitialized = true;
     }
 
+
+    public synchronized void seppuku() {
+        instance = null;
+        isInitialized = false;
+    }
 }

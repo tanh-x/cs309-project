@@ -1,8 +1,11 @@
 package com.kewargs.cs309.core.models.in;
 
 import static com.kewargs.cs309.core.utils.Helpers.toQuantifierPattern;
+import static com.kewargs.cs309.core.utils.backend.request.DeserializationHelpers.getNullableBoolean;
 
 import androidx.annotation.NonNull;
+
+import com.kewargs.cs309.core.utils.backend.request.DeserializationHelpers;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,32 +27,41 @@ public record CourseDeserializable(
     Boolean winterOffered,
     Boolean isGraded
 ) {
-    public static CourseDeserializable from(JSONObject json) throws JSONException {
-        return new CourseDeserializable(
-            json.getInt("id"),
-            json.getString("programIdentifier"),
-            json.getInt("num"),
-            json.getString("displayName"),
-            json.getString("description"),
-            json.getInt("credits"),
-            json.getBoolean("isVariableCredit"),
-            json.isNull("springOffered") ? null : json.getBoolean("springOffered"),
-            json.isNull("summerOffered") ? null : json.getBoolean("summerOffered"),
-            json.isNull("fallOffered") ? null : json.getBoolean("fallOffered"),
-            json.isNull("winterOffered") ? null : json.getBoolean("winterOffered"),
-            json.isNull("isGraded") ? null : json.getBoolean("isGraded")
-        );
+    public static CourseDeserializable from(JSONObject json) {
+        try {
+            return new CourseDeserializable(
+                json.getInt("id"),
+                json.getString("programIdentifier"),
+                json.getInt("num"),
+                json.getString("displayName"),
+                json.getString("description"),
+                json.getInt("credits"),
+                json.getBoolean("isVariableCredit"),
+                getNullableBoolean(json, "springOffered"),
+                getNullableBoolean(json, "summerOffered"),
+                getNullableBoolean(json, "fallOffered"),
+                getNullableBoolean(json, "winterOffered"),
+                getNullableBoolean(json, "isGraded")
+            );
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public static CourseDeserializable from(String serializedJson) throws JSONException {
-        return from(new JSONObject(serializedJson));
+    public static CourseDeserializable from(String serializedJson) {
+        try {
+            return from(new JSONObject(serializedJson));
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public static ArrayList<CourseDeserializable> fromArray(JSONArray jsonArray) throws JSONException {
-        int n = jsonArray.length();
-        ArrayList<CourseDeserializable> courses = new ArrayList<>(n);
-        for (int i = 0; i < n; i++) { courses.add(from(jsonArray.get(i).toString())); }
-        return courses;
+    public static ArrayList<CourseDeserializable> fromArray(JSONArray jsonArray) {
+        try {
+            return DeserializationHelpers.deserializeArray(jsonArray, CourseDeserializable::from);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public String toQuantifierString() {

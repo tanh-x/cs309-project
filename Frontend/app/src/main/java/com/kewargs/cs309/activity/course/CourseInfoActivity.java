@@ -11,11 +11,14 @@ import android.widget.TextView;
 import com.kewargs.cs309.R;
 import com.kewargs.cs309.activity.AbstractActivity;
 import com.kewargs.cs309.core.models.in.CourseDeserializable;
+import com.kewargs.cs309.core.models.in.SectionDeserializable;
 import com.kewargs.cs309.core.utils.backend.factory.CourseRequestFactory;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -28,8 +31,8 @@ public final class CourseInfoActivity extends AbstractActivity {
     private TextView headerTitle;
 
     private Integer courseId = null;
-    private CourseDeserializable course;
-
+    private CourseDeserializable course = null;
+    private Collection<SectionDeserializable> sections = null;
 
     private TextView titleText;
     private TextView descriptionText;
@@ -58,12 +61,8 @@ public final class CourseInfoActivity extends AbstractActivity {
 
         session.addRequest(CourseRequestFactory.getCourseInfo(courseId)
             .onResponse(response -> {
-                try {
-                    course = CourseDeserializable.from(response);
-                    buildCourseInfoComponents(course);
-                } catch (JSONException e) {
-                    showToast("Invalid response from server", this);
-                }
+                course = CourseDeserializable.from(response);
+                buildCourseInfoComponents();
             })
             .onError(error -> {
                 showToast("Couldn't get course info.", this);
@@ -73,7 +72,12 @@ public final class CourseInfoActivity extends AbstractActivity {
 
         session.addRequest(CourseRequestFactory.getCourseSections(courseId)
             .onResponse(response -> {
-                Log.i("CourseInfo", response);
+                try {
+                    CourseDeserializable.fromArray(new JSONArray(response));
+                    buildSectionComponents();
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
             })
             .onError(error -> {
                 showToast("Couldn't get schedule info.", this);
@@ -84,23 +88,27 @@ public final class CourseInfoActivity extends AbstractActivity {
     }
 
     @SuppressLint("SetTextI18n")
-    private void buildCourseInfoComponents(CourseDeserializable courseInfo) {
-        titleText.setText(courseInfo.toString() + ": " + courseInfo.displayName());
-        descriptionText.setText(courseInfo.description());
-        creditsText.setText("" + courseInfo.credits());
-        variableCreditsText.setText(boolToYesNo(courseInfo.isVariableCredit()));
-        gradedText.setText(boolToYesNo(courseInfo.isGraded()));
+    private void buildCourseInfoComponents() {
+        if (course == null) return;
+
+        titleText.setText(course.toString() + ": " + course.displayName());
+        descriptionText.setText(course.description());
+        creditsText.setText("" + course.credits());
+        variableCreditsText.setText(boolToYesNo(course.isVariableCredit()));
+        gradedText.setText(boolToYesNo(course.isGraded()));
         deliveryText.setText("In-person");
 
         seasonsText.setText(String.join(" · ", new ArrayList<>() {{
-            if (Boolean.TRUE.equals(courseInfo.springOffered())) add("Spring");
-            if (Boolean.TRUE.equals(courseInfo.summerOffered())) add("Summer");
-            if (Boolean.TRUE.equals(courseInfo.fallOffered())) add("Fall");
-            if (Boolean.TRUE.equals(courseInfo.winterOffered())) add("Winter");
+            if (Boolean.TRUE.equals(course.springOffered())) add("Spring");
+            if (Boolean.TRUE.equals(course.summerOffered())) add("Summer");
+            if (Boolean.TRUE.equals(course.fallOffered())) add("Fall");
+            if (Boolean.TRUE.equals(course.winterOffered())) add("Winter");
         }}));
     }
 
     private void buildSectionComponents() {
+        if (sections == null) return;
+
 
     }
 

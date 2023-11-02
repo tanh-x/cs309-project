@@ -29,23 +29,25 @@ public class DashboardActivity extends AbstractActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if (!session.isLoggedIn()) finish();
+
         session.addRequest(UserRequestFactory
-            .getUserById(session.getUserId())
-            .onResponse(response -> {
-                userInfoDump.setText(response);
-                try {
-                    userInfo = UserDeserializable.from(response);
-                    dashboardGreeting.setText("Hello " + userInfo.displayName());
-                } catch (JSONException ignored) { }
-            })
+                .getUserById(session.getUserId())
+                .onResponse(response -> {
+                    userInfoDump.setText(response);
+                    try {
+                        userInfo = UserDeserializable.from(response);
+                        dashboardGreeting.setText("Hello " + userInfo.displayName());
+                    } catch (JSONException ignored) { }
+                })
 //            .bearer(session.getSessionToken())
-            .build()
+                .build()
         );
 
         coursesButton.setOnClickListener(this::coursesButtonCallback);
         updateInfo.setOnClickListener(this::updateInfoCallback);
         toChat.setOnClickListener(this::toChatButtonCallback);
-        logOut.setOnClickListener(this::logOutButtonCallback); //funni
+        logOut.setOnClickListener(this::logOutButtonCallback);
     }
 
     @Override
@@ -67,7 +69,9 @@ public class DashboardActivity extends AbstractActivity {
         switchToActivity(ChatActivity.class);
     }
 
-    private void logOutButtonCallback(View view) {switchToActivity(LoginActivity.class);} //doesnt work idk how to end sesh without crashing app
+    private void logOutButtonCallback(View view) {
+        finish();
+    }
 
     private void switchToActivity(Class<?> newActivity) {
         Intent intent = new Intent(DashboardActivity.this, newActivity);

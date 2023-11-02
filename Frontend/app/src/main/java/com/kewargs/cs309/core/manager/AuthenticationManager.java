@@ -36,7 +36,7 @@ final class AuthenticationManager {
     }
 
     // ====== Housekeeping stuff ======
-    private static AuthenticationManager instance = null;
+    static AuthenticationManager instance = null;
 
     private AuthenticationManager() { }
 
