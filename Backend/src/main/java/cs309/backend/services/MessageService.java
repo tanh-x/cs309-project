@@ -14,13 +14,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 @Transactional
 public class MessageService {
+    private static final int CHAT_HISTORY_LENGTH_CUTOFF = 100;
+
     private final Logger logger = LoggerFactory.getLogger(MessageService.class);
     private final SessionStore sessionStore;
     private final MessageRepository messageRepository;
@@ -37,7 +37,7 @@ public class MessageService {
     public void handleOpenSession(Session session, String username) {
         sessionStore.getSessionUsernameMap().put(session, username);
         sessionStore.getUsernameSessionMap().put(username, session);
-        sendMessageToParticularUser(username, getChatHistory());
+        sendMessageToUser(username, getChatHistory());
     }
 
     public void handleIncomingMessage(Session session, String message) {
@@ -51,8 +51,8 @@ public class MessageService {
             String receiverUsername = message.split(" ")[0].substring(1);
             UserEntity receiverUser = userRepository.getUserByUsername(receiverUsername);
 
-            sendMessageToParticularUser(receiverUsername, "[DM] " + username + ": " + message);
-            sendMessageToParticularUser(username, "[DM] " + username + ": " + message);
+            sendMessageToUser(receiverUsername, "[DM] " + username + ": " + message);
+            sendMessageToUser(username, "[DM] " + username + ": " + message);
 
             saveMessage(new MessageData(user.getUid(), receiverUser.getUid(), message));
         } else {
@@ -69,7 +69,7 @@ public class MessageService {
         broadcast(username + " disconnected");
     }
 
-    private void sendMessageToParticularUser(String username, String message) {
+    public void sendMessageToUser(String username, String message) {
         try {
             sessionStore.getUsernameSessionMap().get(username).getBasicRemote().sendText(message);
         } catch (IOException e) {
@@ -77,12 +77,6 @@ public class MessageService {
         }
     }
 
-
-    public void sendMessageToUser(String username, String message) {
-
-        sendMessageToParticularUser(username, message);
-    }
-    // For CRUD
 
     public void saveMessage(MessageData args) {
         messageRepository.saveMessage(args.sender(), args.receiver(), args.content());
@@ -103,10 +97,24 @@ public class MessageService {
 
     private String getChatHistory() {
         List<MessageEntity> recentMessages = messageRepository.getAllMessages();
+        int n = recentMessages.size();
+        recentMessages.subList(Math.max(0, n - CHAT_HISTORY_LENGTH_CUTOFF), n);
+
         StringBuilder history = new StringBuilder();
+
+        Map<Integer, String> authors = new HashMap<>();
+
         for (MessageEntity message : recentMessages) {
             int senderUid = message.getSender();
-            String senderName = userRepository.getUserByUid(senderUid).toString();
+            String senderName;
+
+            if (authors.containsKey(senderUid)) {
+                senderName = authors.get(senderUid);
+            } else {
+                senderName = userRepository.getUserByUid(senderUid).getDisplayName();
+                authors.put(senderUid, senderName);
+            }
+
             history.append(senderName).append(": ").append(message.getContent()).append("\n");
         }
         return history.toString();

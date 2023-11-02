@@ -13,7 +13,7 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "User")
-public final class UserEntity implements UserDetails, User{
+public final class UserEntity implements UserDetails, User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "uid")
@@ -33,6 +33,7 @@ public final class UserEntity implements UserDetails, User{
 
     @Column(name = "pwd_bcrypt_hash", length = 256, nullable = false)
     private String pwdBcryptHash;
+
     private Role mapPrivilegeLevelToRole(int privilegeLevel) {
         switch (privilegeLevel) {
             default -> { return Role.USER; }  // If unknown privilege level, give the lowest privilege
@@ -40,12 +41,14 @@ public final class UserEntity implements UserDetails, User{
             case 3 -> { return Role.STAFF; }
         }
     }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Role role = mapPrivilegeLevelToRole(privilegeLevel);
         return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
+    @Override
     public String getPassword() {
         return pwdBcryptHash;
     }
@@ -84,4 +87,9 @@ public final class UserEntity implements UserDetails, User{
 
     @Column(name = "is_verified", nullable = false)
     private boolean isVerified;
+
+    @Override
+    public String toString() {
+        return "<!" + username + "!>";
+    }
 }

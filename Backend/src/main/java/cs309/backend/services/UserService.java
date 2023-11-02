@@ -68,9 +68,10 @@ public class UserService {
     public UserEntity getUserByUid(int uid) {
         return userRepository.getUserByUid(uid);
     }
+
     public int getUidByUsername(String username) {
         UserEntity user = getUserByUsername(username);
-        if(user != null) {
+        if (user != null) {
             return user.getUid();
         }
         return -1; // or throw an exception or handle accordingly
@@ -91,9 +92,9 @@ public class UserService {
             return false;
         }
         userRepository.updateUser(
-                uid,
-                Objects.equals(email, "") ? null : email,
-                Objects.equals(displayName, "") ? null : displayName
+            uid,
+            Objects.equals(email, "") ? null : email,
+            Objects.equals(displayName, "") ? null : displayName
         );
         return true;
     }
@@ -115,6 +116,21 @@ public class UserService {
         var curUser = (UserEntity) ((UsernamePasswordAuthenticationToken) user).getPrincipal();
         userRepository.deleteUser(curUser.getUid(), curUser.getPrivilegeLevel());
         return true;
+    }
+
+    public String grantPermission(int id, int newPrivilege) {
+        if (newPrivilege != 2 && newPrivilege != 3) {
+            return "Not a correct privilege";
+        }
+        var user = getUserByUid(id);
+        if (user == null) {
+            return "Cannot Find User";
+        }
+        if (newPrivilege == user.getPrivilegeLevel()) {
+            return "This is you current privilege";
+        }
+        userRepository.grantPermission(id, newPrivilege);
+        return "Successful";
     }
 
     /*public Boolean testDeleteUser(int uid) {

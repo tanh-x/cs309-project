@@ -98,13 +98,13 @@ public class LoginActivity extends AbstractActivity {
     }
 
     private void switchToActivity(Class<?> newActivity) {
-        Intent intent = new Intent(LoginActivity.this, newActivity);
+        Intent intent = new Intent(this, newActivity);
         startActivity(intent);
     }
 
 
     private void showToast(String content) {
-        AbstractActivity.showToast(content, LoginActivity.this);
+        AbstractActivity.showToast(content, this);
     }
 
     @Override
