@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.kewargs.cs309.core.manager.SessionManager;
 
 @SuppressWarnings("unchecked")
 public abstract class AbstractRequest<ResponseType, RequestType extends AbstractRequest<ResponseType, RequestType>>
@@ -18,6 +19,13 @@ public abstract class AbstractRequest<ResponseType, RequestType extends Abstract
     protected AbstractRequest(int method, String url) {
         this.requestMethod = method;
         this.requestUrl = url;
+
+        // Directly inject token if one is found in the session
+        SessionManager session = SessionManager.getInstance();
+        if (!session.isLoggedIn()) return;
+        String token = session.getSessionToken();
+        if (token == null) return;
+        bearerToken = token;
     }
 
     @Override

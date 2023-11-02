@@ -11,13 +11,18 @@ public final class SessionManager {
     // ====== Authentication ======
     private AuthenticationManager authentication = null;
 
-    public String getSessionToken() { return authentication.getSessionToken(); }
+    public String getSessionToken() {
+        if (authentication == null) return null;
+        return authentication.getSessionToken();
+    }
 
     public String getUsername() {
+        if (authentication == null) return null;
         return authentication.getUsername();
     }
 
     public Integer getUserId() {
+        if (authentication == null) return null;
         return authentication.getUserId();
     }
 

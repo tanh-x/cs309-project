@@ -4,6 +4,7 @@ import static com.kewargs.cs309.core.utils.Helpers.boolToYesNo;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -68,8 +69,18 @@ public final class CourseInfoActivity extends AbstractActivity {
                 showToast("Couldn't get course info.", this);
                 finish();
             })
-            .bearer(session.getSessionToken())
             .build());
+
+        session.addRequest(CourseRequestFactory.getCourseSections(courseId)
+            .onResponse(response -> {
+                Log.i("CourseInfo", response);
+            })
+            .onError(error -> {
+                showToast("Couldn't get schedule info.", this);
+                finish();
+            })
+            .build()
+        );
     }
 
     @SuppressLint("SetTextI18n")
@@ -79,6 +90,7 @@ public final class CourseInfoActivity extends AbstractActivity {
         creditsText.setText("" + courseInfo.credits());
         variableCreditsText.setText(boolToYesNo(courseInfo.isVariableCredit()));
         gradedText.setText(boolToYesNo(courseInfo.isGraded()));
+        deliveryText.setText("In-person");
 
         seasonsText.setText(String.join(" · ", new ArrayList<>() {{
             if (Boolean.TRUE.equals(courseInfo.springOffered())) add("Spring");

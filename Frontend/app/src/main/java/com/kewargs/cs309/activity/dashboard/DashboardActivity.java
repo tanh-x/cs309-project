@@ -38,7 +38,7 @@ public class DashboardActivity extends AbstractActivity {
                     dashboardGreeting.setText("Hello " + userInfo.displayName());
                 } catch (JSONException ignored) { }
             })
-            .bearer(session.getSessionToken())
+//            .bearer(session.getSessionToken())
             .build()
         );
 

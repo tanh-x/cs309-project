@@ -2,6 +2,7 @@ package com.kewargs.cs309.core.utils.backend.factory;
 
 import static com.kewargs.cs309.core.utils.constants.UniversalConstants.COURSE_ENDPOINT;
 
+import com.kewargs.cs309.core.manager.SessionManager;
 import com.kewargs.cs309.core.utils.backend.request.PlainTextRequestCall;
 
 public class CourseRequestFactory {
@@ -9,7 +10,11 @@ public class CourseRequestFactory {
         return RequestFactory.GET().url(COURSE_ENDPOINT + "all/1");
     }
 
-    public static PlainTextRequestCall getCourseInfo(int id) {
-        return RequestFactory.GET().url(COURSE_ENDPOINT + id);
+    public static PlainTextRequestCall getCourseInfo(int courseId) {
+        return RequestFactory.GET().url(COURSE_ENDPOINT + courseId);
+    }
+
+    public static PlainTextRequestCall getCourseSections(int courseId) {
+        return RequestFactory.GET().url(COURSE_ENDPOINT + "sections/" + courseId);
     }
 }
