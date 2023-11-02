@@ -22,6 +22,10 @@ class EndpointHostDefinition {
      */
     static final String VM_ENDPOINT = "http://coms-309-029.class.las.iastate.edu:8080/";
 
+    //static final String WS_LOCAL_ENDPOINT = "ws://10.0.2.2:8080/"; idk
+    //static final String WS_REVERSE_TUNNEL_ENDPOINT = "ws://cs309.kewargs.com:8080/";
+    //static final String WS_VM_ENDPOINT = "ws://coms-309-029.class.las.iastate.edu:8080/";
+
     /**
      * Gets the first available endpoint, by priority. For dev environment only.
      *
@@ -47,4 +51,6 @@ class EndpointHostDefinition {
 
         return VM_ENDPOINT;
     }
+
+
 }

@@ -72,4 +72,5 @@ public final class SessionManager {
         // Prevent reinitialization
         manager.isInitialized = true;
     }
+
 }
