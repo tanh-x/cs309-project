@@ -15,7 +15,7 @@ public class SectionEntity {
     private int courseId;
 
     @Column(name = "section")
-    private int section;
+    private String section;
 
     @Column(name = "year")
     private int year;
