@@ -29,7 +29,7 @@ public final class ChatSocketClient<S extends SocketListener> extends WebSocketC
 
     @Override
     public void onOpen(ServerHandshake handshakedata) {
-        listener.onSocketOpen(handshakedata);
+        //listener.onSocketOpen(handshakedata);
     }
 
     @Override
