@@ -8,7 +8,6 @@ import android.widget.Button;
 
 import org.json.*;
 
-import com.kewargs.cs309.MainActivity;
 import com.kewargs.cs309.R;
 import com.kewargs.cs309.activity.AbstractActivity;
 import com.kewargs.cs309.activity.auth.LoginActivity;
@@ -65,7 +64,7 @@ public class DashboardActivity extends AbstractActivity {
     }
 
     private void toChatButtonCallback(View view) {
-        switchToActivity(ChattingActivity.class);
+        switchToActivity(ChatActivity.class);
     }
 
     private void logOutButtonCallback(View view) {switchToActivity(LoginActivity.class);} //doesnt work idk how to end sesh without crashing app

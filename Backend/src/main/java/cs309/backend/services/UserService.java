@@ -68,9 +68,10 @@ public class UserService {
     public UserEntity getUserByUid(int uid) {
         return userRepository.getUserByUid(uid);
     }
+
     public int getUidByUsername(String username) {
         UserEntity user = getUserByUsername(username);
-        if(user != null) {
+        if (user != null) {
             return user.getUid();
         }
         return -1; // or throw an exception or handle accordingly
@@ -91,9 +92,9 @@ public class UserService {
             return false;
         }
         userRepository.updateUser(
-                uid,
-                Objects.equals(email, "") ? null : email,
-                Objects.equals(displayName, "") ? null : displayName
+            uid,
+            Objects.equals(email, "") ? null : email,
+            Objects.equals(displayName, "") ? null : displayName
         );
         return true;
     }

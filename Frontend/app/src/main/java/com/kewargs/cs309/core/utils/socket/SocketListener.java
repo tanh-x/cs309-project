@@ -1,4 +1,4 @@
-package com.kewargs.cs309.core.utils.backend.request;
+package com.kewargs.cs309.core.utils.socket;
 
 import org.java_websocket.handshake.ServerHandshake;
 
@@ -7,21 +7,21 @@ import org.java_websocket.handshake.ServerHandshake;
  * Implement this interface to listen for WebSocket connection,
  * message, closure, and error events.
  */
-public interface WebSocketListener {
+public interface SocketListener {
 
     /**
      * Called when the WebSocket connection is successfully opened.
      *
      * @param handshakedata Information about the server handshake.
      */
-    void onWebSocketOpen(ServerHandshake handshakedata);
+    void onSocketOpen(ServerHandshake handshakedata);
 
     /**
      * Called when a WebSocket message is received.
      *
      * @param message The received WebSocket message.
      */
-    void onWebSocketMessage(String message);
+    void onSocketMessage(String message);
 
     /**
      * Called when the WebSocket connection is closed.
@@ -30,12 +30,12 @@ public interface WebSocketListener {
      * @param reason A human-readable explanation for the closure.
      * @param remote Indicates whether the closure was initiated by the remote endpoint.
      */
-    void onWebSocketClose(int code, String reason, boolean remote);
+    void onSocketClose(int code, String reason, boolean remote);
 
     /**
      * Called when an error occurs in the WebSocket communication.
      *
      * @param ex The exception that describes the error.
      */
-    void onWebSocketError(Exception ex);
+    void onSocketError(Exception ex);
 }
