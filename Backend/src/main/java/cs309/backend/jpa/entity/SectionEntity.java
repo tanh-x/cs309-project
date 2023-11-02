@@ -9,10 +9,10 @@ import lombok.Data;
 @Entity
 @Data
 @Table(name = "Schedule")
-public class SectionEntity{
+public class SectionEntity {
     @Id
     @Column(name = "course_id")
-    private int course_id;
+    private int courseId;
 
     @Column(name = "section")
     private int section;
@@ -24,13 +24,13 @@ public class SectionEntity{
     private int season;
 
     @Column(name = "is_online")
-    private boolean is_online;
+    private Boolean isOnline;
 
     @Column(name = "start_time")
-    private int start_time;
+    private Integer startTime;
 
     @Column(name = "end_time")
-    private int end_time;
+    private Integer endTime;
 
     @Column(name = "location")
     private String location;

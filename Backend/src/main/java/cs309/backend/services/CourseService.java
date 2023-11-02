@@ -15,18 +15,20 @@ public class CourseService {
     private final SectionRepository sectionRepository;
 
     @Autowired
-    public CourseService(CourseRepository repo, SectionRepository sRepo) {
-        this.courseRepository = repo;
-        this.sectionRepository = sRepo;
+    public CourseService(CourseRepository courseRepository, SectionRepository sectionRepository) {
+        this.courseRepository = courseRepository;
+        this.sectionRepository = sectionRepository;
     }
 
     public CourseEntity[] getAllCourseInformation(int term) {
         return courseRepository.getAllCourseInformation(term);
     }
 
-    public CourseEntity getCourseById(int id) { return courseRepository.getCourseById(id);
+    public CourseEntity getCourseById(int id) {
+        return courseRepository.getCourseById(id);
     }
 
-    public SectionEntity[] getSectionById(int id) { return sectionRepository.getSectionById(id);
+    public SectionEntity[] getSectionById(int id) {
+        return sectionRepository.getSectionById(id);
     }
 }
