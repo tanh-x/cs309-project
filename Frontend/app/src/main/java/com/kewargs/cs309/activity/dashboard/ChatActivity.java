@@ -35,6 +35,7 @@ public class ChatActivity extends AbstractActivity implements SocketListener {
 
         sendButton.setOnClickListener(this::sendButtonCallback);
         backButton.setOnClickListener(this::backBtnCallback);
+        scroller.fullScroll(ScrollView.FOCUS_DOWN);
 
         chatSocketClient = new ChatSocketClient<>(session, this);
         chatSocketClient.connect();
@@ -43,6 +44,7 @@ public class ChatActivity extends AbstractActivity implements SocketListener {
     private void sendButtonCallback(View view) {
         try {
             chatSocketClient.send(messageTextBox.getText().toString());
+            scroller.fullScroll(ScrollView.FOCUS_DOWN);
             messageTextBox.setText("");
         } catch (Exception ex) {
             showToast(ex.toString(), this);
