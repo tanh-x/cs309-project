@@ -80,6 +80,7 @@ public class ChattingActivity extends AbstractActivity implements WebSocketListe
         backBtn = findViewById(R.id.backDash);
         sendBtn = findViewById(R.id.SendText);
         msgEtx = findViewById(R.id.TextBox);
+        msgTv = findViewById(R.id.displayTexts);
     }
 
     @Override
