@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:id="@+id/header"
+                android:background="#6750a4">
+
+            <ImageButton
+                    android:src="@drawable/ic_back"
+                    android:layout_height="match_parent"
+                    android:id="@+id/backButton"
+                    android:background="#00000000"
+                    android:scaleX="1.5"
+                    android:scaleY="1.5"
+                    android:layout_width="56dp" />
+
+            <TextView
+                    android:text="COURSE 000"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:id="@+id/headerTitle"
+                    android:layout_weight="1"
+                    android:textColor="#ffffff"
+                    android:textAlignment="textStart"
+                    android:gravity="center"
+                    android:padding="4dp"
+                    android:textSize="18sp" />
+        </LinearLayout>
+
+        <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

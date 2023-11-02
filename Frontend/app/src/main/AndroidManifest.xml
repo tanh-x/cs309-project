@@ -28,6 +28,7 @@
         <activity android:name="com.kewargs.cs309.activity.dashboard.DashboardActivity" />
         <activity android:name="com.kewargs.cs309.activity.course.CourseListActivity" />
         <activity android:name="com.kewargs.cs309.activity.dashboard.UpdateInfoActivity" />
+        <activity android:name="com.kewargs.cs309.activity.course.CourseInfoActivity" />
     </application>
 
 </manifest>

@@ -86,7 +86,7 @@ public class CourseListActivity extends AbstractActivity {
 
         courses.stream()
             .filter(this::searchPatternMatches) // Only get those that matches the search
-            .map(course -> new CourseCardComponent(layoutInflater, course)) // Build into components
+            .map(course -> new CourseCardComponent(layoutInflater, this, course)) // Build into components
             .forEach(component -> component.bindTo(courseList)); // Add to view
     }
 
@@ -100,7 +100,6 @@ public class CourseListActivity extends AbstractActivity {
         searchPattern = toQuantifierPattern(courseSearchField.getText().toString());
         rebuildCourseListComponent();
     }
-
 
     @Override
     protected void collectElements() {

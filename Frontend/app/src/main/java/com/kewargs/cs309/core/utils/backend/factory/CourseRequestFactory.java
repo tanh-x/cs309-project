@@ -8,4 +8,8 @@ public class CourseRequestFactory {
     public static PlainTextRequestCall getAllCourseInformation() {
         return RequestFactory.GET().url(COURSE_ENDPOINT + "all/1");
     }
+
+    public static PlainTextRequestCall getCourseInfo(int id) {
+        return RequestFactory.GET().url(COURSE_ENDPOINT + "course/" + id);
+    }
 }
