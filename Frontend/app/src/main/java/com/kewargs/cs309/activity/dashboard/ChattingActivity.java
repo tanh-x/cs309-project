@@ -53,12 +53,6 @@ public class ChattingActivity extends AbstractActivity implements WebSocketListe
 
     @Override
     public void onWebSocketMessage(String message) {
-        /**
-         * In Android, all UI-related operations must be performed on the main UI thread
-         * to ensure smooth and responsive user interfaces. The 'runOnUiThread' method
-         * is used to post a runnable to the UI thread's message queue, allowing UI updates
-         * to occur safely from a background or non-UI thread.
-         */
         runOnUiThread(() -> {
             String s = msgTv.getText().toString();
             msgTv.setText(s + "\n"+message);
