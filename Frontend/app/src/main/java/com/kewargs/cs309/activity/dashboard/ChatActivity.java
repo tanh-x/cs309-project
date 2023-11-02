@@ -2,6 +2,7 @@ package com.kewargs.cs309.activity.dashboard;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -63,6 +64,7 @@ public class ChatActivity extends AbstractActivity implements SocketListener {
         runOnUiThread(() -> {
             String s = chatText.getText().toString();
             chatText.setText(s + "\n" + message);
+            Log.i("ChatActivity", message);
         });
     }
 
