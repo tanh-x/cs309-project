@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.kewargs.cs309.R;
@@ -25,6 +26,8 @@ public class ChatActivity extends AbstractActivity implements SocketListener {
     private Button sendButton;
     private EditText messageTextBox;
     private TextView chatText;
+
+    private ScrollView scroller; //perma scroll
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +60,7 @@ public class ChatActivity extends AbstractActivity implements SocketListener {
         sendButton = findViewById(R.id.sendText);
         messageTextBox = findViewById(R.id.messageTextBox);
         chatText = findViewById(R.id.chatText);
+        scroller = findViewById(R.id.scrollView2);
     }
 
     @Override
@@ -65,7 +69,9 @@ public class ChatActivity extends AbstractActivity implements SocketListener {
             String s = chatText.getText().toString();
             chatText.setText(s + "\n" + message);
             Log.i("ChatActivity", message);
+            scroller.fullScroll(ScrollView.FOCUS_DOWN);
         });
+
     }
 
     @Override
