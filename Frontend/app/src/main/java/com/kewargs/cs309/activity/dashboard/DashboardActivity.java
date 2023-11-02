@@ -31,18 +31,15 @@ public class DashboardActivity extends AbstractActivity {
 
         if (!session.isLoggedIn()) finish();
 
-        session.addRequest(UserRequestFactory
-                .getUserById(session.getUserId())
-                .onResponse(response -> {
-                    userInfoDump.setText(response);
-                    try {
-                        userInfo = UserDeserializable.from(response);
-                        dashboardGreeting.setText("Hello " + userInfo.displayName());
-                    } catch (JSONException ignored) { }
-                })
+        session.addRequest(UserRequestFactory.getUserById(session.getUserId()).onResponse(response -> {
+                userInfoDump.setText(response);
+                try {
+                    userInfo = UserDeserializable.from(response);
+                    dashboardGreeting.setText("Hello " + userInfo.displayName());
+                } catch (JSONException ignored) { }
+            })
 //            .bearer(session.getSessionToken())
-                .build()
-        );
+            .build());
 
         coursesButton.setOnClickListener(this::coursesButtonCallback);
         updateInfo.setOnClickListener(this::updateInfoCallback);
@@ -70,6 +67,8 @@ public class DashboardActivity extends AbstractActivity {
     }
 
     private void logOutButtonCallback(View view) {
+        showToast("Logged out", this);
+        session.seppuku();
         finish();
     }
 
