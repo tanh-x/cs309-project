@@ -68,6 +68,7 @@ public class ChattingActivity extends AbstractActivity implements WebSocketListe
     }
 
     private void backBtnCallback(View view) {
+        WebSocketManager.getInstance().disconnectWebSocket();
         switchToActivity(DashboardActivity.class);
     }
 
