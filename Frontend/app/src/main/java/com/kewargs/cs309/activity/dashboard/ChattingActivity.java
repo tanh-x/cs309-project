@@ -28,7 +28,7 @@ public class ChattingActivity extends AbstractActivity implements WebSocketListe
 
     private Button backBtn, sendBtn;
 
-    private String username;
+    private String userEmail;
     private EditText msgEtx;
     private TextView msgTv;
     UserDeserializable userInfo;
@@ -40,14 +40,15 @@ public class ChattingActivity extends AbstractActivity implements WebSocketListe
                 .onResponse(response -> {
                     try {
                         userInfo = UserDeserializable.from(response);
-                        username = userInfo.email();
+                        userEmail = userInfo.email();
                     } catch (JSONException ignored) { }
                 })
                 .bearer(session.getSessionToken())
                 .build()
         );
 
-        String serverUrl = "ws://coms-309-029.class.las.iastate.edu:8080/chat/" + username;
+        //String serverUrl = "ws://coms-309-029.class.las.iastate.edu:8080/chat/" + username;
+        String serverUrl = "ws://cs309.kewargs.com:8080/" + userEmail;
         WebSocketManager.getInstance().connectWebSocket(serverUrl);
         WebSocketManager.getInstance().setWebSocketListener(ChattingActivity.this);
 
