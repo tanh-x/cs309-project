@@ -10,30 +10,31 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.kewargs.cs309.R;
+import com.kewargs.cs309.core.models.in.ScheduleDeserializable;
 import com.kewargs.cs309.core.models.in.SectionDeserializable;
 
 import java.util.List;
 
 public class ScheduleBlockAdapter extends BaseAdapter {
     private Context context;
-    private final List<SectionDeserializable> sections;
+    private final List<ScheduleDeserializable> schedules;
 
     private static final float TIME_OFFSET = 60.0f * 6 + 30;  // Starts at 6:30
     private static final float TIME_SPAN = 60.0f * 12;  // Spans 12 hours
 
-    public ScheduleBlockAdapter(Context context, List<SectionDeserializable> sections) {
+    public ScheduleBlockAdapter(Context context, List<ScheduleDeserializable> schedules) {
         this.context = context;
-        this.sections = sections;
+        this.schedules = schedules;
     }
 
     @Override
     public int getCount() {
-        return sections.size();
+        return schedules.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return sections.get(position);
+        return schedules.get(position);
     }
 
     @Override
@@ -49,12 +50,12 @@ public class ScheduleBlockAdapter extends BaseAdapter {
         }
         TextView sectionName = convertView.findViewById(R.id.event_name);
 
-        SectionDeserializable section = sections.get(position);
-        sectionName.setText(section.section());
-        System.out.println(section.section());
+        ScheduleDeserializable sch = schedules.get(position);
+        sectionName.setText(sch.sectionId());
+        System.out.println(sch.sectionId());
 
-        float top = (section.endTime() - TIME_OFFSET) / TIME_SPAN;
-        float span = (section.endTime() - section.startTime()) / TIME_SPAN;
+        float top = (sch.endTime() - TIME_OFFSET) / TIME_SPAN;
+        float span = (sch.endTime() - sch.startTime()) / TIME_SPAN;
 
         System.out.println(span);
 

@@ -1,6 +1,7 @@
 package cs309.backend.jpa.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -35,6 +36,11 @@ public class ScheduleEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "section_id", referencedColumnName = "id")
-    @JsonBackReference  // Very VERRRYYYY important
+    @JsonIgnore
     private SectionEntity section;
+
+    @JsonProperty("sectionId")
+    public int getSectionId() {
+        return section.getId();
+    }
 }

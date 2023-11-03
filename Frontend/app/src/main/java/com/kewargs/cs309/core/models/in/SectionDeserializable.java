@@ -12,27 +12,25 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public record SectionDeserializable(
+    int id,
+    int refNum,
     int courseId,
     String section,
     int year,
     int season,
     Boolean isOnline,
-    Integer startTime,
-    Integer endTime,
-    String location,
-    String instructor
+    ArrayList<ScheduleDeserializable> schedules
 ) {
     public static SectionDeserializable from(JSONObject json) throws JSONException {
         return new SectionDeserializable(
+            json.getInt("id"),
+            json.getInt("refNum"),
             json.getInt("courseId"),
             json.getString("section"),
             json.getInt("year"),
             json.getInt("season"),
             getNullableBoolean(json, "isOnline"),
-            getNullableInt(json, "startTime"),
-            getNullableInt(json, "endTime"),
-            json.getString("location"),
-            json.getString("instructor")
+            ScheduleDeserializable.fromArray(json.getJSONArray("schedules"))
         );
     }
 

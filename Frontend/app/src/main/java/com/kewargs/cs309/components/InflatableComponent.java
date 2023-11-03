@@ -3,13 +3,12 @@ package com.kewargs.cs309.components;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import com.kewargs.cs309.R;
 
 abstract sealed class InflatableComponent<T extends View>
     implements ViewComponent<T>
-    permits CourseCardComponent {
+    permits CourseCardComponent, SectionCardComponent {
 
     protected LayoutInflater inflater;
     protected T stub;
@@ -24,7 +23,7 @@ abstract sealed class InflatableComponent<T extends View>
 
     @SuppressWarnings("unchecked")
     protected T render() {
-        this.stub = (T) inflater.inflate(R.layout.component_course_list, null);
+        this.stub = (T) inflater.inflate(R.layout.component_course_card, null);
         return stub;
     };
 

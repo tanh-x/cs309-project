@@ -3,7 +3,9 @@ package com.kewargs.cs309.activity.course;
 import static com.kewargs.cs309.core.utils.Helpers.boolToYesNo;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -12,6 +14,7 @@ import com.kewargs.cs309.R;
 import com.kewargs.cs309.activity.AbstractActivity;
 import com.kewargs.cs309.core.adapters.ScheduleBlockAdapter;
 import com.kewargs.cs309.core.models.in.CourseDeserializable;
+import com.kewargs.cs309.core.models.in.ScheduleDeserializable;
 import com.kewargs.cs309.core.models.in.SectionDeserializable;
 import com.kewargs.cs309.core.utils.backend.factory.CourseRequestFactory;
 
@@ -19,10 +22,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * Must pass in a courseId
  */
+@SuppressLint("SetTextI18n")
 public final class CourseInfoActivity extends AbstractActivity {
     public CourseInfoActivity() { super(R.layout.activity_course_info); }
 
@@ -94,7 +102,6 @@ public final class CourseInfoActivity extends AbstractActivity {
         buildInsightsComponents();
     }
 
-    @SuppressLint("SetTextI18n")
     private void buildCourseInfoComponents() {
         if (course == null) return;
 
@@ -115,23 +122,34 @@ public final class CourseInfoActivity extends AbstractActivity {
         }}));
     }
 
-    @SuppressLint("SetTextI18n")
     private void buildScheduleComponents() {
         if (sections == null) return;
 
-        ArrayList<SectionDeserializable> scheduledSections = new ArrayList<>();
-        ArrayList<SectionDeserializable> onlineSections = new ArrayList<>();
-        ArrayList<SectionDeserializable> offlineSections = new ArrayList<>();
+        LayoutInflater layoutInflater = (LayoutInflater) getBaseContext()
+            .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        LinkedHashSet<SectionDeserializable> scheduledSections = new LinkedHashSet<>();
+        LinkedHashSet<SectionDeserializable> onlineSections = new LinkedHashSet<>();
+        LinkedHashSet<SectionDeserializable> offlineSections = new LinkedHashSet<>();
+        LinkedHashMap<Integer, ArrayList<ScheduleDeserializable>> sectionTimes = new LinkedHashMap<>();
         for (SectionDeserializable section : sections) {
             // Populate scheduled sections
-            if (section.startTime() != null
-                && section.endTime() != null
-                && section.endTime() > section.startTime()
-            ) scheduledSections.add(section);
+            for (ScheduleDeserializable schedule : section.schedules()) {
+                if (schedule.startTime() != null
+                    && schedule.endTime() != null
+                    && schedule.endTime() > schedule.startTime()
+                ) {
+                    scheduledSections.add(section);
+                    sectionTimes.putIfAbsent(section.id(), new ArrayList<>());
+                    sectionTimes.get(section.id()).add(schedule);
+                }
+            }
 
             // Populate online sections
             if (Boolean.TRUE.equals(section.isOnline())) onlineSections.add(section);
             else if (Boolean.FALSE.equals(section.isOnline())) offlineSections.add(section);
+
+            // Regardless, we still populate the tables
         }
         int offlineCount = offlineSections.size();
         int onlineCount = onlineSections.size();
@@ -147,11 +165,10 @@ public final class CourseInfoActivity extends AbstractActivity {
         );
 
         // Build the schedule
-        ScheduleBlockAdapter adapter = new ScheduleBlockAdapter(this, scheduledSections);
-        mainGrid.setAdapter(adapter);
+//        ScheduleBlockAdapter adapter = new ScheduleBlockAdapter(this, scheduledSections);
+//        mainGrid.setAdapter(adapter);
     }
 
-    @SuppressLint("SetTextI18n")
     private void buildInsightsComponents() {
         insightsText.setText("No insights found for this course.");
     }
