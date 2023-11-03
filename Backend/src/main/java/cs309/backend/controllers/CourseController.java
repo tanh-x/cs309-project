@@ -2,6 +2,7 @@ package cs309.backend.controllers;
 
 import cs309.backend.jpa.entity.CourseEntity;
 import cs309.backend.jpa.entity.SectionEntity;
+import cs309.backend.jpa.entity.user.CourseInsightsEntity;
 import cs309.backend.models.SectionData;
 import cs309.backend.services.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +54,7 @@ public class CourseController {
             return internalServerError().build();
         }
     }
+
     @PutMapping("/{identifier}/{num}")
     public ResponseEntity<String> updateCourseDescriptionByIdentifier(@PathVariable String identifier, @PathVariable int num, @RequestParam("description") String description) {
         try {
@@ -80,6 +82,16 @@ public class CourseController {
         try {
             String res = courseService.createSection(args);
             return ok(res);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return internalServerError().build();
+        }
+    }
+
+    @GetMapping("/insights/{id}")
+    public ResponseEntity<CourseInsightsEntity[]> getCourseInsights(@PathVariable int id) {
+        try {
+            return ok(courseService.getCourseInsights(id));
         } catch (Exception e) {
             e.printStackTrace();
             return internalServerError().build();

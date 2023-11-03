@@ -11,11 +11,13 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.material.chip.ChipGroup;
 import com.kewargs.cs309.R;
 import com.kewargs.cs309.activity.AbstractActivity;
 import com.kewargs.cs309.components.SectionCardComponent;
 import com.kewargs.cs309.core.adapters.ScheduleBlockAdapter;
 import com.kewargs.cs309.core.models.in.CourseDeserializable;
+import com.kewargs.cs309.core.models.in.InsightsDeserializable;
 import com.kewargs.cs309.core.models.in.ScheduleDeserializable;
 import com.kewargs.cs309.core.models.in.SectionDeserializable;
 import com.kewargs.cs309.core.utils.backend.factory.CourseRequestFactory;
@@ -42,6 +44,7 @@ public final class CourseInfoActivity extends AbstractActivity {
     private Integer courseId = null;
     private CourseDeserializable course = null;
     private ArrayList<SectionDeserializable> sections = null;
+    private ArrayList<InsightsDeserializable> insights = null;
 
     private TextView titleText;
     private TextView descriptionText;
@@ -58,6 +61,9 @@ public final class CourseInfoActivity extends AbstractActivity {
     private LinearLayout sectionList;
 
     private TextView insightsText;
+    private ChipGroup tagsChipGroup;
+    private TextView difficultyText;
+    private TextView profText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,7 +109,21 @@ public final class CourseInfoActivity extends AbstractActivity {
             .build()
         );
 
-        buildInsightsComponents();
+        session.addRequest(CourseRequestFactory.getCourseInsights(courseId)
+            .onResponse(response -> {
+                try {
+                    insights = InsightsDeserializable.fromArray(new JSONArray(response));
+                    buildInsightsComponents();
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+            })
+            .onError(error -> {
+                showToast("Couldn't get course insights.", this);
+                finish();
+            })
+            .build()
+        );
     }
 
     private void buildCourseInfoComponents() {
@@ -177,7 +197,43 @@ public final class CourseInfoActivity extends AbstractActivity {
     }
 
     private void buildInsightsComponents() {
-        insightsText.setText("No insights found for this course.");
+        if (insights.isEmpty()) return;
+        InsightsDeserializable ins = insights.get(0);
+
+        String summary = ins.summary();
+        insightsText.setText((summary == null || Objects.equals(summary, "null")) ?
+            "No insight summary found for this course." :
+            ins.summary()
+        );
+
+        String prof = ins.recommendProf();
+        profText.setText((prof == null || Objects.equals(prof, "null")) ?
+            "∙ No professor recommendations found for this course." :
+            ins.recommendProf()
+        );
+
+        if (ins.difficulty() == null) {
+            difficultyText.setText("∙ No difficulty ratings found for this course");
+        } else {
+            double difficulty = ins.difficulty();
+            double artanhDifficulty = 5 * Math.log((1.0 + difficulty) / (1.0 - difficulty));
+            artanhDifficulty = Math.round(artanhDifficulty * 100.0d) / 100.0d;
+            String difficultyComment;
+            if (difficulty < -0.75) difficultyComment = "significantly easier than average";
+            else if (difficulty < -0.4) difficultyComment = "easier than average";
+            else if (difficulty < -0.1) difficultyComment = "slightly easier than average";
+            else if (difficulty < 0.2) difficultyComment = "average in difficulty";
+            else if (difficulty < 0.4) difficultyComment = "slightly harder than average";
+            else if (difficulty < 0.8) difficultyComment = "harder than average";
+            else if (difficulty < 1.0) difficultyComment = "significantly harder than average";
+            else difficultyComment = null;
+
+            difficultyText.setText(
+                "∙ The difficulty was rated by students at "
+                    + (difficulty > 0 ? "+" : "") + artanhDifficulty +
+                    " (" + (difficulty > 0 ? "+" : "") + Math.round(difficulty * 10000.0d) / 100.0d + "%)" +
+                    (difficultyComment == null ? "." : ",\n which means that it's " + difficultyComment + "."));
+        }
     }
 
     @Override
@@ -200,5 +256,8 @@ public final class CourseInfoActivity extends AbstractActivity {
         sectionList = findViewById(R.id.sectionList);
 
         insightsText = findViewById(R.id.insightsSummary);
+        tagsChipGroup = findViewById(R.id.tagsChipGroup);
+        difficultyText = findViewById(R.id.difficultyText);
+        profText = findViewById(R.id.profText);
     }
 }

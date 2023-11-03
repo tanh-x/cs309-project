@@ -386,17 +386,44 @@
                             android:textSize="16sp"
                             android:textStyle="bold"
                             android:layout_marginRight="8dp"
-                            android:gravity="center" />
+                            android:gravity="center"
+                            android:layout_marginBottom="4dp" />
 
                     <TextView
-                            android:text="Summary: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+                            android:text="No insight summary found for this course."
                             android:id="@+id/insightsSummary"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@drawable/default_border"
                             android:paddingVertical="6dp"
                             android:paddingLeft="16dp"
-                            android:paddingRight="8dp" />
+                            android:paddingRight="8dp"
+                            android:layout_marginVertical="4dp" />
+
+                    <com.google.android.material.chip.ChipGroup
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+
+                            android:id="@+id/tagsChipGroup">
+
+                    </com.google.android.material.chip.ChipGroup>
+
+
+                    <TextView
+                            android:text="∙ No difficulty ratings found for this course"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/difficultyText"
+                            android:lineHeight="16dp"
+                            android:layout_margin="2dp" />
+
+                    <TextView
+                            android:text="∙ No professor recommendations found for this class"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/profText"
+                            android:lineHeight="16dp"
+                            android:layout_margin="2dp" />
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>

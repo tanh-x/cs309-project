@@ -59,8 +59,8 @@ public final class SectionCardComponent extends InflatableComponent<ConstraintLa
         TableRow tableRow = new TableRow(parentActivity);
 
         float typeWeight = 0.25f;
-        float startTimeWeight = 0.5f;
-        float endTimeWeight = 0.5f;
+        float startTimeWeight = 0.45f;
+        float endTimeWeight = 0.45f;
         float locationWeight = 0.6f;
         float nameWeight = 1f;
 
