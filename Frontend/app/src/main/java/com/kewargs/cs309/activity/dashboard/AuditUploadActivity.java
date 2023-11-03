@@ -28,8 +28,15 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 
 
 public class AuditUploadActivity extends AbstractActivity {
@@ -131,6 +138,7 @@ public class AuditUploadActivity extends AbstractActivity {
                 inputData,
                 session.getSessionToken(),
                 response -> {
+                    tv.setText("Completed courses:\n" +parseOutpust(response));
                     Log.d("Upload", "Response: " + response);
                 },
                 error -> {
@@ -145,6 +153,18 @@ public class AuditUploadActivity extends AbstractActivity {
         }
     }
 
+    public String parseOutpust(String res)
+    {
+        List<String> returnList = null;
+        res = res.replaceAll("[\\[\\]]", "");
+        returnList = Arrays.asList(res.split(", "));
+        String f= "";
+        for(String i:returnList)
+        {
+            f+=i+"\n";
+        }
+        return f;
+    }
     public byte[] getBytes(InputStream inputStream) throws IOException {
         ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
         int bufferSize = 1024;
