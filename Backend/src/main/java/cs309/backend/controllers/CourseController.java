@@ -2,6 +2,7 @@ package cs309.backend.controllers;
 
 import cs309.backend.jpa.entity.CourseEntity;
 import cs309.backend.jpa.entity.SectionEntity;
+import cs309.backend.models.SectionData;
 import cs309.backend.services.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -67,6 +68,17 @@ public class CourseController {
     public ResponseEntity<SectionEntity[]> getSectionById(@PathVariable int id) {
         try {
             SectionEntity[] res = courseService.getSectionById(id);
+            return ok(res);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return internalServerError().build();
+        }
+    }
+
+    @PostMapping("/section")
+    public ResponseEntity<String> createSection(@RequestBody SectionData args) {
+        try {
+            String res = courseService.createSection(args);
             return ok(res);
         } catch (Exception e) {
             e.printStackTrace();
