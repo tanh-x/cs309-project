@@ -20,7 +20,7 @@ public class DegreeAuditController {
     private final ReaderService readerService;
 
     @PostMapping("/pdf")
-    public ResponseEntity<LinkedHashSet<String>> readingDegreeAudit(@RequestParam("file") MultipartFile file){
+    public ResponseEntity<LinkedHashSet<String>> readDegreeAudit(@RequestParam("file") MultipartFile file){
         try (InputStream inputStream = file.getInputStream()) {
             return ok(readerService.extractTextFromPdf(inputStream));
         }

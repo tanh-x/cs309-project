@@ -3,25 +3,24 @@ package com.kewargs.cs309.activity.dashboard;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Button;
-
-import org.json.*;
+import android.widget.TextView;
 
 import com.kewargs.cs309.MainActivity;
 import com.kewargs.cs309.R;
 import com.kewargs.cs309.activity.AbstractActivity;
-import com.kewargs.cs309.activity.auth.LoginActivity;
 import com.kewargs.cs309.activity.course.CourseListActivity;
 import com.kewargs.cs309.core.models.in.UserDeserializable;
 import com.kewargs.cs309.core.utils.backend.factory.UserRequestFactory;
+
+import org.json.JSONException;
 
 public class DashboardActivity extends AbstractActivity {
     public DashboardActivity() { super(R.layout.activity_dashboard); }
 
     private TextView userInfoDump;
     private TextView dashboardGreeting;
-    private Button updateInfo, coursesButton, toChat, logOut;
+    private Button updateInfo, coursesButton, toChat, logOut, auditUpload;
 
     UserDeserializable userInfo;
 
@@ -48,7 +47,8 @@ public class DashboardActivity extends AbstractActivity {
         coursesButton.setOnClickListener(this::coursesButtonCallback);
         updateInfo.setOnClickListener(this::updateInfoCallback);
         toChat.setOnClickListener(this::toChatButtonCallback);
-        logOut.setOnClickListener(this::logOutButtonCallback);
+        auditUpload.setOnClickListener(this::toUploadAuditCallback);
+        logOut.setOnClickListener(this::logOutButtonCallback); //funni
     }
 
     @Override
@@ -70,6 +70,10 @@ public class DashboardActivity extends AbstractActivity {
         switchToActivity(ChatActivity.class);
     }
 
+    private void toUploadAuditCallback(View view) {
+        switchToActivity(AuditUploadActivity.class);
+    }
+
     private void logOutButtonCallback(View view) {
         showToast("Logged out", this);
         session.seppuku();
@@ -89,5 +93,6 @@ public class DashboardActivity extends AbstractActivity {
         coursesButton = findViewById(R.id.coursesButton);
         toChat = findViewById(R.id.toChatButton);
         logOut = findViewById(R.id.logoutButton);
+        auditUpload = findViewById(R.id.toAuditUpload);
     }
 }

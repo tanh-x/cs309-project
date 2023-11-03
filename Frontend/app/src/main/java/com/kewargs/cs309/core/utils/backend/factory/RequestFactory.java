@@ -18,4 +18,5 @@ public final class RequestFactory {
     public static JsonRequestCall PUT() { return new JsonRequestCall(PUT, null); }
 
     public static JsonRequestCall PUT(String url) { return new JsonRequestCall(PUT, url); }
+
 }

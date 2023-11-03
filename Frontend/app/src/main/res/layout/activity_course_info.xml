@@ -298,7 +298,7 @@
                     <LinearLayout
                             android:orientation="horizontal"
                             android:layout_width="match_parent"
-                            android:layout_height="160dp"
+                            android:layout_height="90dp"
                             android:id="@+id/calendarContainer"
                             android:layout_marginVertical="12dp"
                             android:layout_marginHorizontal="4dp"

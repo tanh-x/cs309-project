@@ -59,19 +59,19 @@ public class CourseListActivity extends AbstractActivity {
         super.onStart();
 
         session.addRequest(CourseRequestFactory.getAllCourseInformation()
-            .onResponse(response -> {
-                try {
-                    debugText.setText("End of list");
-                    courses = CourseDeserializable.fromArray(new JSONArray(response));
-                } catch (JSONException e) {
-                    debugText.setText("Error while fetching course information. " + e);
-                }
-                buildCourseListComponent();
-            }).onError(error -> {
-                debugText.setText("Error while fetching course information: " + error.toString());
-            })
+                .onResponse(response -> {
+                    try {
+                        debugText.setText("End of list");
+                        courses = CourseDeserializable.fromArray(new JSONArray(response));
+                    } catch (JSONException e) {
+                        debugText.setText("Error while fetching course information. " + e);
+                    }
+                    buildCourseListComponent();
+                }).onError(error -> {
+                    debugText.setText("Error while fetching course information: " + error.toString());
+                })
 //            .bearer(session.getSessionToken())
-            .build()
+                .build()
         );
     }
 
@@ -84,8 +84,9 @@ public class CourseListActivity extends AbstractActivity {
         LayoutInflater layoutInflater = (LayoutInflater) getBaseContext()
             .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        courses.stream()
+        courses.stream()  // ArrayList<CourseDeserializable>
             .filter(this::searchPatternMatches) // Only get those that matches the search
+            .limit(100)  // Limit to the first 100 courses
             .map(course -> new CourseCardComponent(layoutInflater, this, course)) // Build into components
             .forEach(component -> component.bindTo(courseList)); // Add to view
     }
