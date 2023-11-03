@@ -20,7 +20,6 @@ import org.springframework.stereotype.Controller;
 @ServerEndpoint(value = "/chat/{username}", configurator = CustomConfigurator.class)
 public class ChatSocketController {
     private final Logger logger = LoggerFactory.getLogger(ChatSocketController.class);
-
     private final SessionStore sessionStore;
     private final MessageService messageService;
 
