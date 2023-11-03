@@ -1,12 +1,9 @@
 package cs309.backend.auth;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
@@ -15,6 +12,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 
 import static cs309.backend.common.Role.ADMIN;
 import static cs309.backend.common.Role.STAFF;
+import static org.springframework.http.HttpMethod.POST;
 import static org.springframework.http.HttpMethod.PUT;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
@@ -44,6 +42,7 @@ public class SecurityConfig{
                         requestMatchers(WHITE_LIST_URL).permitAll()         //don't need token for swagger, don't authenticate the token for these http requests(ex: login and register)
                         .requestMatchers(PUT,"/api/user/grant/**").hasAnyAuthority(ADMIN.name())       //only admin can make this request
                         .requestMatchers(PUT, "/api/course/**").hasAnyAuthority(ADMIN.name(), STAFF.name())
+                        .requestMatchers(POST, "/api/course/**").hasAnyAuthority(ADMIN.name(), STAFF.name())
                     .anyRequest().authenticated())                          //other requests should be authenticated
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(authenticationProvider)
