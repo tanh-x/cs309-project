@@ -38,7 +38,7 @@ public class AuditUploadAcitivity extends AbstractActivity {
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_GET_CONTENT);
         intent.setType("application/pdf");
-        startActivityForResult(intent,1);
+        startActivityForResult(intent,1,null);
     }
 
     private void switchToActivity(Class<?> newActivity) {
