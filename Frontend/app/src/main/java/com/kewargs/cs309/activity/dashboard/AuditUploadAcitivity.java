@@ -23,15 +23,23 @@ public class AuditUploadAcitivity extends AbstractActivity {
         super(R.layout.activity_pdf_uploader);
     }
 
-    Button backDash;
+    Button backDash, auditUploadButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         backDash.setOnClickListener(this::backDashCallback);
+        auditUploadButton.setOnClickListener(this::uploadAuditCallback);
     }
 
     private void backDashCallback(View view) {switchToActivity(DashboardActivity.class);}
+
+    private void uploadAuditCallback(View view) {
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        intent.setType("application/pdf");
+        startActivityForResult(intent,1);
+    }
 
     private void switchToActivity(Class<?> newActivity) {
         Intent intent = new Intent(AuditUploadAcitivity.this, newActivity);
@@ -40,6 +48,7 @@ public class AuditUploadAcitivity extends AbstractActivity {
     @Override
     protected void collectElements() {
         backDash =findViewById(R.id.backDashboard);
+        auditUploadButton = findViewById((R.id.auditUpload));
     }
 
 }
