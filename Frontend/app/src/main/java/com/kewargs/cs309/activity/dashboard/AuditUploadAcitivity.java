@@ -19,6 +19,7 @@ import android.provider.OpenableColumns;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -53,6 +54,8 @@ public class AuditUploadAcitivity extends AbstractActivity {
 
     private String upload_URL = "https://demonuts.com/Demonuts/JsonTest/Tennis/uploadfile.php?";
 
+    private TextView tv;
+
     String url = "https://www.google.com";
 
     @Override
@@ -72,6 +75,14 @@ public class AuditUploadAcitivity extends AbstractActivity {
                         }
                     }
                 });
+
+        tv.setOnClickListener(new View.OnClickListener() { //ill refactor later trust
+            @Override
+            public void onClick(View v) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                startActivity(browserIntent);
+            }
+        });
 
     }
 
@@ -98,6 +109,8 @@ public class AuditUploadAcitivity extends AbstractActivity {
             String uriString = uri.toString();
             File myFile = new File(uriString);
             String path = myFile.getAbsolutePath();
+
+            // tv.setText(uriString+"\n"+path); //file location works till here :)
             String displayName = null;
 
             if (uriString.startsWith("content://")) {
@@ -108,7 +121,7 @@ public class AuditUploadAcitivity extends AbstractActivity {
                         displayName = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
                         Log.d("nameeeee>>>>  ",displayName);
 
-                        uploadPDF(displayName,uri);
+                        //uploadPDF(displayName,uri);
                     }
                 } finally {
                     cursor.close();
@@ -151,7 +164,7 @@ public class AuditUploadAcitivity extends AbstractActivity {
                                     for (int i = 0; i < dataArray.length(); i++) {
                                         JSONObject dataobj = dataArray.getJSONObject(i);
                                         url = dataobj.optString("pathToFile");
-                                        //tv.setText(url); //textview
+                                        tv.setText(url); //textview
                                     }
 
 
@@ -223,6 +236,7 @@ public class AuditUploadAcitivity extends AbstractActivity {
     protected void collectElements() {
         backDash =findViewById(R.id.backDashboard);
         auditUploadButton = findViewById((R.id.auditUpload));
+        tv = findViewById(R.id.pdfUrl);
     }
 
 }
