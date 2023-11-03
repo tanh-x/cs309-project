@@ -42,7 +42,7 @@ public final class SectionCardComponent extends InflatableComponent<ConstraintLa
         TableLayout scheduleTable = findViewById(R.id.scheduleTable);
 
         sectionTitleText.setText("Section " + section.section() +
-            (section.isOnline() ? " (online)" : "")
+            (Boolean.TRUE.equals(section.isOnline()) ? " (online)" : "")
         );
 
         refNumText.setText("Ref: " + section.refNum());
