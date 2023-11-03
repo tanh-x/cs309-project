@@ -12,6 +12,10 @@ public class DeserializationHelpers {
         return json.isNull(key) ? null : json.getInt(key);
     }
 
+    public static Double getNullableDouble(JSONObject json, String key) throws JSONException {
+        return json.isNull(key) ? null : json.getDouble(key);
+    }
+
     public static Boolean getNullableBoolean(JSONObject json, String key) throws JSONException {
         return json.isNull(key) ? null : json.getBoolean(key);
     }

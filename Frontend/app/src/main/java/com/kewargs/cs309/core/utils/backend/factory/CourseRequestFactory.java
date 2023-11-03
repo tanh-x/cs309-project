@@ -16,4 +16,8 @@ public class CourseRequestFactory {
     public static PlainTextRequestCall getCourseSections(int courseId) {
         return RequestFactory.GET().url(COURSE_ENDPOINT + "sections/" + courseId);
     }
+
+    public static PlainTextRequestCall getCourseInsights(int courseId) {
+        return RequestFactory.GET().url(COURSE_ENDPOINT + "insights/" + courseId);
+    }
 }

@@ -2,6 +2,8 @@ package cs309.backend.services;
 
 import cs309.backend.jpa.entity.CourseEntity;
 import cs309.backend.jpa.entity.SectionEntity;
+import cs309.backend.jpa.entity.user.CourseInsightsEntity;
+import cs309.backend.jpa.repo.CourseInsightsRepository;
 import cs309.backend.jpa.repo.CourseRepository;
 import cs309.backend.jpa.repo.SectionRepository;
 import cs309.backend.models.SectionData;
@@ -14,11 +16,17 @@ import org.springframework.stereotype.Service;
 public class CourseService {
     private final CourseRepository courseRepository;
     private final SectionRepository sectionRepository;
+    private final CourseInsightsRepository insightsRepository;
 
     @Autowired
-    public CourseService(CourseRepository courseRepository, SectionRepository sectionRepository) {
+    public CourseService(
+        CourseRepository courseRepository,
+        SectionRepository sectionRepository,
+        CourseInsightsRepository insightsRepository
+    ) {
         this.courseRepository = courseRepository;
         this.sectionRepository = sectionRepository;
+        this.insightsRepository = insightsRepository;
     }
 
     public CourseEntity[] getAllCourseInformation(int term) {
@@ -33,7 +41,7 @@ public class CourseService {
         return sectionRepository.getSectionById(courseId);
     }
 
-    public String updateCourseByIdentifier(String identifier ,int num, String description) {
+    public String updateCourseByIdentifier(String identifier, int num, String description) {
         CourseEntity course = getCourseByIdentifier(identifier, num);
         if (course == null) {
             return "Course Not Found";
@@ -50,13 +58,18 @@ public class CourseService {
             return "Course Not Found";
         }
         sectionRepository.createSection(
-                args.ref(),
-                args.identifier(),
-                args.num(),
-                args.section(),
-                args.year(),
-                args.season(),
-                args.is_online());
+            args.ref(),
+            args.identifier(),
+            args.num(),
+            args.section(),
+            args.year(),
+            args.season(),
+            args.is_online()
+        );
         return "Successful!";
+    }
+
+    public CourseInsightsEntity[] getCourseInsights(int courseId) {
+        return insightsRepository.getCourseInsights(courseId);
     }
 }
