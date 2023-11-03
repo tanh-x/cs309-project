@@ -14,6 +14,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 
 import static cs309.backend.common.Role.ADMIN;
+import static cs309.backend.common.Role.STAFF;
 import static org.springframework.http.HttpMethod.PUT;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
@@ -41,7 +42,8 @@ public class SecurityConfig{
         http.csrf(AbstractHttpConfigurer::disable).
                 authorizeHttpRequests(authorize -> authorize.
                         requestMatchers(WHITE_LIST_URL).permitAll()         //don't need token for swagger, don't authenticate the token for these http requests(ex: login and register)
-                        .requestMatchers(PUT,"/api/user/grant/**").hasAnyAuthority(ADMIN.name())        //only admin can make this request
+                        .requestMatchers(PUT,"/api/user/grant/**").hasAnyAuthority(ADMIN.name())       //only admin can make this request
+                        .requestMatchers(PUT, "/api/course/**").hasAnyAuthority(ADMIN.name(), STAFF.name())
                     .anyRequest().authenticated())                          //other requests should be authenticated
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(authenticationProvider)
