@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
-import com.kewargs.cs309.core.manager.SessionManager;
+import com.kewargs.cs309.core.managers.SessionManager;
 
 @SuppressWarnings("unchecked")
 public abstract class AbstractRequest<ResponseType, RequestType extends AbstractRequest<ResponseType, RequestType>>

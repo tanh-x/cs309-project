@@ -2,7 +2,6 @@ package com.kewargs.cs309.core.utils.backend.factory;
 
 import static com.kewargs.cs309.core.utils.constants.UniversalConstants.COURSE_ENDPOINT;
 
-import com.kewargs.cs309.core.manager.SessionManager;
 import com.kewargs.cs309.core.utils.backend.request.PlainTextRequestCall;
 
 public class CourseRequestFactory {

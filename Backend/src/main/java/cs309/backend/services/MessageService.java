@@ -122,7 +122,7 @@ public class MessageService {
     }
 
     public void broadcastJoinMessage(String username) {
-        broadcast(userRepository.getUserByUsername(username).getDisplayName() + "has joined the chat.");
+        broadcast(userRepository.getUserByUsername(username).getDisplayName() + " has joined the chat.");
     }
 
     public void broadcast(String message) {

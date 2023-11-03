@@ -1,4 +1,4 @@
-package com.kewargs.cs309.core.manager;
+package com.kewargs.cs309.core.managers;
 
 import android.content.Context;
 import android.util.Log;

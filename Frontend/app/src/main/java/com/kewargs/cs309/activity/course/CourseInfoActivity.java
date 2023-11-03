@@ -4,12 +4,13 @@ import static com.kewargs.cs309.core.utils.Helpers.boolToYesNo;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.Log;
+import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.kewargs.cs309.R;
 import com.kewargs.cs309.activity.AbstractActivity;
+import com.kewargs.cs309.core.adapters.ScheduleBlockAdapter;
 import com.kewargs.cs309.core.models.in.CourseDeserializable;
 import com.kewargs.cs309.core.models.in.SectionDeserializable;
 import com.kewargs.cs309.core.utils.backend.factory.CourseRequestFactory;
@@ -18,9 +19,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
 
 /**
  * Must pass in a courseId
@@ -42,7 +40,12 @@ public final class CourseInfoActivity extends AbstractActivity {
     private TextView deliveryText;
     private TextView gradedText;
     private TextView seasonsText;
+
     private TextView sectionCountText;
+    private GridView mainGrid;
+    private GridView sideGrid;
+
+    private TextView insightsText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +79,7 @@ public final class CourseInfoActivity extends AbstractActivity {
             .onResponse(response -> {
                 try {
                     sections = SectionDeserializable.fromArray(new JSONArray(response));
-                    buildSectionComponents();
+                    buildScheduleComponents();
                 } catch (JSONException e) {
                     throw new RuntimeException(e);
                 }
@@ -87,6 +90,8 @@ public final class CourseInfoActivity extends AbstractActivity {
             })
             .build()
         );
+
+        buildInsightsComponents();
     }
 
     @SuppressLint("SetTextI18n")
@@ -102,19 +107,21 @@ public final class CourseInfoActivity extends AbstractActivity {
 
         seasonsText.setText(String.join(" · ", new ArrayList<>() {{
             if (Boolean.TRUE.equals(course.springOffered())) add("Spring");
+            else if (course.springOffered() == null) add("Spring?");
             if (Boolean.TRUE.equals(course.summerOffered())) add("Summer");
             if (Boolean.TRUE.equals(course.fallOffered())) add("Fall");
+            else if (course.fallOffered() == null) add("Fall?");
             if (Boolean.TRUE.equals(course.winterOffered())) add("Winter");
         }}));
     }
 
     @SuppressLint("SetTextI18n")
-    private void buildSectionComponents() {
+    private void buildScheduleComponents() {
         if (sections == null) return;
 
-        HashSet<SectionDeserializable> scheduledSections = new HashSet<>();
-        HashSet<SectionDeserializable> onlineSections = new HashSet<>();
-        HashSet<SectionDeserializable> offlineSections = new HashSet<>();
+        ArrayList<SectionDeserializable> scheduledSections = new ArrayList<>();
+        ArrayList<SectionDeserializable> onlineSections = new ArrayList<>();
+        ArrayList<SectionDeserializable> offlineSections = new ArrayList<>();
         for (SectionDeserializable section : sections) {
             // Populate scheduled sections
             if (section.startTime() != null
@@ -135,10 +142,18 @@ public final class CourseInfoActivity extends AbstractActivity {
             deliveryText.setText(onlineCount > 0 ? "Online" : "Unknown");
         }
 
-        sectionCountText.setText(
-            sections.size() + " sections" +
-            ((onlineCount > 0) ? " (" + onlineCount + " online )" : "")
+        sectionCountText.setText(sections.size() + " sections" +
+            ((onlineCount > 0) ? " (" + onlineCount + " online)" : "")
         );
+
+        // Build the schedule
+        ScheduleBlockAdapter adapter = new ScheduleBlockAdapter(this, scheduledSections);
+        mainGrid.setAdapter(adapter);
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void buildInsightsComponents() {
+        insightsText.setText("No insights found for this course.");
     }
 
     @Override
@@ -153,6 +168,11 @@ public final class CourseInfoActivity extends AbstractActivity {
         deliveryText = findViewById(R.id.deliveryText);
         gradedText = findViewById(R.id.gradedText);
         seasonsText = findViewById(R.id.seasonsText);
+
         sectionCountText = findViewById(R.id.sectionCountText);
+        mainGrid = findViewById(R.id.mainGrid);
+        sideGrid = findViewById(R.id.sideGrid);
+
+        insightsText = findViewById(R.id.insightsSummary);
     }
 }

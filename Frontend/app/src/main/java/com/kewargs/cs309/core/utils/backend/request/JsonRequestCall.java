@@ -1,10 +1,8 @@
 package com.kewargs.cs309.core.utils.backend.request;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.StringRequest;
-import com.kewargs.cs309.core.manager.SessionManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;

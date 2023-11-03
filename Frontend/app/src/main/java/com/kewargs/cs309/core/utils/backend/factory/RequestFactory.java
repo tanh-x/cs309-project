@@ -3,7 +3,6 @@ package com.kewargs.cs309.core.utils.backend.factory;
 import static com.android.volley.Request.Method.POST;
 import static com.android.volley.Request.Method.PUT;
 
-import com.kewargs.cs309.core.manager.SessionManager;
 import com.kewargs.cs309.core.utils.backend.request.PlainTextRequestCall;
 import com.kewargs.cs309.core.utils.backend.request.JsonRequestCall;
 

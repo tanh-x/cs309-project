@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -249,6 +251,7 @@
                                 android:textAlignment="textEnd"
                                 android:textStyle="bold" />
                     </LinearLayout>
+
                 </LinearLayout>
 
                 <View
@@ -292,10 +295,71 @@
 
                     </LinearLayout>
 
+                    <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="540dp"
+                            android:id="@+id/calendarContainer"
+                            android:layout_marginVertical="12dp"
+                            android:layout_marginHorizontal="4dp"
+                            android:background="@drawable/thin_border">
+
+                        <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="horizontal"
+                                android:paddingBottom="2dp"
+                                android:weightSum="1">
+
+                            <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="0.15"
+                                    android:orientation="vertical">
+
+                                <GridView
+                                        android:id="@+id/mainGrid"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="720dp"
+                                        android:layout_gravity="center_horizontal"
+                                        android:layout_marginTop="4dp"
+                                        android:background="@null"
+                                        android:choiceMode="multipleChoiceModal"
+                                        android:listSelector="@android:color/transparent"
+                                        android:numColumns="5"
+                                        android:stretchMode="columnWidth">
+
+                                </GridView>
+                            </LinearLayout>
+
+
+                            <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="0.85"
+                                    android:orientation="vertical">
+
+                                <GridView
+                                        android:id="@+id/sideGrid"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_horizontal"
+                                        android:layout_marginTop="4dp"
+                                        android:background="@null"
+                                        android:listSelector="@android:color/transparent"
+                                        android:numColumns="1"
+                                        android:stretchMode="columnWidth">
+
+                                </GridView>
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+
+
                 </LinearLayout>
 
                 <View
-                        android:id="@+id/divider3"
+                        android:id="@+id/divider4"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:background="?android:attr/listDivider" />
@@ -305,7 +369,18 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:id="@+id/insightsContainer"
-                        android:padding="4dp">
+                        android:paddingVertical="4dp"
+                        android:elevation="6dp">
+
+                    <TextView
+                            android:text="Insights"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/textView8"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:layout_marginRight="8dp"
+                            android:gravity="center" />
 
                     <TextView
                             android:text="Summary: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
