@@ -1,4 +1,4 @@
-package com.kewargs.cs309.core.manager;
+package com.kewargs.cs309.core.managers;
 
 import android.content.Context;
 
@@ -11,13 +11,18 @@ public final class SessionManager {
     // ====== Authentication ======
     private AuthenticationManager authentication = null;
 
-    public String getSessionToken() { return authentication.getSessionToken(); }
+    public String getSessionToken() {
+        if (authentication == null) return null;
+        return authentication.getSessionToken();
+    }
 
     public String getUsername() {
+        if (authentication == null) return null;
         return authentication.getUsername();
     }
 
     public Integer getUserId() {
+        if (authentication == null) return null;
         return authentication.getUserId();
     }
 
@@ -58,13 +63,13 @@ public final class SessionManager {
 
     public static synchronized void initialize(Context appContext) {
         SessionManager manager = getInstance();
-        if (manager.isInitialized) throw new IllegalStateException("Do not reinitialize manager");
+//        if (manager.isInitialized) throw new IllegalStateException("Do not reinitialize manager");
 
         // Get authentication singleton
         manager.authentication = AuthenticationManager.getInstance();
 
         // Get context manager pseudo-singleton
-        if (manager.context == null) manager.context = ContextManager.create(appContext);
+        manager.context = ContextManager.create(appContext);
 
         // Get Volley manager
         manager.networkRequest = NetworkRequestManager.getInstance().addContext(appContext);
@@ -73,4 +78,9 @@ public final class SessionManager {
         manager.isInitialized = true;
     }
 
+
+    public synchronized void seppuku() {
+        SessionManager manager = getInstance();
+        manager.authentication = AuthenticationManager.renewInstance();
+    }
 }

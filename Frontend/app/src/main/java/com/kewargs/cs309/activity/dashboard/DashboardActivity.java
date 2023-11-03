@@ -8,6 +8,7 @@ import android.widget.Button;
 
 import org.json.*;
 
+import com.kewargs.cs309.MainActivity;
 import com.kewargs.cs309.R;
 import com.kewargs.cs309.activity.AbstractActivity;
 import com.kewargs.cs309.activity.auth.LoginActivity;
@@ -29,23 +30,25 @@ public class DashboardActivity extends AbstractActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        session.addRequest(UserRequestFactory
-            .getUserById(session.getUserId())
-            .onResponse(response -> {
-                userInfoDump.setText(response);
-                try {
-                    userInfo = UserDeserializable.from(response);
-                    dashboardGreeting.setText("Hello " + userInfo.displayName());
-                } catch (JSONException ignored) { }
-            })
-            .bearer(session.getSessionToken())
-            .build()
-        );
+        if (!session.isLoggedIn()) finish();
+
+        try {
+            session.addRequest(UserRequestFactory.getUserById(session.getUserId()).onResponse(response -> {
+                    userInfoDump.setText(response);
+                    try {
+                        userInfo = UserDeserializable.from(response);
+                        dashboardGreeting.setText("Hello " + userInfo.displayName());
+                    } catch (JSONException ignored) { }
+                })
+                .build());
+        } catch (NullPointerException e) {
+            finish();
+        }
 
         coursesButton.setOnClickListener(this::coursesButtonCallback);
         updateInfo.setOnClickListener(this::updateInfoCallback);
         toChat.setOnClickListener(this::toChatButtonCallback);
-        logOut.setOnClickListener(this::logOutButtonCallback); //funni
+        logOut.setOnClickListener(this::logOutButtonCallback);
     }
 
     @Override
@@ -67,7 +70,11 @@ public class DashboardActivity extends AbstractActivity {
         switchToActivity(ChatActivity.class);
     }
 
-    private void logOutButtonCallback(View view) {switchToActivity(LoginActivity.class);} //doesnt work idk how to end sesh without crashing app
+    private void logOutButtonCallback(View view) {
+        showToast("Logged out", this);
+        session.seppuku();
+        switchToActivity(MainActivity.class);
+    }
 
     private void switchToActivity(Class<?> newActivity) {
         Intent intent = new Intent(DashboardActivity.this, newActivity);

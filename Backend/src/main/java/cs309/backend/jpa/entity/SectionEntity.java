@@ -1,21 +1,28 @@
 package cs309.backend.jpa.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
 import lombok.Data;
+
+import java.util.List;
 
 @Entity
 @Data
-@Table(name = "Schedule")
+@Table(name = "Section")
 public class SectionEntity {
     @Id
+    @Column(name = "id")
+    private int id;
+
+    @Column(name = "ref_num")
+    private int refNum;
+
     @Column(name = "course_id")
     private int courseId;
 
     @Column(name = "section")
-    private int section;
+    private String section;
 
     @Column(name = "year")
     private int year;
@@ -26,15 +33,13 @@ public class SectionEntity {
     @Column(name = "is_online")
     private Boolean isOnline;
 
-    @Column(name = "start_time")
-    private Integer startTime;
-
-    @Column(name = "end_time")
-    private Integer endTime;
-
-    @Column(name = "location")
-    private String location;
-
-    @Column(name = "instructor")
-    private String instructor;
+    @OneToMany(
+        mappedBy = "section",
+        targetEntity = ScheduleEntity.class,
+        cascade = CascadeType.ALL,
+        orphanRemoval = true,
+        fetch = FetchType.EAGER  // Important
+    )
+    @JsonManagedReference  // VERY important
+    private List<ScheduleEntity> schedules;
 }

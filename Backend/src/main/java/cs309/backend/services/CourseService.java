@@ -28,7 +28,7 @@ public class CourseService {
         return courseRepository.getCourseById(id);
     }
 
-    public SectionEntity[] getSectionById(int id) {
-        return sectionRepository.getSectionById(id);
+    public SectionEntity[] getSectionById(int courseId) {
+        return sectionRepository.getSectionById(courseId);
     }
 }

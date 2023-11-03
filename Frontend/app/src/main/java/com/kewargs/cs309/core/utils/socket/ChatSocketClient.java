@@ -2,14 +2,13 @@ package com.kewargs.cs309.core.utils.socket;
 
 import static com.kewargs.cs309.core.utils.constants.UniversalConstants.CHAT_ENDPOINT;
 
-import com.kewargs.cs309.core.manager.SessionManager;
+import com.kewargs.cs309.core.managers.SessionManager;
 
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 
 import java.net.URI;
 import java.util.HashMap;
-import java.util.Map;
 
 public final class ChatSocketClient<S extends SocketListener> extends WebSocketClient {
     private final SessionManager session;
@@ -29,7 +28,7 @@ public final class ChatSocketClient<S extends SocketListener> extends WebSocketC
 
     @Override
     public void onOpen(ServerHandshake handshakedata) {
-        listener.onSocketOpen(handshakedata);
+        //listener.onSocketOpen(handshakedata);
     }
 
     @Override

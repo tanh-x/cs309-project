@@ -126,8 +126,7 @@ public class UserController {
     public ResponseEntity<String> grantPermission(@PathVariable int id, @PathVariable int new_privilege) {
         try {
             return ok(userService.grantPermission(id, new_privilege));
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return internalServerError().build();
         }
