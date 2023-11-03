@@ -32,8 +32,13 @@ public class CourseService {
         return sectionRepository.getSectionById(id);
     }
 
-    public String updateCourseInfo(String identifier ,int num, String description) {
-        return null;
+    public String updateCourseByIdentifier(String identifier ,int num, String description) {
+        CourseEntity course = getCourseByIdentifier(identifier, num);
+        if (course == null) {
+            return "Course Not Found";
+        }
+        courseRepository.updateCourseByIdentifier(identifier, num, description);
+        return "Successful";
     }
 
     public CourseEntity getCourseByIdentifier(String identifier, int num) { return courseRepository.getCourseByIdentifier(identifier, num); }

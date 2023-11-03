@@ -52,11 +52,11 @@ public class CourseController {
             return internalServerError().build();
         }
     }
-    @PutMapping("/{identifier}/{num}/{description}")
-    public ResponseEntity<String> updateCourseDescription(@PathVariable String identifier, @PathVariable int num, @PathVariable String description) {
+    @PutMapping("/{identifier}/{num}")
+    public ResponseEntity<String> updateCourseDescriptionByIdentifier(@PathVariable String identifier, @PathVariable int num, @RequestParam("description") String description) {
         try {
-            String res = courseService.updateCourseInfo(identifier, num, description);
-            return ok("Successful!");
+            String res = courseService.updateCourseByIdentifier(identifier, num, description);
+            return ok(res);
         } catch (Exception e) {
             e.printStackTrace();
             return internalServerError().build();

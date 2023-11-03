@@ -15,4 +15,7 @@ public interface CourseRepository extends JpaRepository<CourseEntity, Long> {
 
     @Procedure(name = "getCourseByIdentifier")
     CourseEntity getCourseByIdentifier(@Param("p_identifier") String identifier, @Param("p_num") int num);
+
+    @Procedure(name = "updateCourseByIdentifier")
+    void updateCourseByIdentifier(@Param("p_identifier") String identifier,@Param("p_num") int num,@Param("p_des") String description);
 }
