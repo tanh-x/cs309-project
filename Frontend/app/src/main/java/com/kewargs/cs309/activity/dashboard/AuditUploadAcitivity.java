@@ -104,7 +104,7 @@ public class AuditUploadAcitivity extends AbstractActivity {
             File myFile = new File(uriString);
             String path = myFile.getAbsolutePath();
 
-            // tv.setText(uriString+"\n"+path); //file location works till here :)
+            tv.setText(uriString+"\n\n"+path); //file location works till here :)
             String displayName = null;
 
             if (uriString.startsWith("content://")) {
@@ -152,6 +152,7 @@ public class AuditUploadAcitivity extends AbstractActivity {
                         Log.e("Upload", "Error: " + error.getMessage());
                     }
             );
+            session.addRequest(multipartRequest);
         }
         catch(Exception e)
         {
