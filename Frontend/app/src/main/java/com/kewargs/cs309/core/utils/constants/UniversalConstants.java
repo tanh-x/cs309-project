@@ -10,4 +10,6 @@ public final class UniversalConstants {
     public static final String COURSE_ENDPOINT = ENDPOINT + "api/course/";
 
     public static final String CHAT_ENDPOINT = WS_ENDPOINT + "chat/";
+
+    public static final String AUDIT_UPLOAD_ENDPOINT = "api/reader/";
 }

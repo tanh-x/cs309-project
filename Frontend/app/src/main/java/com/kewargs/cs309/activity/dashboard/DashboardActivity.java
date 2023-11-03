@@ -20,7 +20,7 @@ public class DashboardActivity extends AbstractActivity {
 
     private TextView userInfoDump;
     private TextView dashboardGreeting;
-    private Button updateInfo, coursesButton, toChat, logOut;
+    private Button updateInfo, coursesButton, toChat, logOut, auditUpload;
 
     UserDeserializable userInfo;
 
@@ -45,6 +45,7 @@ public class DashboardActivity extends AbstractActivity {
         coursesButton.setOnClickListener(this::coursesButtonCallback);
         updateInfo.setOnClickListener(this::updateInfoCallback);
         toChat.setOnClickListener(this::toChatButtonCallback);
+        auditUpload.setOnClickListener(this::toUploadAuditCallback);
         logOut.setOnClickListener(this::logOutButtonCallback); //funni
     }
 
@@ -67,6 +68,10 @@ public class DashboardActivity extends AbstractActivity {
         switchToActivity(ChatActivity.class);
     }
 
+    private void toUploadAuditCallback(View view) {
+        switchToActivity(AuditUploadAcitivity.class);
+    }
+
     private void logOutButtonCallback(View view) {switchToActivity(LoginActivity.class);} //doesnt work idk how to end sesh without crashing app
 
     private void switchToActivity(Class<?> newActivity) {
@@ -82,5 +87,6 @@ public class DashboardActivity extends AbstractActivity {
         coursesButton = findViewById(R.id.coursesButton);
         toChat = findViewById(R.id.toChatButton);
         logOut = findViewById(R.id.logoutButton);
+        auditUpload = findViewById(R.id.toAuditUpload);
     }
 }
