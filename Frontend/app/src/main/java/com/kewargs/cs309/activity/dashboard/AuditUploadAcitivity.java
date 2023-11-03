@@ -153,6 +153,7 @@ public class AuditUploadAcitivity extends AbstractActivity {
                     }
             );
             session.addRequest(multipartRequest);
+
         }
         catch(Exception e)
         {
