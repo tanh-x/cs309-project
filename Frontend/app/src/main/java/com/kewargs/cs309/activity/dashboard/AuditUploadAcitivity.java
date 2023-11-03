@@ -1,11 +1,6 @@
 package com.kewargs.cs309.activity.dashboard;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.NetworkResponse;
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.kewargs.cs309.R;
 import com.kewargs.cs309.activity.AbstractActivity;
 
@@ -26,18 +21,12 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 
-import org.json.*;
-
-import com.kewargs.cs309.core.utils.backend.request.VolleyMultipartRequest;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 
 public class AuditUploadAcitivity extends AbstractActivity {
@@ -121,14 +110,14 @@ public class AuditUploadAcitivity extends AbstractActivity {
                         displayName = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
                         Log.d("nameeeee>>>>  ",displayName);
 
-                        //uploadPDF(displayName,uri);
+                        uploadPDF(displayName,uri);
                     }
                 } finally {
                     cursor.close();
                 }
             } else if (uriString.startsWith("file://")) {
                 displayName = myFile.getName();
-                Log.d("nameeeee>>>>  ",displayName);
+                Log.d("nameeeee>>>>  ",displayName); //dont bother
             }
         }
 
@@ -137,86 +126,96 @@ public class AuditUploadAcitivity extends AbstractActivity {
     }
 
     private void uploadPDF(final String pdfname, Uri pdffile){
-
         InputStream iStream = null;
         try {
+
             iStream = getContentResolver().openInputStream(pdffile);
-            final byte[] inputData = getBytes(iStream);
-
-            VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.POST, upload_URL,
-                    new Response.Listener<NetworkResponse>() {
-                        @Override
-                        public void onResponse(NetworkResponse response) {
-                            Log.d("response",new String(response.data));
-                            rQueue.getCache().clear();
-                            try {
-                                JSONObject jsonObject = new JSONObject(new String(response.data));
-                                showToast(jsonObject.getString("message"),AuditUploadAcitivity.this);
-
-                                jsonObject.toString().replace("\\\\","");
-
-                                if (jsonObject.getString("status").equals("true")) {
-                                    Log.d("come::: >>>  ","yessssss");
-                                    arraylist = new ArrayList<HashMap<String, String>>();
-                                    JSONArray dataArray = jsonObject.getJSONArray("data");
-
-
-                                    for (int i = 0; i < dataArray.length(); i++) {
-                                        JSONObject dataobj = dataArray.getJSONObject(i);
-                                        url = dataobj.optString("pathToFile");
-                                        tv.setText(url); //textview
-                                    }
-
-
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            showToast(error.getMessage(),AuditUploadAcitivity.this);
-                        }
-                    }) {
-
-                /*
-                 * If you want to add more parameters with the image
-                 * you can do it here
-                 * here we have only one parameter with the image
-                 * which is tags
-                 * */
-                @Override
-                protected Map<String, String> getParams() throws AuthFailureError {
-                    Map<String, String> params = new HashMap<>();
-                    // params.put("tags", "ccccc");  add string parameters
-                    return params;
-                }
-
-                /*
-                 *pass files using below method
-                 * */
-                @Override
-                protected Map<String, DataPart> getByteData() {
-                    Map<String, DataPart> params = new HashMap<>();
-
-                    params.put("filename", new DataPart(pdfname ,inputData));
-                    return params;
-                }
-            };
-
-
-            //rQueue = Volley.newRequestQueue(AuditUploadAcitivity.this);
-            rQueue.add(volleyMultipartRequest);
-
-
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+            final byte[] inputData = getBytes(iStream);}
+        catch(Exception e)
+        {
+            showToast(e.toString(),this);
         }
+
+//        InputStream iStream = null;
+//        try {
+//            iStream = getContentResolver().openInputStream(pdffile);
+//            final byte[] inputData = getBytes(iStream);
+//
+//            VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.POST, upload_URL,
+//                    new Response.Listener<NetworkResponse>() {
+//                        @Override
+//                        public void onResponse(NetworkResponse response) {
+//                            Log.d("response",new String(response.data));
+//                            rQueue.getCache().clear();
+//                            try {
+//                                JSONObject jsonObject = new JSONObject(new String(response.data));
+//                                showToast(jsonObject.getString("message"),AuditUploadAcitivity.this);
+//
+//                                jsonObject.toString().replace("\\\\","");
+//
+//                                if (jsonObject.getString("status").equals("true")) {
+//                                    Log.d("come::: >>>  ","yessssss");
+//                                    arraylist = new ArrayList<HashMap<String, String>>();
+//                                    JSONArray dataArray = jsonObject.getJSONArray("data");
+//
+//
+//                                    for (int i = 0; i < dataArray.length(); i++) {
+//                                        JSONObject dataobj = dataArray.getJSONObject(i);
+//                                        url = dataobj.optString("pathToFile");
+//                                        tv.setText(url); //textview
+//                                    }
+//
+//
+//                                }
+//                            } catch (JSONException e) {
+//                                e.printStackTrace();
+//                            }
+//                        }
+//                    },
+//                    new Response.ErrorListener() {
+//                        @Override
+//                        public void onErrorResponse(VolleyError error) {
+//                            showToast(error.getMessage(),AuditUploadAcitivity.this);
+//                        }
+//                    }) {
+//
+//                /*
+//                 * If you want to add more parameters with the image
+//                 * you can do it here
+//                 * here we have only one parameter with the image
+//                 * which is tags
+//                 * */
+//                @Override
+//                protected Map<String, String> getParams() throws AuthFailureError {
+//                    Map<String, String> params = new HashMap<>();
+//                    // params.put("tags", "ccccc");  add string parameters
+//                    return params;
+//                }
+//
+//                /*
+//                 *pass files using below method
+//                 * */
+//                @Override
+//                protected Map<String, DataPart> getByteData() {
+//                    Map<String, DataPart> params = new HashMap<>();
+//
+//                    params.put("filename", new DataPart(pdfname ,inputData));
+//                    return params;
+//                }
+//            };
+//
+//
+//            //rQueue = Volley.newRequestQueue(AuditUploadAcitivity.this);
+//            rQueue.add(volleyMultipartRequest);
+//
+//
+//
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+
 
 
     }
@@ -232,6 +231,7 @@ public class AuditUploadAcitivity extends AbstractActivity {
         }
         return byteBuffer.toByteArray();
     }
+
     @Override
     protected void collectElements() {
         backDash =findViewById(R.id.backDashboard);
