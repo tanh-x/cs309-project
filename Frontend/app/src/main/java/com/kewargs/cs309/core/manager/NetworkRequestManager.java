@@ -28,7 +28,7 @@ final class NetworkRequestManager {
     }
 
     synchronized NetworkRequestManager addContext(Context providedContext) {
-        if (requestQueue != null) throw new IllegalStateException("Volley already has context");
+//        if (requestQueue != null) throw new IllegalStateException("Volley already has context");
         requestQueue = Volley.newRequestQueue(providedContext.getApplicationContext());
         return this;
     }

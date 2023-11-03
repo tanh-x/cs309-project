@@ -3,6 +3,8 @@ package com.kewargs.cs309.core.models.in;
 import static com.kewargs.cs309.core.utils.Helpers.toQuantifierPattern;
 import static com.kewargs.cs309.core.utils.backend.request.DeserializationHelpers.getNullableBoolean;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.kewargs.cs309.core.utils.backend.request.DeserializationHelpers;
@@ -44,6 +46,7 @@ public record CourseDeserializable(
                 getNullableBoolean(json, "isGraded")
             );
         } catch (JSONException e) {
+            Log.e("CourseDeserializable", json.toString());
             throw new RuntimeException(e);
         }
     }

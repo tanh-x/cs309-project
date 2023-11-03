@@ -44,4 +44,9 @@ final class AuthenticationManager {
         if (instance == null) instance = new AuthenticationManager();
         return instance;
     }
+
+    static synchronized AuthenticationManager renewInstance() {
+        instance = new AuthenticationManager();
+        return instance;
+    }
 }

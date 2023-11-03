@@ -8,6 +8,7 @@ import android.widget.Button;
 
 import org.json.*;
 
+import com.kewargs.cs309.MainActivity;
 import com.kewargs.cs309.R;
 import com.kewargs.cs309.activity.AbstractActivity;
 import com.kewargs.cs309.activity.auth.LoginActivity;
@@ -31,15 +32,18 @@ public class DashboardActivity extends AbstractActivity {
 
         if (!session.isLoggedIn()) finish();
 
-        session.addRequest(UserRequestFactory.getUserById(session.getUserId()).onResponse(response -> {
-                userInfoDump.setText(response);
-                try {
-                    userInfo = UserDeserializable.from(response);
-                    dashboardGreeting.setText("Hello " + userInfo.displayName());
-                } catch (JSONException ignored) { }
-            })
-//            .bearer(session.getSessionToken())
-            .build());
+        try {
+            session.addRequest(UserRequestFactory.getUserById(session.getUserId()).onResponse(response -> {
+                    userInfoDump.setText(response);
+                    try {
+                        userInfo = UserDeserializable.from(response);
+                        dashboardGreeting.setText("Hello " + userInfo.displayName());
+                    } catch (JSONException ignored) { }
+                })
+                .build());
+        } catch (NullPointerException e) {
+            finish();
+        }
 
         coursesButton.setOnClickListener(this::coursesButtonCallback);
         updateInfo.setOnClickListener(this::updateInfoCallback);
@@ -69,7 +73,7 @@ public class DashboardActivity extends AbstractActivity {
     private void logOutButtonCallback(View view) {
         showToast("Logged out", this);
         session.seppuku();
-        finish();
+        switchToActivity(MainActivity.class);
     }
 
     private void switchToActivity(Class<?> newActivity) {

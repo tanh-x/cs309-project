@@ -63,13 +63,13 @@ public final class SessionManager {
 
     public static synchronized void initialize(Context appContext) {
         SessionManager manager = getInstance();
-        if (manager.isInitialized) throw new IllegalStateException("Do not reinitialize manager");
+//        if (manager.isInitialized) throw new IllegalStateException("Do not reinitialize manager");
 
         // Get authentication singleton
         manager.authentication = AuthenticationManager.getInstance();
 
         // Get context manager pseudo-singleton
-        if (manager.context == null) manager.context = ContextManager.create(appContext);
+        manager.context = ContextManager.create(appContext);
 
         // Get Volley manager
         manager.networkRequest = NetworkRequestManager.getInstance().addContext(appContext);
@@ -80,7 +80,7 @@ public final class SessionManager {
 
 
     public synchronized void seppuku() {
-        instance = null;
-        isInitialized = false;
+        SessionManager manager = getInstance();
+        manager.authentication = AuthenticationManager.renewInstance();
     }
 }

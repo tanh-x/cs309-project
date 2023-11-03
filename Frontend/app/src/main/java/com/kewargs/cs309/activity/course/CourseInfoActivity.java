@@ -19,6 +19,7 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -32,7 +33,7 @@ public final class CourseInfoActivity extends AbstractActivity {
 
     private Integer courseId = null;
     private CourseDeserializable course = null;
-    private Collection<SectionDeserializable> sections = null;
+    private ArrayList<SectionDeserializable> sections = null;
 
     private TextView titleText;
     private TextView descriptionText;
@@ -41,6 +42,7 @@ public final class CourseInfoActivity extends AbstractActivity {
     private TextView deliveryText;
     private TextView gradedText;
     private TextView seasonsText;
+    private TextView sectionCountText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +75,7 @@ public final class CourseInfoActivity extends AbstractActivity {
         session.addRequest(CourseRequestFactory.getCourseSections(courseId)
             .onResponse(response -> {
                 try {
-                    CourseDeserializable.fromArray(new JSONArray(response));
+                    sections = SectionDeserializable.fromArray(new JSONArray(response));
                     buildSectionComponents();
                 } catch (JSONException e) {
                     throw new RuntimeException(e);
@@ -106,10 +108,37 @@ public final class CourseInfoActivity extends AbstractActivity {
         }}));
     }
 
+    @SuppressLint("SetTextI18n")
     private void buildSectionComponents() {
         if (sections == null) return;
 
+        HashSet<SectionDeserializable> scheduledSections = new HashSet<>();
+        HashSet<SectionDeserializable> onlineSections = new HashSet<>();
+        HashSet<SectionDeserializable> offlineSections = new HashSet<>();
+        for (SectionDeserializable section : sections) {
+            // Populate scheduled sections
+            if (section.startTime() != null
+                && section.endTime() != null
+                && section.endTime() > section.startTime()
+            ) scheduledSections.add(section);
 
+            // Populate online sections
+            if (Boolean.TRUE.equals(section.isOnline())) onlineSections.add(section);
+            else if (Boolean.FALSE.equals(section.isOnline())) offlineSections.add(section);
+        }
+        int offlineCount = offlineSections.size();
+        int onlineCount = onlineSections.size();
+
+        if (offlineCount > 0) {
+            deliveryText.setText(onlineCount > 0 ? "Both" : "In-person");
+        } else {
+            deliveryText.setText(onlineCount > 0 ? "Online" : "Unknown");
+        }
+
+        sectionCountText.setText(
+            sections.size() + " sections" +
+            ((onlineCount > 0) ? " (" + onlineCount + " online )" : "")
+        );
     }
 
     @Override
@@ -124,5 +153,6 @@ public final class CourseInfoActivity extends AbstractActivity {
         deliveryText = findViewById(R.id.deliveryText);
         gradedText = findViewById(R.id.gradedText);
         seasonsText = findViewById(R.id.seasonsText);
+        sectionCountText = findViewById(R.id.sectionCountText);
     }
 }
