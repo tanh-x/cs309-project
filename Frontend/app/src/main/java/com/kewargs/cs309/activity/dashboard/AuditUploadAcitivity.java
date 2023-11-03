@@ -1,8 +1,12 @@
 package com.kewargs.cs309.activity.dashboard;
 
+import static com.kewargs.cs309.core.utils.constants.UniversalConstants.AUDIT_UPLOAD_ENDPOINT;
+
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.kewargs.cs309.R;
 import com.kewargs.cs309.activity.AbstractActivity;
+import com.kewargs.cs309.core.utils.backend.request.MultipartRequest;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -15,6 +19,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -125,12 +130,29 @@ public class AuditUploadAcitivity extends AbstractActivity {
 
     }
 
-    private void uploadPDF(final String pdfname, Uri pdffile){
+    private void uploadPDF(final String pdfname, Uri pdffile) {
         InputStream iStream = null;
         try {
 
             iStream = getContentResolver().openInputStream(pdffile);
-            final byte[] inputData = getBytes(iStream);}
+            final byte[] inputData = getBytes(iStream);
+
+            MultipartRequest multipartRequest = new MultipartRequest(
+                    Request.Method.POST,
+                    AUDIT_UPLOAD_ENDPOINT,
+                    inputData,
+                    response -> {
+                        // Handle response
+                        Toast.makeText(getApplicationContext(), response, Toast.LENGTH_LONG).show();
+                        Log.d("Upload", "Response: " + response);
+                    },
+                    error -> {
+                        // Handle error
+                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+                        Log.e("Upload", "Error: " + error.getMessage());
+                    }
+            );
+        }
         catch(Exception e)
         {
             showToast(e.toString(),this);
