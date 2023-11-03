@@ -5,17 +5,21 @@ import static com.kewargs.cs309.core.utils.Helpers.boolToYesNo;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
+import com.google.android.material.tabs.TabItem;
+import com.google.android.material.tabs.TabLayout;
 import com.kewargs.cs309.R;
 import com.kewargs.cs309.activity.AbstractActivity;
 import com.kewargs.cs309.components.SectionCardComponent;
-import com.kewargs.cs309.core.adapters.ScheduleBlockAdapter;
 import com.kewargs.cs309.core.models.in.CourseDeserializable;
 import com.kewargs.cs309.core.models.in.InsightsDeserializable;
 import com.kewargs.cs309.core.models.in.ScheduleDeserializable;
@@ -26,9 +30,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -65,6 +69,15 @@ public final class CourseInfoActivity extends AbstractActivity {
     private TextView difficultyText;
     private TextView profText;
 
+    private ScrollView scroller;
+
+    private LinearLayout overviewContainer;
+    private LinearLayout scheduleContainer;
+    private LinearLayout insightsContainer;
+
+    private TabLayout tabs;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,6 +94,45 @@ public final class CourseInfoActivity extends AbstractActivity {
     @Override
     protected void onStart() {
         super.onStart();
+
+        tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                // Get the position of the selected tab
+                int position = tab.getPosition();
+
+                // Perform the scrolling action depending on the selected tab's position
+                int x = 0; // x is typically 0 unless you have a horizontal scroll
+                int y = 0;
+
+                switch (position) {
+                    case 0: // Overview tab
+                        y = (int) overviewContainer.getY();
+                        break;
+                    case 1: // Schedule tab
+                        y = (int) scheduleContainer.getY();
+                        break;
+                    case 2: // Insights tab
+                        y = (int) insightsContainer.getY();
+                        break;
+                }
+
+                // Use the ScrollView 'scroller' to scroll to the selected container's Y position
+                final int finalY = y;
+                scroller.post(() -> scroller.smoothScrollTo(x, finalY));
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                // Handle tab unselected if needed
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+                // Handle tab reselected if needed
+            }
+        });
+
 
         session.addRequest(CourseRequestFactory.getCourseInfo(courseId)
             .onResponse(response -> {
@@ -200,6 +252,19 @@ public final class CourseInfoActivity extends AbstractActivity {
         if (insights.isEmpty()) return;
         InsightsDeserializable ins = insights.get(0);
 
+        String tagsCommaSep = ins.tags();
+        if (ins.tags() != null && !ins.tags().isBlank()) {
+            Arrays.stream(tagsCommaSep.split(",")).forEachOrdered(tag -> {
+                Chip chip = new Chip(
+                    new ContextThemeWrapper(this, R.style.CustomChipStyle),
+                    null,
+                    0
+                );
+                chip.setText(tag);
+                tagsChipGroup.addView(chip);
+            });
+        }
+
         String summary = ins.summary();
         insightsText.setText((summary == null || Objects.equals(summary, "null")) ?
             "No insight summary found for this course." :
@@ -209,14 +274,14 @@ public final class CourseInfoActivity extends AbstractActivity {
         String prof = ins.recommendProf();
         profText.setText((prof == null || Objects.equals(prof, "null")) ?
             "∙ No professor recommendations found for this course." :
-            ins.recommendProf()
+            "∙ " + ins.recommendProf()
         );
 
         if (ins.difficulty() == null) {
             difficultyText.setText("∙ No difficulty ratings found for this course");
         } else {
             double difficulty = ins.difficulty();
-            double artanhDifficulty = 5 * Math.log((1.0 + difficulty) / (1.0 - difficulty));
+            double artanhDifficulty = 56 * Math.log((1.0 + difficulty) / (1.0 - difficulty));
             artanhDifficulty = Math.round(artanhDifficulty * 100.0d) / 100.0d;
             String difficultyComment;
             if (difficulty < -0.75) difficultyComment = "significantly easier than average";
@@ -229,10 +294,10 @@ public final class CourseInfoActivity extends AbstractActivity {
             else difficultyComment = null;
 
             difficultyText.setText(
-                "∙ The difficulty was rated by students at "
+                "∙ Students rated the difficulty at "
                     + (difficulty > 0 ? "+" : "") + artanhDifficulty +
-                    " (" + (difficulty > 0 ? "+" : "") + Math.round(difficulty * 10000.0d) / 100.0d + "%)" +
-                    (difficultyComment == null ? "." : ",\n which means that it's " + difficultyComment + "."));
+                    " pts (" + Math.round(difficulty * 10000.0d) / 10000.0d + ")" +
+                    (difficultyComment == null ? "." : ", which means that it's " + difficultyComment + "."));
         }
     }
 
@@ -259,5 +324,13 @@ public final class CourseInfoActivity extends AbstractActivity {
         tagsChipGroup = findViewById(R.id.tagsChipGroup);
         difficultyText = findViewById(R.id.difficultyText);
         profText = findViewById(R.id.profText);
+
+        scroller = findViewById(R.id.scroller);
+
+        overviewContainer = findViewById(R.id.overviewContainer);
+        scheduleContainer = findViewById(R.id.scheduleContainer);
+        insightsContainer = findViewById(R.id.insightsContainer);
+
+        tabs = findViewById(R.id.tabs);
     }
 }
