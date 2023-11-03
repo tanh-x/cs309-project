@@ -11,5 +11,5 @@ public final class UniversalConstants {
 
     public static final String CHAT_ENDPOINT = WS_ENDPOINT + "chat/";
 
-    public static final String AUDIT_UPLOAD_ENDPOINT = ENDPOINT+"api/reader/pdf/";
+    public static final String AUDIT_UPLOAD_ENDPOINT = ENDPOINT + "api/reader/pdf";
 }

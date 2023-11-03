@@ -3,7 +3,6 @@ package com.kewargs.cs309.activity.dashboard;
 import static com.kewargs.cs309.core.utils.constants.UniversalConstants.AUDIT_UPLOAD_ENDPOINT;
 
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.kewargs.cs309.R;
 import com.kewargs.cs309.activity.AbstractActivity;
 import com.kewargs.cs309.core.utils.backend.request.MultipartRequest;
@@ -21,8 +20,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 
@@ -30,19 +27,16 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 
-public class AuditUploadAcitivity extends AbstractActivity {
-    public AuditUploadAcitivity() {
+public class AuditUploadActivity extends AbstractActivity {
+    public AuditUploadActivity() {
         super(R.layout.activity_pdf_uploader);
     }
 
-    Button backDash, auditUploadButton;
-
-    private RequestQueue rQueue;
-    private ArrayList<HashMap<String, String>> arraylist;
+    private Button backDash, auditUploadButton;
 
     ActivityResultLauncher<Intent> auditUploadResultLaunder; //why google
 
@@ -83,7 +77,7 @@ public class AuditUploadAcitivity extends AbstractActivity {
     }
 
     private void switchToActivity(Class<?> newActivity) {
-        Intent intent = new Intent(AuditUploadAcitivity.this, newActivity);
+        Intent intent = new Intent(AuditUploadActivity.this, newActivity);
         startActivity(intent);
     }
 
@@ -123,34 +117,28 @@ public class AuditUploadAcitivity extends AbstractActivity {
 
     }
 
-    private void uploadPDF(final String pdfname, Uri pdffile) {
-        InputStream iStream = null;
-        try {
+    private void uploadPDF(final String pdfName, Uri pdfFileUri) {
+        try (InputStream inputStream = getContentResolver().openInputStream(pdfFileUri)) {
+            if (inputStream == null) throw new RuntimeException("inputStream is null");
 
-            iStream = getContentResolver().openInputStream(pdffile);
-            final byte[] inputData = getBytes(iStream);
+            final byte[] inputData = getBytes(inputStream);
 
             MultipartRequest multipartRequest = new MultipartRequest(
-                    Request.Method.POST,
-                    AUDIT_UPLOAD_ENDPOINT,
-                    inputData,
-                    response -> {
-                        // Handle response
-                        Toast.makeText(getApplicationContext(), response, Toast.LENGTH_LONG).show();
-                        Log.d("Upload", "Response: " + response);
-                    },
-                    error -> {
-                        // Handle error
-                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
-                        Log.e("Upload", "Error: " + error.getMessage());
-                    }
+                Request.Method.POST,
+                AUDIT_UPLOAD_ENDPOINT,
+                inputData,
+                response -> {
+                    Log.d("Upload", "Response: " + response);
+                },
+                error -> {
+                    showToast(error.toString(), this);
+                    Log.e("Upload", error.toString());
+                }
             );
             session.addRequest(multipartRequest);
 
-        }
-        catch(Exception e)
-        {
-            showToast(e.toString(),this);
+        } catch (Exception e) {
+            showToast(e.toString(), this);
         }
     }
 
@@ -159,7 +147,7 @@ public class AuditUploadAcitivity extends AbstractActivity {
         int bufferSize = 1024;
         byte[] buffer = new byte[bufferSize];
 
-        int len = 0;
+        int len;
         while ((len = inputStream.read(buffer)) != -1) {
             byteBuffer.write(buffer, 0, len);
         }

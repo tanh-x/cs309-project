@@ -13,11 +13,10 @@ import java.io.IOException;
 
 /**
  * Custom request class for handling multipart/form-data requests with Volley.
- *
+ * <p>
  * This class extends the Volley Request class, specifically handling the creation and transmission
  * of multipart requests. It is designed to send binary data like images, files, or other media
  * along with text data as part of a single request. It's commonly used for file uploads.
- *
  **/
 public class MultipartRequest extends Request<String> {
 
@@ -28,7 +27,10 @@ public class MultipartRequest extends Request<String> {
     private final String mLineEnd = "\r\n";
     private final String mTwoHyphens = "--";
 
-    public MultipartRequest(int method, String url, byte[] pdfData, Response.Listener<String> listener, Response.ErrorListener errorListener) {
+    public MultipartRequest(
+        int method,
+        String url,
+        byte[] pdfData, Response.Listener<String> listener, Response.ErrorListener errorListener) {
         super(method, url, errorListener);
         this.mListener = listener;
         this.mErrorListener = errorListener;
@@ -46,16 +48,15 @@ public class MultipartRequest extends Request<String> {
         DataOutputStream dos = new DataOutputStream(bos);
 
         try {
-            dos.writeBytes(mTwoHyphens + mBoundary + mLineEnd);
-            dos.writeBytes("Content-Disposition: form-data; name=\"image\";filename=\"image.jpg\"" + mLineEnd);
-            dos.writeBytes(mLineEnd);
-
+            // Add file part
+            dos.writeBytes("--" + mBoundary + "\r\n");
+            dos.writeBytes("Content-Disposition: form-data; name=\"" + mFilePartName + "\"; filename=\"" + "file.pdf" + "\"\r\n");
+            dos.writeBytes("Content-Type: application/pdf\r\n");
+            dos.writeBytes("\r\n");
             dos.write(pdfData);
-
-            dos.writeBytes(mLineEnd);
-            dos.writeBytes(mTwoHyphens + mBoundary + mTwoHyphens + mLineEnd);
-
-            return bos.toByteArray();
+            dos.writeBytes("\r\n");
+            // End of multipart/form-data.
+            dos.writeBytes("--" + mBoundary + "--\r\n");
         } catch (IOException e) {
             e.printStackTrace();
         }

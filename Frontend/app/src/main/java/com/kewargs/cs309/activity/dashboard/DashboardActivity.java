@@ -71,7 +71,7 @@ public class DashboardActivity extends AbstractActivity {
     }
 
     private void toUploadAuditCallback(View view) {
-        switchToActivity(AuditUploadAcitivity.class);
+        switchToActivity(AuditUploadActivity.class);
     }
 
     private void logOutButtonCallback(View view) {
