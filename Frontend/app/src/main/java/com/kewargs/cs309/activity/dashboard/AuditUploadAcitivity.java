@@ -52,30 +52,23 @@ public class AuditUploadAcitivity extends AbstractActivity {
         super.onCreate(savedInstanceState);
         backDash.setOnClickListener(this::backDashCallback);
         auditUploadButton.setOnClickListener(this::uploadAuditCallback);
-        auditUploadResultLaunder = registerForActivityResult( //idk
-                new ActivityResultContracts.StartActivityForResult(),
-                new ActivityResultCallback<ActivityResult>() {
-                    @Override
-                    public void onActivityResult(ActivityResult result) {
-                        if (result.getResultCode() == Activity.RESULT_OK) {
-                            // There are no request codes
-                            Intent data = result.getData();
-                            //doSomeOperations();
-                        }
-                    }
-                });
-
-        tv.setOnClickListener(new View.OnClickListener() { //ill refactor later trust
-            @Override
-            public void onClick(View v) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                startActivity(browserIntent);
+        auditUploadResultLaunder = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            if (result.getResultCode() == Activity.RESULT_OK) {
+                // There are no request codes
+                Intent data = result.getData();
+                //doSomeOperations();
             }
+        });
+
+        //ill refactor later trust
+        tv.setOnClickListener(v -> {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+            startActivity(browserIntent);
         });
 
     }
 
-    private void backDashCallback(View view) {switchToActivity(DashboardActivity.class);}
+    private void backDashCallback(View view) { switchToActivity(DashboardActivity.class); }
 
     private void uploadAuditCallback(View view) {
         Intent intent = new Intent();
@@ -102,22 +95,22 @@ public class AuditUploadAcitivity extends AbstractActivity {
             // tv.setText(uriString+"\n"+path); //file location works till here :)
             String displayName = null;
 
+            Log.i("AuditUploadActivity", uriString);
             if (uriString.startsWith("content://")) {
-                Cursor cursor = null;
-                try {
-                    cursor = this.getContentResolver().query(uri, null, null, null, null);
-                    if (cursor != null && cursor.moveToFirst()) {
-                        displayName = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
-                        Log.d("nameeeee>>>>  ",displayName);
-
-                        uploadPDF(displayName,uri);
+                try (Cursor cursor = this.getContentResolver().query(uri, null, null, null, null)) {
+                    if (cursor == null || !cursor.moveToFirst()) {
+                        throw new RuntimeException("Cursor error");
                     }
-                } finally {
-                    cursor.close();
+
+                    displayName = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+                    Log.d("AuditUploadActivity", displayName);
+
+                    uploadPDF(displayName, uri);
                 }
             } else if (uriString.startsWith("file://")) {
-                displayName = myFile.getName();
-                Log.d("nameeeee>>>>  ",displayName); //dont bother
+                throw new UnsupportedOperationException("Later");
+//                displayName = myFile.getName();
+//                Log.d("nameeeee>>>>  ", displayName); //dont bother
             }
         }
 
@@ -125,99 +118,14 @@ public class AuditUploadAcitivity extends AbstractActivity {
 
     }
 
-    private void uploadPDF(final String pdfname, Uri pdffile){
-        InputStream iStream = null;
-        try {
+    private void uploadPDF(final String pdfName, Uri pdfFileUri) {
+        try (InputStream inputStream = getContentResolver().openInputStream(pdfFileUri)) {
+            if (inputStream == null) throw new RuntimeException("InputStream is null");
 
-            iStream = getContentResolver().openInputStream(pdffile);
-            final byte[] inputData = getBytes(iStream);}
-        catch(Exception e)
-        {
-            showToast(e.toString(),this);
+            final byte[] inputData = getBytes(inputStream);
+        } catch (Exception e) {
+            showToast(e.toString(), this);
         }
-
-//        InputStream iStream = null;
-//        try {
-//            iStream = getContentResolver().openInputStream(pdffile);
-//            final byte[] inputData = getBytes(iStream);
-//
-//            VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.POST, upload_URL,
-//                    new Response.Listener<NetworkResponse>() {
-//                        @Override
-//                        public void onResponse(NetworkResponse response) {
-//                            Log.d("response",new String(response.data));
-//                            rQueue.getCache().clear();
-//                            try {
-//                                JSONObject jsonObject = new JSONObject(new String(response.data));
-//                                showToast(jsonObject.getString("message"),AuditUploadAcitivity.this);
-//
-//                                jsonObject.toString().replace("\\\\","");
-//
-//                                if (jsonObject.getString("status").equals("true")) {
-//                                    Log.d("come::: >>>  ","yessssss");
-//                                    arraylist = new ArrayList<HashMap<String, String>>();
-//                                    JSONArray dataArray = jsonObject.getJSONArray("data");
-//
-//
-//                                    for (int i = 0; i < dataArray.length(); i++) {
-//                                        JSONObject dataobj = dataArray.getJSONObject(i);
-//                                        url = dataobj.optString("pathToFile");
-//                                        tv.setText(url); //textview
-//                                    }
-//
-//
-//                                }
-//                            } catch (JSONException e) {
-//                                e.printStackTrace();
-//                            }
-//                        }
-//                    },
-//                    new Response.ErrorListener() {
-//                        @Override
-//                        public void onErrorResponse(VolleyError error) {
-//                            showToast(error.getMessage(),AuditUploadAcitivity.this);
-//                        }
-//                    }) {
-//
-//                /*
-//                 * If you want to add more parameters with the image
-//                 * you can do it here
-//                 * here we have only one parameter with the image
-//                 * which is tags
-//                 * */
-//                @Override
-//                protected Map<String, String> getParams() throws AuthFailureError {
-//                    Map<String, String> params = new HashMap<>();
-//                    // params.put("tags", "ccccc");  add string parameters
-//                    return params;
-//                }
-//
-//                /*
-//                 *pass files using below method
-//                 * */
-//                @Override
-//                protected Map<String, DataPart> getByteData() {
-//                    Map<String, DataPart> params = new HashMap<>();
-//
-//                    params.put("filename", new DataPart(pdfname ,inputData));
-//                    return params;
-//                }
-//            };
-//
-//
-//            //rQueue = Volley.newRequestQueue(AuditUploadAcitivity.this);
-//            rQueue.add(volleyMultipartRequest);
-//
-//
-//
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-
-
-
     }
 
     public byte[] getBytes(InputStream inputStream) throws IOException {
@@ -234,7 +142,7 @@ public class AuditUploadAcitivity extends AbstractActivity {
 
     @Override
     protected void collectElements() {
-        backDash =findViewById(R.id.backDashboard);
+        backDash = findViewById(R.id.backDashboard);
         auditUploadButton = findViewById((R.id.auditUpload));
         tv = findViewById(R.id.pdfUrl);
     }
