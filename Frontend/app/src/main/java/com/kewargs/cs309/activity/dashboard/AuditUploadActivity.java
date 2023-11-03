@@ -2,6 +2,7 @@ package com.kewargs.cs309.activity.dashboard;
 
 import static com.kewargs.cs309.core.utils.constants.UniversalConstants.AUDIT_UPLOAD_ENDPOINT;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.kewargs.cs309.R;
 import com.kewargs.cs309.activity.AbstractActivity;
@@ -126,7 +127,9 @@ public class AuditUploadActivity extends AbstractActivity {
             MultipartRequest multipartRequest = new MultipartRequest(
                 Request.Method.POST,
                 AUDIT_UPLOAD_ENDPOINT,
+                pdfName,
                 inputData,
+                session.getSessionToken(),
                 response -> {
                     Log.d("Upload", "Response: " + response);
                 },

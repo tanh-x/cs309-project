@@ -9,6 +9,8 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -22,19 +24,29 @@ public class MultipartRequest extends Request<String> {
 
     private final Response.Listener<String> mListener;
     private final Response.ErrorListener mErrorListener;
+    private final String pdfName;
     private final byte[] pdfData;
     private final String mBoundary = "apiclient-" + System.currentTimeMillis();
     private final String mLineEnd = "\r\n";
     private final String mTwoHyphens = "--";
 
+    private String token;
+
     public MultipartRequest(
         int method,
         String url,
-        byte[] pdfData, Response.Listener<String> listener, Response.ErrorListener errorListener) {
+        String pdfName,
+        byte[] pdfData,
+        String token,
+        Response.Listener<String> listener,
+        Response.ErrorListener errorListener
+    ) {
         super(method, url, errorListener);
         this.mListener = listener;
         this.mErrorListener = errorListener;
+        this.pdfName = pdfName;
         this.pdfData = pdfData;
+        this.token = token;
     }
 
     @Override
@@ -43,20 +55,27 @@ public class MultipartRequest extends Request<String> {
     }
 
     @Override
+    public Map<String, String> getHeaders() {
+        return new HashMap<>() {{
+            put("Authorization", "Bearer " + token);
+        }};
+    }
+
+    @Override
     public byte[] getBody() {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         DataOutputStream dos = new DataOutputStream(bos);
 
         try {
-            // Add file part
-            dos.writeBytes("--" + mBoundary + "\r\n");
-            dos.writeBytes("Content-Disposition: form-data; name=\"" + mFilePartName + "\"; filename=\"" + "file.pdf" + "\"\r\n");
-            dos.writeBytes("Content-Type: application/pdf\r\n");
-            dos.writeBytes("\r\n");
+            dos.writeBytes(mTwoHyphens + mBoundary + mLineEnd);
+            dos.writeBytes("Content-Disposition: form-data; name=\"" + "file" + "\"; filename=\"" + pdfName + "\"" + mLineEnd); // Make sure to set name="file"
+            dos.writeBytes("Content-Type: application/pdf" + mLineEnd);
+            dos.writeBytes(mLineEnd);
             dos.write(pdfData);
-            dos.writeBytes("\r\n");
-            // End of multipart/form-data.
-            dos.writeBytes("--" + mBoundary + "--\r\n");
+            dos.writeBytes(mLineEnd);
+            dos.writeBytes(mTwoHyphens + mBoundary + mTwoHyphens + mLineEnd);
+
+            return bos.toByteArray();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -80,6 +99,7 @@ public class MultipartRequest extends Request<String> {
 
     @Override
     public void deliverError(com.android.volley.VolleyError error) {
+        System.out.println(error.toString());
         mErrorListener.onErrorResponse(error);
     }
 }
