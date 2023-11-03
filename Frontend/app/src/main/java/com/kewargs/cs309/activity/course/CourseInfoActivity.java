@@ -8,10 +8,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.widget.GridView;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.kewargs.cs309.R;
 import com.kewargs.cs309.activity.AbstractActivity;
+import com.kewargs.cs309.components.SectionCardComponent;
 import com.kewargs.cs309.core.adapters.ScheduleBlockAdapter;
 import com.kewargs.cs309.core.models.in.CourseDeserializable;
 import com.kewargs.cs309.core.models.in.ScheduleDeserializable;
@@ -52,6 +54,8 @@ public final class CourseInfoActivity extends AbstractActivity {
     private TextView sectionCountText;
     private GridView mainGrid;
     private GridView sideGrid;
+
+    private LinearLayout sectionList;
 
     private TextView insightsText;
 
@@ -105,7 +109,7 @@ public final class CourseInfoActivity extends AbstractActivity {
     private void buildCourseInfoComponents() {
         if (course == null) return;
 
-        titleText.setText(course.toString() + ": " + course.displayName());
+        titleText.setText(course + ": " + course.displayName());
         descriptionText.setText(course.description());
         creditsText.setText("" + course.credits());
         variableCreditsText.setText(boolToYesNo(course.isVariableCredit()));
@@ -124,6 +128,7 @@ public final class CourseInfoActivity extends AbstractActivity {
 
     private void buildScheduleComponents() {
         if (sections == null) return;
+        sectionList.removeAllViews();
 
         LayoutInflater layoutInflater = (LayoutInflater) getBaseContext()
             .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -150,6 +155,8 @@ public final class CourseInfoActivity extends AbstractActivity {
             else if (Boolean.FALSE.equals(section.isOnline())) offlineSections.add(section);
 
             // Regardless, we still populate the tables
+            SectionCardComponent sectionCard = new SectionCardComponent(layoutInflater, this, section);
+            sectionCard.bindTo(sectionList);
         }
         int offlineCount = offlineSections.size();
         int onlineCount = onlineSections.size();
@@ -189,6 +196,8 @@ public final class CourseInfoActivity extends AbstractActivity {
         sectionCountText = findViewById(R.id.sectionCountText);
         mainGrid = findViewById(R.id.mainGrid);
         sideGrid = findViewById(R.id.sideGrid);
+
+        sectionList = findViewById(R.id.sectionList);
 
         insightsText = findViewById(R.id.insightsSummary);
     }

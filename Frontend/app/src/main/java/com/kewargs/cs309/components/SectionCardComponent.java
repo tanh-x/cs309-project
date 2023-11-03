@@ -1,6 +1,8 @@
 package com.kewargs.cs309.components;
 
 import android.annotation.SuppressLint;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -14,11 +16,13 @@ import com.kewargs.cs309.core.models.in.ScheduleDeserializable;
 import com.kewargs.cs309.core.models.in.SectionDeserializable;
 import com.kewargs.cs309.core.utils.Helpers;
 
+import java.util.Objects;
+
 public final class SectionCardComponent extends InflatableComponent<ConstraintLayout> {
     private final SectionDeserializable section;
     private final AbstractActivity parentActivity;
 
-    private SectionCardComponent(
+    public SectionCardComponent(
         LayoutInflater inflater,
         AbstractActivity parentActivity,
         SectionDeserializable section
@@ -41,7 +45,7 @@ public final class SectionCardComponent extends InflatableComponent<ConstraintLa
             (section.isOnline() ? " (online)" : "")
         );
 
-        refNumText.setText(section.refNum());
+        refNumText.setText("Ref: " + section.refNum());
 
         section.schedules().stream()
             .map(this::buildScheduleRow)
@@ -54,11 +58,13 @@ public final class SectionCardComponent extends InflatableComponent<ConstraintLa
     private TableRow buildScheduleRow(ScheduleDeserializable schedule) {
         TableRow tableRow = new TableRow(parentActivity);
 
-        float typeWeight = 1f;
-        float startTimeWeight = 1f;
-        float endTimeWeight = 1f;
-        float locationWeight = 1f;
+        float typeWeight = 0.25f;
+        float startTimeWeight = 0.5f;
+        float endTimeWeight = 0.5f;
+        float locationWeight = 0.6f;
         float nameWeight = 1f;
+
+        float fontSize = 12f;
 
         TextView instructionTypeText = new TextView(parentActivity);
         instructionTypeText.setLayoutParams(
@@ -68,8 +74,9 @@ public final class SectionCardComponent extends InflatableComponent<ConstraintLa
                 typeWeight
             )
         );
+        instructionTypeText.setTextSize(TypedValue.COMPLEX_UNIT_SP, fontSize);
         instructionTypeText.setText(
-            schedule.instructionType() == null ? "" :
+            Objects.equals(schedule.instructionType(), "null") ? "-" :
                 schedule.instructionType()
         );
 
@@ -81,7 +88,8 @@ public final class SectionCardComponent extends InflatableComponent<ConstraintLa
                 startTimeWeight
             )
         );
-        startTime.setText(schedule.startTime() == null ? "" :
+        startTime.setTextSize(TypedValue.COMPLEX_UNIT_SP, fontSize);
+        startTime.setText(schedule.startTime() == null ? "-" :
             Helpers.formatMinutes(schedule.startTime())
         );
 
@@ -93,7 +101,8 @@ public final class SectionCardComponent extends InflatableComponent<ConstraintLa
                 endTimeWeight
             )
         );
-        endTimeText.setText(schedule.endTime() == null ? "" :
+        endTimeText.setTextSize(TypedValue.COMPLEX_UNIT_SP, fontSize);
+        endTimeText.setText(schedule.endTime() == null ? "-" :
             Helpers.formatMinutes(schedule.endTime())
         );
 
@@ -105,7 +114,8 @@ public final class SectionCardComponent extends InflatableComponent<ConstraintLa
                 locationWeight
             )
         );
-        locationText.setText(schedule.location() == null ? "" :
+        locationText.setTextSize(TypedValue.COMPLEX_UNIT_SP, fontSize);
+        locationText.setText(Objects.equals(schedule.location(), "null") ? "-" :
             schedule.location()
         );
 
@@ -117,16 +127,18 @@ public final class SectionCardComponent extends InflatableComponent<ConstraintLa
                 nameWeight
             )
         );
-        instructorText.setText(schedule.instructor() == null ? "" :
+        instructorText.setTextSize(TypedValue.COMPLEX_UNIT_SP, fontSize);
+        instructorText.setGravity(Gravity.END);
+        instructorText.setText(Objects.equals(schedule.instructor(), "null") ? "-" :
             schedule.instructor()
         );
 
-        tableRow.addView(instructorText);
+        tableRow.addView(instructionTypeText);
         tableRow.addView(startTime);
         tableRow.addView(endTimeText);
         tableRow.addView(locationText);
         tableRow.addView(instructorText);
 
-        return tableRow
+        return tableRow;
     }
 }
