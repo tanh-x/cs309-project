@@ -31,4 +31,8 @@ public class CourseService {
     public SectionEntity[] getSectionById(int id) {
         return sectionRepository.getSectionById(id);
     }
+
+    public String updateCourseInfo(String identifier ,int num, String description) {
+        return null;
+    }
 }

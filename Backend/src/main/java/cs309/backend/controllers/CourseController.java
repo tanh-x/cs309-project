@@ -42,9 +42,15 @@ public class CourseController {
         }
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<String> updateCourseInfo(@PathVariable int id) {
-        return null;
+    @PutMapping("/{identifier}/{num}/{description}")
+    public ResponseEntity<String> updateCourseDescription(@PathVariable String identifier, @PathVariable int num, @PathVariable String description) {
+        try {
+            String res = courseService.updateCourseInfo(identifier, num, description);
+            return ok("Successful!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return internalServerError().build();
+        }
     }
 
     @GetMapping("/sections/{id}")
