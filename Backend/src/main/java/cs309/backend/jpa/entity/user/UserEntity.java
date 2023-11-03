@@ -1,5 +1,6 @@
 package cs309.backend.jpa.entity.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import cs309.backend.common.Role;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -32,6 +33,7 @@ public final class UserEntity implements UserDetails, User {
     private int privilegeLevel;
 
     @Column(name = "pwd_bcrypt_hash", length = 256, nullable = false)
+    @JsonIgnore
     private String pwdBcryptHash;
 
     private Role mapPrivilegeLevelToRole(int privilegeLevel) {

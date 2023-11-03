@@ -66,17 +66,17 @@ public class CourseListActivity extends AbstractActivity {
                 } catch (JSONException e) {
                     debugText.setText("Error while fetching course information. " + e);
                 }
-                rebuildCourseListComponent();
+                buildCourseListComponent();
             }).onError(error -> {
                 debugText.setText("Error while fetching course information: " + error.toString());
             })
-            .bearer(session.getSessionToken())
+//            .bearer(session.getSessionToken())
             .build()
         );
     }
 
 
-    private void rebuildCourseListComponent() {
+    private void buildCourseListComponent() {
         // Clear out all children
         courseList.removeAllViews();
 
@@ -98,7 +98,7 @@ public class CourseListActivity extends AbstractActivity {
 
     private void searchButtonCallback(View view) {
         searchPattern = toQuantifierPattern(courseSearchField.getText().toString());
-        rebuildCourseListComponent();
+        buildCourseListComponent();
     }
 
     @Override

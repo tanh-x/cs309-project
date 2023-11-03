@@ -1,4 +1,4 @@
-package com.kewargs.cs309.core.manager;
+package com.kewargs.cs309.core.managers;
 
 import android.content.Context;
 import android.util.Log;
@@ -28,7 +28,7 @@ final class NetworkRequestManager {
     }
 
     synchronized NetworkRequestManager addContext(Context providedContext) {
-        if (requestQueue != null) throw new IllegalStateException("Volley already has context");
+//        if (requestQueue != null) throw new IllegalStateException("Volley already has context");
         requestQueue = Volley.newRequestQueue(providedContext.getApplicationContext());
         return this;
     }

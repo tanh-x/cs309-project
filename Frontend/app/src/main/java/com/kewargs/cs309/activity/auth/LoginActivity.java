@@ -58,7 +58,11 @@ public class LoginActivity extends AbstractActivity {
             return false;
         });
 
-        debugInfoText.setText(String.format("Current backend address: %s", UniversalConstants.ENDPOINT));
+        try {
+            debugInfoText.setText(String.format("Current backend address: %s", UniversalConstants.ENDPOINT));
+        } catch (ExceptionInInitializerError e) {
+            showToast("Can't reach server", this);
+        }
     }
 
     private void loginButtonCallback(View view) {

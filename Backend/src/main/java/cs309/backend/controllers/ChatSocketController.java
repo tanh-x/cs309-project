@@ -31,10 +31,10 @@ public class ChatSocketController {
     }
 
     @OnOpen
-    public void onOpen(Session session, @PathParam("username") String username) throws IOException {
+    public void onOpen(Session session, @PathParam("username") String username) {
         logger.info("Entered into Open");
         messageService.handleOpenSession(session, username);
-        broadcast("User:" + username + " has joined the Chat");
+        messageService.broadcastJoinMessage(username);
     }
 
     @OnMessage
@@ -53,10 +53,6 @@ public class ChatSocketController {
     public void onError(Session session, Throwable throwable) {
 
         logger.error("Error encountered", throwable);
-    }
-
-    private void broadcast(String message) {
-        sessionStore.getSessionUsernameMap().forEach((session, username) -> messageService.sendMessageToUser(username, message));
     }
 }
 
