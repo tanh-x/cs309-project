@@ -102,4 +102,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <Button
+        android:id="@+id/toAuditUpload"
+        android:layout_width="150dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="360dp"
+        android:layout_marginEnd="24dp"
+        android:text="Upload Audit"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
