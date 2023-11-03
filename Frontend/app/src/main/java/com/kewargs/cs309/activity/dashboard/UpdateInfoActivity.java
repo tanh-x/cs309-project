@@ -53,7 +53,7 @@ public class UpdateInfoActivity extends AbstractActivity {
                 error.printStackTrace();
                 showToast(error.toString(), UpdateInfoActivity.this);
             })
-            .bearer(session.getSessionToken())
+//            .bearer(session.getSessionToken())
             .build();
 
         session.addRequest(request);

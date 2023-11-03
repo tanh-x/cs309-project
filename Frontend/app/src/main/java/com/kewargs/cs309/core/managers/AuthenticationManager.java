@@ -1,4 +1,4 @@
-package com.kewargs.cs309.core.manager;
+package com.kewargs.cs309.core.managers;
 
 import com.auth0.android.jwt.JWT;
 
@@ -36,12 +36,17 @@ final class AuthenticationManager {
     }
 
     // ====== Housekeeping stuff ======
-    private static AuthenticationManager instance = null;
+    static AuthenticationManager instance = null;
 
     private AuthenticationManager() { }
 
     static synchronized AuthenticationManager getInstance() {
         if (instance == null) instance = new AuthenticationManager();
+        return instance;
+    }
+
+    static synchronized AuthenticationManager renewInstance() {
+        instance = new AuthenticationManager();
         return instance;
     }
 }

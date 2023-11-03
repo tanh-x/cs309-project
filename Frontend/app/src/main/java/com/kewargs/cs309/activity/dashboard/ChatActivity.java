@@ -68,7 +68,6 @@ public class ChatActivity extends AbstractActivity implements SocketListener {
         runOnUiThread(() -> {
             String s = chatText.getText().toString();
             chatText.setText(s + "\n" + message);
-            Log.i("ChatActivity", message);
             scroller.fullScroll(ScrollView.FOCUS_DOWN);
         });
 

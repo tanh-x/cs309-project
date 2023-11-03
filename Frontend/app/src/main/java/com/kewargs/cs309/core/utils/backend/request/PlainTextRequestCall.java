@@ -3,7 +3,6 @@ package com.kewargs.cs309.core.utils.backend.request;
 import static com.android.volley.Request.Method.GET;
 
 import com.android.volley.toolbox.StringRequest;
-import com.kewargs.cs309.core.manager.SessionManager;
 
 import java.util.HashMap;
 import java.util.Map;

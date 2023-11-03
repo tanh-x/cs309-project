@@ -3,17 +3,17 @@ package com.kewargs.cs309.activity.dashboard;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Button;
+import android.widget.TextView;
 
-import org.json.*;
-
+import com.kewargs.cs309.MainActivity;
 import com.kewargs.cs309.R;
 import com.kewargs.cs309.activity.AbstractActivity;
-import com.kewargs.cs309.activity.auth.LoginActivity;
 import com.kewargs.cs309.activity.course.CourseListActivity;
 import com.kewargs.cs309.core.models.in.UserDeserializable;
 import com.kewargs.cs309.core.utils.backend.factory.UserRequestFactory;
+
+import org.json.JSONException;
 
 public class DashboardActivity extends AbstractActivity {
     public DashboardActivity() { super(R.layout.activity_dashboard); }
@@ -29,18 +29,20 @@ public class DashboardActivity extends AbstractActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        session.addRequest(UserRequestFactory
-            .getUserById(session.getUserId())
-            .onResponse(response -> {
-                userInfoDump.setText(response);
-                try {
-                    userInfo = UserDeserializable.from(response);
-                    dashboardGreeting.setText("Hello " + userInfo.displayName());
-                } catch (JSONException ignored) { }
-            })
-            .bearer(session.getSessionToken())
-            .build()
-        );
+        if (!session.isLoggedIn()) finish();
+
+        try {
+            session.addRequest(UserRequestFactory.getUserById(session.getUserId()).onResponse(response -> {
+                    userInfoDump.setText(response);
+                    try {
+                        userInfo = UserDeserializable.from(response);
+                        dashboardGreeting.setText("Hello " + userInfo.displayName());
+                    } catch (JSONException ignored) { }
+                })
+                .build());
+        } catch (NullPointerException e) {
+            finish();
+        }
 
         coursesButton.setOnClickListener(this::coursesButtonCallback);
         updateInfo.setOnClickListener(this::updateInfoCallback);
@@ -72,7 +74,11 @@ public class DashboardActivity extends AbstractActivity {
         switchToActivity(AuditUploadAcitivity.class);
     }
 
-    private void logOutButtonCallback(View view) {switchToActivity(LoginActivity.class);} //doesnt work idk how to end sesh without crashing app
+    private void logOutButtonCallback(View view) {
+        showToast("Logged out", this);
+        session.seppuku();
+        switchToActivity(MainActivity.class);
+    }
 
     private void switchToActivity(Class<?> newActivity) {
         Intent intent = new Intent(DashboardActivity.this, newActivity);
