@@ -42,6 +42,16 @@ public class CourseController {
         }
     }
 
+    @GetMapping("/{identifier}/{num}")
+    public ResponseEntity<CourseEntity> getCourseByIdentifier(@PathVariable String identifier, @PathVariable int num) {
+        try {
+            CourseEntity res = courseService.getCourseByIdentifier(identifier, num);
+            return ok(res);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return internalServerError().build();
+        }
+    }
     @PutMapping("/{identifier}/{num}/{description}")
     public ResponseEntity<String> updateCourseDescription(@PathVariable String identifier, @PathVariable int num, @PathVariable String description) {
         try {

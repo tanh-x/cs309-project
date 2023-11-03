@@ -12,4 +12,7 @@ public interface CourseRepository extends JpaRepository<CourseEntity, Long> {
 
     @Procedure(name = "getCourseById")
     CourseEntity getCourseById(@Param("p_id") int id);
+
+    @Procedure(name = "getCourseByIdentifier")
+    CourseEntity getCourseByIdentifier(@Param("p_identifier") String identifier, @Param("p_num") int num);
 }

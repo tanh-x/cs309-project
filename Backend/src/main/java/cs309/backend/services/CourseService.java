@@ -35,4 +35,6 @@ public class CourseService {
     public String updateCourseInfo(String identifier ,int num, String description) {
         return null;
     }
+
+    public CourseEntity getCourseByIdentifier(String identifier, int num) { return courseRepository.getCourseByIdentifier(identifier, num); }
 }
