@@ -37,43 +37,69 @@ public class MessageService {
     public void handleOpenSession(Session session, String username) {
         sessionStore.getSessionUsernameMap().put(session, username);
         sessionStore.getUsernameSessionMap().put(username, session);
-        sendMessageToParticularUser(username, getChatHistory());
+        sendMessageToParticularUser(username, getChatHistory(username));
     }
 
     public void handleIncomingMessage(Session session, String message) {
-        String username = sessionStore.getSessionUsernameMap().get(session);
+            String username = sessionStore.getSessionUsernameMap().get(session);
 
-        UserEntity user = userRepository.getUserByUsername(username);
-        if (user == null || !Objects.equals(user.getUsername(), username))
-            throw new IllegalArgumentException("Invalid user");
+            try {
+                UserEntity user = userRepository.getUserByUsername(username);
 
-        if (message.startsWith("@")) {
-            String receiverUsername = message.split(" ")[0].substring(1);
-            UserEntity receiverUser = userRepository.getUserByUsername(receiverUsername);
+                // Assuming that you have already handled user validation elsewhere
 
-            sendMessageToParticularUser(receiverUsername, "[DM] " + username + ": " + message);
-            sendMessageToParticularUser(username, "[DM] " + username + ": " + message);
+                if (message.startsWith("@")) {
+                    String receiverUsername = message.split(" ")[0].substring(1);
 
-            saveMessage(new MessageData(user.getUid(), receiverUser.getUid(), message));
-        } else {
-            broadcast(username + ": " + message);
-            saveMessage(new MessageData(user.getUid(), null, message));
+                    if (receiverUsername.equals(username)) {
+                        sendMessageToParticularUser(username, "You cannot send a private message to yourself.");
+                        return;
+                    }
+
+                    UserEntity receiverUser = userRepository.getUserByUsername(receiverUsername);
+                    if (receiverUser == null) {
+                        sendMessageToParticularUser(username, "The user '" + receiverUsername + "' does not exist.");
+                        return;
+                    }
+
+                    String contentToSave = message.substring(receiverUsername.length() + 2); // +2 for '@' and space
+                    String formattedMessage = "[DM] " + username + ": " + contentToSave;
+
+                    sendMessageToParticularUser(receiverUsername, formattedMessage);
+                    sendMessageToParticularUser(username, formattedMessage); // Confirm to sender that the message was sent
+
+                    saveMessage(new MessageData(user.getUid(), receiverUser.getUid(), contentToSave));
+                } else {
+                    // Handle non-direct messages
+                    broadcastExcludeSender(username + ": " + message, username);
+                    saveMessage(new MessageData(user.getUid(), null, message));
+                }
+            } catch (Exception e) {
+                logger.error("An error occurred while processing the message: " + e.getMessage(), e);
+                sendMessageToParticularUser(username, "An error occurred. Please try again later.");
+            }
         }
 
-    }
 
-    public void handleCloseSession(Session session) {
+        public void handleCloseSession(Session session) {
         String username = sessionStore.getSessionUsernameMap().get(session);
         sessionStore.getSessionUsernameMap().remove(session);
         sessionStore.getUsernameSessionMap().remove(username);
-        broadcast(username + " disconnected");
+        broadcastExcludeSender(username + " disconnected",username);
     }
 
     private void sendMessageToParticularUser(String username, String message) {
-        try {
+        Session session = sessionStore.getUsernameSessionMap().get(username);
+
+        if (session != null && session.isOpen()) {
+
+            try {
             sessionStore.getUsernameSessionMap().get(username).getBasicRemote().sendText(message);
         } catch (IOException e) {
             logger.error("Exception: " + e.getMessage());
+        }
+        } else {
+            logger.error("Attempted to send message to non-existent or closed session for username: " + username);
         }
     }
 
@@ -89,35 +115,47 @@ public class MessageService {
     }
 
     public List<MessageEntity> getAllMessages() {
+
         return new ArrayList<>(messageRepository.getAllMessages());
     }
 
     public MessageEntity getMessageById(int messageId) {
+
         return messageRepository.findById(messageId).orElse(null);
     }
 
     public void deleteMessage(int messageId) {
+
         messageRepository.deleteById(messageId);
     }
 
 
-    private String getChatHistory() {
+    private String getChatHistory(String username) {
+    //private String getChatHistory() {
+
         List<MessageEntity> recentMessages = messageRepository.getAllMessages();
         StringBuilder history = new StringBuilder();
         for (MessageEntity message : recentMessages) {
             int senderUid = message.getSender();
-            String senderName = userRepository.getUserByUid(senderUid).toString();
-            history.append(senderName).append(": ").append(message.getContent()).append("\n");
+//            String senderName = userRepository.getUserByUid(senderUid).   toString();
+//            history.append(senderName).append(": ").append(message.getContent()).append("\n");
+            UserEntity sender = userRepository.getUserByUid(senderUid);
+            if (!sender.getUsername().equals(username)) {
+                history.append(sender.getUsername()).append(": ").append(message.getContent()).append("\n");
+            }
         }
         return history.toString();
     }
 
-    private void broadcast(String message) {
-        sessionStore.getSessionUsernameMap().forEach((session, user) -> {
-            try {
-                session.getBasicRemote().sendText(message);
-            } catch (IOException e) {
-                logger.error("Exception: " + e.getMessage());
+    private void broadcastExcludeSender(String message,String senderUsername) {
+        sessionStore.getSessionUsernameMap().forEach((session, username) -> {
+            if (!username.equals(senderUsername)) {
+
+                try {
+                    session.getBasicRemote().sendText(message);
+                } catch (IOException e) {
+                    logger.error("Exception: " + e.getMessage());
+                }
             }
         });
     }
