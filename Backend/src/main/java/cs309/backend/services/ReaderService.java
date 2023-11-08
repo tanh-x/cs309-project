@@ -24,7 +24,7 @@ public class ReaderService {
         Scanner scr = new Scanner(args);
         while (scr.hasNextLine()) {
             String line = scr.nextLine();
-            if (line.startsWith("F") || line.startsWith("S")) {
+            if (line.startsWith("F") || line.startsWith("S")) {  // TODO: REGEX???????
                 if(line.length() != 6) {
                     if (!line.contains(".")) {
                         line = line.substring(24);

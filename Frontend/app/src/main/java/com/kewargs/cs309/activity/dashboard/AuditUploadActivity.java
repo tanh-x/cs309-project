@@ -2,12 +2,6 @@ package com.kewargs.cs309.activity.dashboard;
 
 import static com.kewargs.cs309.core.utils.constants.UniversalConstants.AUDIT_UPLOAD_ENDPOINT;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.kewargs.cs309.R;
-import com.kewargs.cs309.activity.AbstractActivity;
-import com.kewargs.cs309.core.utils.backend.request.MultipartRequest;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -19,23 +13,21 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+
+import com.android.volley.Request;
+import com.kewargs.cs309.R;
+import com.kewargs.cs309.activity.AbstractActivity;
+import com.kewargs.cs309.core.utils.backend.request.MultipartRequest;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 
 
