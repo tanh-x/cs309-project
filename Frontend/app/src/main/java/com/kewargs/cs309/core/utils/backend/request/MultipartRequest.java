@@ -30,7 +30,7 @@ public class MultipartRequest extends Request<String> {
     private final String mLineEnd = "\r\n";
     private final String mTwoHyphens = "--";
 
-    private String token;
+    private final String token;
 
     public MultipartRequest(
         int method,
