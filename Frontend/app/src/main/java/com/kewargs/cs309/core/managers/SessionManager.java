@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.android.volley.Request;
 
+import com.kewargs.cs309.core.utils.backend.request.RequestCall;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -48,6 +49,10 @@ public final class SessionManager {
 
     public synchronized <T> void addRequest(Request<T> request) {
         networkRequest.enqueue(request);
+    }
+
+    public synchronized <S, R extends RequestCall<S, ?>> void addRequest(RequestCall<S, R> request) {
+        networkRequest.enqueue(request.build());
     }
 
     // ====== Housekeeping stuff ======

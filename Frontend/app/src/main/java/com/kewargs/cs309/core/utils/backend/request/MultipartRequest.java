@@ -30,7 +30,7 @@ public class MultipartRequest extends Request<String> {
     private final String mLineEnd = "\r\n";
     private final String mTwoHyphens = "--";
 
-    private String token;
+    private final String token;
 
     public MultipartRequest(
         int method,
@@ -68,7 +68,7 @@ public class MultipartRequest extends Request<String> {
 
         try {
             dos.writeBytes(mTwoHyphens + mBoundary + mLineEnd);
-            dos.writeBytes("Content-Disposition: form-data; name=\"" + "file" + "\"; filename=\"" + pdfName + "\"" + mLineEnd); // Make sure to set name="file"
+            dos.writeBytes("Content-Disposition: form-data; name=\"" + "file" + "\"; filename=\"" + pdfName + "\"" + mLineEnd);
             dos.writeBytes("Content-Type: application/pdf" + mLineEnd);
             dos.writeBytes(mLineEnd);
             dos.write(pdfData);

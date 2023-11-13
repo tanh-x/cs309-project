@@ -7,6 +7,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.function.Function;
 
+/**
+ * Helper methods for deserializable classes
+ */
 public class DeserializationHelpers {
     public static Integer getNullableInt(JSONObject json, String key) throws JSONException {
         return json.isNull(key) ? null : json.getInt(key);
