@@ -1,4 +1,4 @@
-package cs309.backend.models;
+package cs309.backend.DTOs;
 
 import cs309.backend.jpa.entity.user.UserEntity;
 import jakarta.validation.constraints.NotBlank;

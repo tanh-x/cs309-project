@@ -1,4 +1,4 @@
-package cs309.backend.models;
+package cs309.backend.DTOs;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

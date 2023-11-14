@@ -5,7 +5,7 @@ import cs309.backend.jpa.entity.MessageEntity;
 import cs309.backend.jpa.entity.user.UserEntity;
 import cs309.backend.jpa.repo.MessageRepository;
 import cs309.backend.jpa.repo.UserRepository;
-import cs309.backend.models.MessageData;
+import cs309.backend.DTOs.MessageData;
 import jakarta.transaction.Transactional;
 import jakarta.websocket.Session;
 import org.slf4j.Logger;

@@ -1,9 +1,10 @@
-package cs309.backend.models;
+package cs309.backend.DTOs;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-public record LoginData(
+public record UpdateInfoData(
+    @NotNull @NotBlank int id,
     @NotNull @NotBlank String email,
-    @NotNull @NotBlank String password
+    @NotNull @NotBlank String displayName
 ) { }
