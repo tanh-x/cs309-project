@@ -5,6 +5,9 @@ import cs309.backend.DTOs.LoginData;
 import cs309.backend.DTOs.RegistrationData;
 import cs309.backend.DTOs.SessionTokenData;
 import cs309.backend.services.UserService;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +24,8 @@ public class AuthController {
     public AuthController(UserService userService) {
         this.userService = userService;
     }
+
+    @Operation(description = "register a new Account, generating a new Jwt token for that user")
     @PostMapping("/register")
     public ResponseEntity<String> registerEndpoint(@RequestBody RegistrationData args) {
         try {
@@ -31,6 +36,7 @@ public class AuthController {
         }
     }
 
+    @Operation(description = "login to the account, check the credentials")
     @PostMapping("/login")
     public ResponseEntity<SessionTokenData> loginEndpoint(@RequestBody LoginData args) {
         try {

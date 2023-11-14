@@ -4,6 +4,7 @@ import cs309.backend.jpa.entity.CourseEntity;
 import cs309.backend.jpa.entity.SectionEntity;
 import cs309.backend.DTOs.SectionData;
 import cs309.backend.services.CourseService;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,7 @@ public class CourseController {
         this.courseService = courseService;
     }
 
+    @Operation(description = "get all the courses in the given term")
     @GetMapping("/all/{term}")
     public ResponseEntity<CourseEntity[]> getAll(@PathVariable int term) {
         try {
@@ -32,6 +34,7 @@ public class CourseController {
         }
     }
 
+    @Operation(description = "get course by course id")
     @GetMapping("/{id}")
     public ResponseEntity<CourseEntity> getCourseById(@PathVariable int id) {
         try {
@@ -42,7 +45,7 @@ public class CourseController {
             return internalServerError().build();
         }
     }
-
+    @Operation(description = "get course by its identifier and number")
     @GetMapping("/{identifier}/{num}")
     public ResponseEntity<CourseEntity> getCourseByIdentifier(@PathVariable String identifier, @PathVariable int num) {
         try {
@@ -53,6 +56,8 @@ public class CourseController {
             return internalServerError().build();
         }
     }
+
+    @Operation(description = "change the course descryption using its identifier and number")
     @PutMapping("/{identifier}/{num}")
     public ResponseEntity<String> updateCourseDescriptionByIdentifier(@PathVariable String identifier, @PathVariable int num, @RequestParam("description") String description) {
         try {
@@ -64,6 +69,7 @@ public class CourseController {
         }
     }
 
+    @Operation(description = "get the section by section id")
     @GetMapping("/sections/{id}")
     public ResponseEntity<SectionEntity[]> getSectionById(@PathVariable int id) {
         try {
@@ -75,6 +81,7 @@ public class CourseController {
         }
     }
 
+    @Operation(description = "create a new section")
     @PostMapping("/section")
     public ResponseEntity<String> createSection(@RequestBody SectionData args) {
         try {
