@@ -23,7 +23,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.LinkedHashSet;
-
+/**
+ * The first screen that the user is prompted with if they aren't logged in.
+ * The user password is encrypted.
+ *
+ * @author Thanh Mai
+ */
 public class LoginActivity extends AbstractActivity {
     public LoginActivity() { super(R.layout.activity_login); }
 
