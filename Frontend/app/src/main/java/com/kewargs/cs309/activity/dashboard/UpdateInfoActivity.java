@@ -16,7 +16,11 @@ import com.kewargs.cs309.core.utils.backend.factory.UserRequestFactory;
 
 import java.util.LinkedHashSet;
 
-
+/**
+ * Feature for users to edit personal infos
+ *
+ * @author Bui Nhat Anh
+ */
 public class UpdateInfoActivity extends AbstractActivity {
     public UpdateInfoActivity() { super(R.layout.activity_update_info); }
 

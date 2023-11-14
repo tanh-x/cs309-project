@@ -29,8 +29,12 @@ import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 
-
-
+/**
+ * An interface for users to upload their degree audit in form of pdf into the server
+ * The program converts the file into a byte stream and send a multipart request to the server
+ *
+ * @author Bui Nhat Anh
+ */
 public class AuditUploadActivity extends AbstractActivity {
     public AuditUploadActivity() {
         super(R.layout.activity_pdf_uploader);
