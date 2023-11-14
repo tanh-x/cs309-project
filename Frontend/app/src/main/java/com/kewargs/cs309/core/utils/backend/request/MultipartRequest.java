@@ -19,6 +19,8 @@ import java.util.Map;
  * This class extends the Volley Request class, specifically handling the creation and transmission
  * of multipart requests. It is designed to send binary data like images, files, or other media
  * along with text data as part of a single request. It's commonly used for file uploads.
+ *
+ * @author Nhat Bui
  **/
 public class MultipartRequest extends Request<String> {
 

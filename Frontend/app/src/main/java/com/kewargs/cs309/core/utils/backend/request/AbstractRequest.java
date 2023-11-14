@@ -13,6 +13,8 @@ import com.kewargs.cs309.core.managers.SessionManager;
  *
  * @param <ResponseType> The expected type of the response object.
  * @param <RequestType>  The type of the concrete class extending this abstract class.
+ *
+ * @author Thanh Mai
  */
 @SuppressWarnings("unchecked")
 public abstract class AbstractRequest<ResponseType, RequestType extends AbstractRequest<ResponseType, RequestType>>

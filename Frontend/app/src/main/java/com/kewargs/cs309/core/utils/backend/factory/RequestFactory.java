@@ -6,6 +6,11 @@ import static com.android.volley.Request.Method.PUT;
 import com.kewargs.cs309.core.utils.backend.request.PlainTextRequestCall;
 import com.kewargs.cs309.core.utils.backend.request.JsonRequestCall;
 
+/**
+ * Build GET and POST requests of various types
+ *
+ * @author Thanh Mai
+ */
 public final class RequestFactory {
     public static PlainTextRequestCall GET() { return new PlainTextRequestCall(null); }
 

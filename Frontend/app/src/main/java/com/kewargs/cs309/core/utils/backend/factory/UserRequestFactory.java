@@ -8,6 +8,11 @@ import com.kewargs.cs309.core.utils.backend.request.PlainTextRequestCall;
 
 import org.json.JSONException;
 
+/**
+ * Builds requests pertaining to the user endpoint
+ *
+ * @author Thanh Mai
+ */
 public class UserRequestFactory {
     public static JsonRequestCall login(String email, String password) {
         try {

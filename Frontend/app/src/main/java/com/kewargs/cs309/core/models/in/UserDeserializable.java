@@ -3,6 +3,11 @@ package com.kewargs.cs309.core.models.in;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * Mirrors the UserData class
+ *
+ * @author Thanh Mai
+ */
 public record UserDeserializable(
     int uid,
     String username,

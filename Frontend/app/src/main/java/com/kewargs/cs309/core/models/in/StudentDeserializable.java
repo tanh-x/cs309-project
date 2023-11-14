@@ -5,6 +5,11 @@ import static com.kewargs.cs309.core.utils.backend.request.DeserializationHelper
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * Mirrors the StudentEntity class
+ *
+ * @author Thanh Mai
+ */
 public record StudentDeserializable(
     int uid,
     String username,

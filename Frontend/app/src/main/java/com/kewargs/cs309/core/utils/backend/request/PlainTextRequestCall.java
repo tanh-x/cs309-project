@@ -11,6 +11,8 @@ import java.util.Map;
  * A concrete implementation of AbstractRequest for plain text responses. It extends the capabilities
  * of AbstractRequest to return a StringRequest, which is suitable for simple requests expecting
  * a string response.
+ *
+ * @author Thanh Mai
  */
 public class PlainTextRequestCall extends AbstractRequest<String, PlainTextRequestCall> {
     /**
