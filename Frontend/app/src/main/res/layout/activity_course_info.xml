@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -39,22 +41,26 @@
 
         <com.google.android.material.tabs.TabLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:id="@+id/tabs">
 
             <com.google.android.material.tabs.TabItem
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Overview" />
+                    android:text="Overview"
+                    android:id="@+id/overviewTabItem" />
 
             <com.google.android.material.tabs.TabItem
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Schedule" />
+                    android:text="Schedule"
+                    android:id="@+id/scheduleTabItem" />
 
             <com.google.android.material.tabs.TabItem
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Insights" />
+                    android:text="Insights"
+                    android:id="@+id/insightsTabItem" />
         </com.google.android.material.tabs.TabLayout>
 
         <ScrollView
@@ -64,180 +70,379 @@
                 android:paddingRight="4dp"
                 android:paddingTop="4dp"
                 android:paddingEnd="4dp"
-                android:padding="4dp">
+                android:padding="4dp"
+                android:id="@+id/scroller">
 
             <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/overviewContainer"
                     android:padding="4dp">
 
-                <TextView
-                        android:text="COURSE 000: Introduction to Placeholder Titles"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/courseTitleText"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-
-                <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/courseDescriptionText"
-                        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." />
-
-                <View
-                        android:id="@+id/divider"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="?android:attr/listDivider"
-                        android:layout_marginTop="4dp"
-                        android:layout_marginBottom="4dp" />
-
                 <LinearLayout
-                        android:orientation="horizontal"
+                        android:orientation="vertical"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:id="@+id/overviewContainer"
+                        android:paddingTop="2dp"
+                        android:paddingBottom="4dp">
+
+                    <TextView
+                            android:text="COURSE 000: Introduction to Placeholder Titles"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/titleText"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                    <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/descriptionText"
+                            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." />
+
+                    <View
+                            android:id="@+id/divider"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="?android:attr/listDivider"
+                            android:layout_marginTop="4dp"
+                            android:layout_marginBottom="4dp" />
 
                     <LinearLayout
-                            android:orientation="vertical"
+                            android:orientation="horizontal"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:layout_marginHorizontal="4dp">
+                            android:layout_height="match_parent">
 
                         <LinearLayout
-                                android:orientation="horizontal"
+                                android:orientation="vertical"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
-                                android:layout_margin="2dp">
+                                android:layout_marginHorizontal="4dp">
 
-                            <TextView
-                                    android:text="Credits"
+                            <LinearLayout
+                                    android:orientation="horizontal"
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:id="@+id/textView4"
-                                    android:layout_weight="1" />
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:layout_margin="2dp">
 
-                            <TextView
-                                    android:text="99"
-                                    android:layout_width="64dp"
-                                    android:layout_height="wrap_content"
-                                    android:id="@+id/creditsText"
-                                    android:textAlignment="textEnd"
-                                    android:textStyle="bold" />
+                                <TextView
+                                        android:text="Credits"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:id="@+id/textView4"
+                                        android:layout_weight="1" />
+
+                                <TextView
+                                        android:text="99"
+                                        android:layout_width="64dp"
+                                        android:layout_height="wrap_content"
+                                        android:id="@+id/creditsText"
+                                        android:textAlignment="textEnd"
+                                        android:textStyle="bold" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                    android:orientation="horizontal"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:layout_margin="2dp">
+
+                                <TextView
+                                        android:text="Variable credits"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:id="@+id/textView6"
+                                        android:layout_weight="1" />
+
+                                <TextView
+                                        android:text="Maybe"
+                                        android:layout_width="64dp"
+                                        android:layout_height="wrap_content"
+                                        android:id="@+id/variableCreditsText"
+                                        android:textAlignment="textEnd"
+                                        android:textStyle="bold" />
+
+                            </LinearLayout>
+
 
                         </LinearLayout>
 
                         <LinearLayout
-                                android:orientation="horizontal"
+                                android:orientation="vertical"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
-                                android:layout_margin="2dp">
+                                android:layout_marginHorizontal="4dp">
 
-                            <TextView
-                                    android:text="Variable credits"
+                            <LinearLayout
+                                    android:orientation="horizontal"
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:id="@+id/textView6"
-                                    android:layout_weight="1" />
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:layout_margin="2dp">
 
-                            <TextView
-                                    android:text="Maybe"
-                                    android:layout_width="64dp"
-                                    android:layout_height="wrap_content"
-                                    android:id="@+id/variableCreditsText"
-                                    android:textAlignment="textEnd"
-                                    android:textStyle="bold" />
+                                <TextView
+                                        android:text="Delivery"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:id="@+id/textView5"
+                                        android:layout_weight="1" />
+
+                                <TextView
+                                        android:text="Both"
+                                        android:layout_width="64dp"
+                                        android:layout_height="wrap_content"
+                                        android:id="@+id/deliveryText"
+                                        android:textAlignment="textEnd"
+                                        android:textStyle="bold" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                    android:orientation="horizontal"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:layout_margin="2dp">
+
+                                <TextView
+                                        android:text="Graded"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:id="@+id/textView7"
+                                        android:layout_weight="1" />
+
+                                <TextView
+                                        android:text="Maybe"
+                                        android:layout_width="64dp"
+                                        android:layout_height="wrap_content"
+                                        android:id="@+id/gradedText"
+                                        android:textAlignment="textEnd"
+                                        android:textStyle="bold" />
+
+                            </LinearLayout>
 
                         </LinearLayout>
-
 
                     </LinearLayout>
 
                     <LinearLayout
-                            android:orientation="vertical"
+                            android:orientation="horizontal"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:layout_marginHorizontal="4dp">
+                            android:layout_marginHorizontal="6dp"
+                            android:layout_marginVertical="1dp">
 
-                        <LinearLayout
-                                android:orientation="horizontal"
+                        <TextView
+                                android:text="Seasons offered"
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:layout_margin="2dp">
+                                android:layout_height="wrap_content"
+                                android:id="@+id/textView3"
+                                android:layout_weight="1" />
 
-                            <TextView
-                                    android:text="Delivery"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:id="@+id/textView5"
-                                    android:layout_weight="1" />
-
-                            <TextView
-                                    android:text="In-person · Online"
-                                    android:layout_width="128dp"
-                                    android:layout_height="wrap_content"
-                                    android:id="@+id/deliveryText"
-                                    android:textAlignment="textEnd"
-                                    android:textStyle="bold" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                                android:orientation="horizontal"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:layout_margin="2dp">
-
-                            <TextView
-                                    android:text="Graded?"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:id="@+id/textView7"
-                                    android:layout_weight="1" />
-
-                            <TextView
-                                    android:text="Maybe"
-                                    android:layout_width="64dp"
-                                    android:layout_height="wrap_content"
-                                    android:id="@+id/gradedText"
-                                    android:textAlignment="textEnd"
-                                    android:textStyle="bold" />
-
-                        </LinearLayout>
-
+                        <TextView
+                                android:text="Spring · Summer · Fall · Winter"
+                                android:layout_width="256dp"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/seasonsText"
+                                android:textAlignment="textEnd"
+                                android:textStyle="bold" />
                     </LinearLayout>
 
                 </LinearLayout>
 
-                <LinearLayout
-                        android:orientation="horizontal"
+                <View
+                        android:id="@+id/divider3"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:layout_marginHorizontal="6dp"
-                        android:layout_marginVertical="1dp">
+                        android:layout_height="1dp"
+                        android:background="?android:attr/listDivider" />
 
-                    <TextView
-                            android:text="Seasons offered"
+                <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/scheduleContainer"
+                        android:paddingTop="4dp"
+                        android:paddingBottom="4dp">
+
+                    <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                        <TextView
+                                android:text="Schedule"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/textView2"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                android:layout_marginRight="8dp"
+                                android:gravity="center" />
+
+                        <TextView
+                                android:text="99 sections (3 online)"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:id="@+id/sectionCountText"
+                                android:layout_weight="1"
+                                android:textStyle="italic"
+                                android:gravity="center_vertical" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="160dp"
+                            android:id="@+id/calendarContainer"
+                            android:layout_marginVertical="12dp"
+                            android:layout_marginHorizontal="4dp"
+                            android:background="@drawable/thin_border">
+
+                        <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="horizontal"
+                                android:paddingBottom="2dp"
+                                android:weightSum="1">
+
+                            <TextView
+                                    android:text="Calendar view"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/textView9"
+                                    android:layout_weight="0.05" />
+
+                            <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="0.15"
+                                    android:orientation="vertical">
+
+                                <GridView
+                                        android:id="@+id/mainGrid"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="720dp"
+                                        android:layout_gravity="center_horizontal"
+                                        android:layout_marginTop="4dp"
+                                        android:background="@null"
+                                        android:choiceMode="multipleChoiceModal"
+                                        android:listSelector="@android:color/transparent"
+                                        android:numColumns="5"
+                                        android:stretchMode="columnWidth">
+
+                                </GridView>
+                            </LinearLayout>
+
+
+                            <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="0.85"
+                                    android:orientation="vertical">
+
+                                <GridView
+                                        android:id="@+id/sideGrid"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_horizontal"
+                                        android:layout_marginTop="4dp"
+                                        android:background="@null"
+                                        android:listSelector="@android:color/transparent"
+                                        android:numColumns="1"
+                                        android:stretchMode="columnWidth">
+
+                                </GridView>
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                            android:orientation="vertical"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:id="@+id/textView3"
-                            android:layout_weight="1" />
+                            android:id="@+id/sectionList"></LinearLayout>
+
+
+                </LinearLayout>
+
+                <View
+                        android:id="@+id/divider4"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="?android:attr/listDivider" />
+
+                <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/insightsContainer"
+                        android:paddingVertical="4dp"
+                        android:elevation="6dp">
 
                     <TextView
-                            android:text="Spring · Summer · Fall · Winter"
-                            android:layout_width="256dp"
+                            android:text="Insights"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:id="@+id/variableCreditsText"
-                            android:textAlignment="textEnd"
-                            android:textStyle="bold" />
+                            android:id="@+id/textView8"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:layout_marginRight="8dp"
+                            android:gravity="center"
+                            android:layout_marginBottom="4dp" />
+
+                    <TextView
+                            android:text="No insight summary found for this course."
+                            android:id="@+id/insightsSummary"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/default_border"
+                            android:paddingVertical="6dp"
+                            android:paddingLeft="16dp"
+                            android:paddingRight="8dp"
+                            android:layout_marginVertical="4dp" />
+
+                    <com.google.android.material.chip.ChipGroup
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+
+                            android:id="@+id/tagsChipGroup"
+                            app:chipSpacingVertical="0dp"
+                            app:chipSpacingHorizontal="4dp">
+
+                    </com.google.android.material.chip.ChipGroup>
+
+
+                    <TextView
+                            android:text="∙ No difficulty ratings found for this course"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/difficultyText"
+                            android:lineHeight="16dp"
+                            android:layout_margin="2dp" />
+
+                    <TextView
+                            android:text="∙ No professor recommendations found for this class"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/profText"
+                            android:lineHeight="16dp"
+                            android:layout_margin="2dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp">
+
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>

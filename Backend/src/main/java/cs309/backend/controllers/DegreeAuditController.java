@@ -22,7 +22,7 @@ public class DegreeAuditController {
 
     @Operation(description = "get all the course that have been finished or taking in the degree audit")
     @PostMapping("/pdf")
-    public ResponseEntity<LinkedHashSet<String>> readingDegreeAudit(@RequestParam("file") MultipartFile file){
+    public ResponseEntity<LinkedHashSet<String>> readDegreeAudit(@RequestParam("file") MultipartFile file){
         try (InputStream inputStream = file.getInputStream()) {
             return ok(readerService.extractTextFromPdf(inputStream));
         }

@@ -1,6 +1,7 @@
 package com.kewargs.cs309.activity.auth;
 
 import static com.kewargs.cs309.core.utils.ElementHelpers.parse;
+import static com.kewargs.cs309.core.utils.constants.UniversalConstants.AUTH_ENDPOINT;
 import static com.kewargs.cs309.core.utils.constants.UniversalConstants.USER_ENDPOINT;
 
 import android.content.Intent;
@@ -21,7 +22,8 @@ import org.json.JSONException;
 
 import java.util.LinkedHashSet;
 
-public class RegisterActivity extends AbstractActivity implements AdapterView.OnItemSelectedListener {
+public class RegisterActivity extends AbstractActivity
+    implements AdapterView.OnItemSelectedListener {
     public RegisterActivity() {
         super(R.layout.activity_register);
     }
@@ -72,7 +74,7 @@ public class RegisterActivity extends AbstractActivity implements AdapterView.On
 
         try {
             Request<String> request = RequestFactory.POST()
-                .url(USER_ENDPOINT + "register")
+                .url(AUTH_ENDPOINT + "register")
                 .putBody("username", username)
                 .putBody("email", email)
                 .putBody("password", password)

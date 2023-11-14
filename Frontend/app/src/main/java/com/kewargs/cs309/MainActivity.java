@@ -7,7 +7,7 @@ import android.os.StrictMode;
 import com.kewargs.cs309.activity.auth.LoginActivity;
 import com.kewargs.cs309.activity.dashboard.DashboardActivity;
 import com.kewargs.cs309.activity.AbstractActivity;
-import com.kewargs.cs309.core.manager.SessionManager;
+import com.kewargs.cs309.core.managers.SessionManager;
 
 public class MainActivity extends AbstractActivity {
     public MainActivity() { super(R.layout.activity_main); }
