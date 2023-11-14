@@ -11,6 +11,11 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+/**
+ * Mirrors the SectionEnity class
+ *
+ * @author Thanh Mai
+ */
 public record SectionDeserializable(
     int id,
     int refNum,

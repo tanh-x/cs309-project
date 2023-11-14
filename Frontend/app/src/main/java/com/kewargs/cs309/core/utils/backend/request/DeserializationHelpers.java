@@ -9,6 +9,8 @@ import java.util.function.Function;
 
 /**
  * Helper methods for deserializable classes
+ *
+ * @author Thanh Mai
  */
 public class DeserializationHelpers {
     public static Integer getNullableInt(JSONObject json, String key) throws JSONException {

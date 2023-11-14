@@ -14,7 +14,12 @@ import com.kewargs.cs309.core.models.in.UserDeserializable;
 import com.kewargs.cs309.core.utils.backend.factory.UserRequestFactory;
 
 import org.json.JSONException;
-
+/**
+ * The landing screen for registered users which contains all possible activities they can access
+ * The user is greeted with their registered name.
+ *
+ * @author Bui Nhat Anh, Thanh Mai
+ */
 public class DashboardActivity extends AbstractActivity {
     public DashboardActivity() { super(R.layout.activity_dashboard); }
 

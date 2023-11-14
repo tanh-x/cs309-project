@@ -10,6 +10,11 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+/**
+ * Mirrors the CourseInsightsEntity class
+ *
+ * @author Thanh Mai
+ */
 public record InsightsDeserializable(
     int id,
     int courseId,

@@ -16,6 +16,8 @@ import java.util.HashMap;
  * It uses a generic type S for a listener that handles the WebSocket events and actions.
  *
  * @param <S> The type of the listener that will handle WebSocket events for this client.
+ *
+ * @author Nhat Bui
  */
 public final class ChatSocketClient<S extends SocketListener> extends WebSocketClient {
     private final SessionManager session;

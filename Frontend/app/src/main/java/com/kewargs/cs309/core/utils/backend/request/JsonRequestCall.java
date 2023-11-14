@@ -15,6 +15,8 @@ import java.util.Map;
  * A concrete implementation of {@link AbstractRequest} for JSON requests. This class allows for
  * building a Volley StringRequest with a JSON body. It includes methods for setting the request
  * body and building the actual request to be sent over the network.
+ *
+ * @author Thanh Mai
  */
 public class JsonRequestCall extends AbstractRequest<String, JsonRequestCall> {
     /**

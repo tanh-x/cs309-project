@@ -6,6 +6,11 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+/**
+ * Stores and pings each possible host address for the backend server.
+ *
+ * @author Thanh Mai
+ */
 class EndpointHostDefinition {
     /**
      * Loopback address to the actual machine, whereas 127.0.0.1 refers to the device's loopback.

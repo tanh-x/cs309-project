@@ -16,6 +16,13 @@ import com.kewargs.cs309.core.utils.socket.SocketListener;
 
 import org.java_websocket.handshake.ServerHandshake;
 
+/**
+ * An implementation of websocket to enable users to contact developers in case of bugs.
+ * The program performs a handshake on open and allows users to send messages.
+ * Direct messages is supported.
+ *
+ * @author Bui Nhat Anh, Thanh Mai
+ */
 @SuppressLint("SetTextI18n")
 public class ChatActivity extends AbstractActivity implements SocketListener {
     public ChatActivity() { super(R.layout.activity_chat); }

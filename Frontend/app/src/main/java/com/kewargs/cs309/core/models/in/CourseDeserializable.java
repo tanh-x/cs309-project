@@ -15,6 +15,11 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+/**
+ * Mirrors the CourseEntity class
+ *
+ * @author Thanh Mai
+ */
 public record CourseDeserializable(
     int id,
     String programIdentifier,

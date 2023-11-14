@@ -10,6 +10,11 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+/**
+ * Mirrors the ScheduleEntity class
+ *
+ * @author Thanh Mai
+ */
 public record ScheduleDeserializable(
     int sectionId,
     Integer startTime,
