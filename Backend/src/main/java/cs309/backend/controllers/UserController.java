@@ -7,6 +7,7 @@ import cs309.backend.DTOs.UpdateInfoData;
 import cs309.backend.DTOs.UserData;
 import cs309.backend.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -46,7 +47,7 @@ public class UserController {
 
     @Operation(description = "get user info by user email")
     @GetMapping("email/{email}")
-    public ResponseEntity<UserData> getUserByEmail(@PathVariable String email) {
+    public ResponseEntity<UserData> getUserByEmail(@PathVariable @Schema(example = "duckhoi123456@gmail.com") String email) {
         try {
             UserEntity user = userService.getUserByEmail(email);
             return ok(UserData.fromEntity(user));
@@ -93,7 +94,7 @@ public class UserController {
         }
     }
 
-    @Operation(description = "change the userpassword")
+    @Operation(description = "change the user password")
     @PutMapping("/password")
     public ResponseEntity<String> changePassword(@RequestBody ChangePasswordData req, Principal user) {
         try {
@@ -130,7 +131,7 @@ public class UserController {
     }*/
     @Operation(description = "grant permission for user to staff or admin")
     @PutMapping("/grant/{id}/{new_privilege}")
-    public ResponseEntity<String> grantPermission(@PathVariable int id, @PathVariable int new_privilege) {
+    public ResponseEntity<String> grantPermission(@PathVariable int id, @PathVariable @Schema(example = "2 for Staff and 3 for Admin")int new_privilege) {
         try {
             return ok(userService.grantPermission(id, new_privilege));
         }
