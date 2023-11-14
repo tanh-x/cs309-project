@@ -2,7 +2,7 @@ package cs309.backend.controllers;
 
 import cs309.backend.jpa.entity.CourseEntity;
 import cs309.backend.jpa.entity.SectionEntity;
-import cs309.backend.models.SectionData;
+import cs309.backend.DTOs.SectionData;
 import cs309.backend.services.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

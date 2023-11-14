@@ -1,9 +1,9 @@
 package cs309.backend.controllers;
 
 import cs309.backend.exception.InvalidCredentialsException;
-import cs309.backend.models.LoginData;
-import cs309.backend.models.RegistrationData;
-import cs309.backend.models.SessionTokenData;
+import cs309.backend.DTOs.LoginData;
+import cs309.backend.DTOs.RegistrationData;
+import cs309.backend.DTOs.SessionTokenData;
 import cs309.backend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

@@ -4,7 +4,7 @@ import cs309.backend.jpa.entity.CourseEntity;
 import cs309.backend.jpa.entity.SectionEntity;
 import cs309.backend.jpa.repo.CourseRepository;
 import cs309.backend.jpa.repo.SectionRepository;
-import cs309.backend.models.SectionData;
+import cs309.backend.DTOs.SectionData;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

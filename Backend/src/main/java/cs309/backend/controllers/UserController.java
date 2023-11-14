@@ -2,16 +2,15 @@ package cs309.backend.controllers;
 
 import cs309.backend.jpa.entity.TestEntity;
 import cs309.backend.jpa.entity.user.UserEntity;
-import cs309.backend.models.ChangePasswordData;
-import cs309.backend.models.UpdateInfoData;
-import cs309.backend.models.UserData;
+import cs309.backend.DTOs.ChangePasswordData;
+import cs309.backend.DTOs.UpdateInfoData;
+import cs309.backend.DTOs.UserData;
 import cs309.backend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.concurrent.ExecutionException;
 
 import static org.springframework.http.ResponseEntity.internalServerError;
 import static org.springframework.http.ResponseEntity.ok;

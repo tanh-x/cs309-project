@@ -1,7 +1,7 @@
 package cs309.backend.controllers;
 
 import cs309.backend.jpa.entity.user.StudentEntity;
-import cs309.backend.models.StudentData;
+import cs309.backend.DTOs.StudentData;
 import cs309.backend.services.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

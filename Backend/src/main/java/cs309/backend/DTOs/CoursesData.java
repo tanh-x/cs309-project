@@ -1,4 +1,4 @@
-package cs309.backend.models;
+package cs309.backend.DTOs;
 
 public record CoursesData() {
 }
