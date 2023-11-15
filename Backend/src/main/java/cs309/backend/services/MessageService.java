@@ -112,7 +112,7 @@ public class MessageService {
             if (authors.containsKey(senderUid)) {
                 senderName = authors.get(senderUid);
             } else {
-                senderName = userRepository.getUserByUid(senderUid).getDisplayName();
+                senderName = userRepository.getReferenceById(senderUid).getDisplayName();
                 authors.put(senderUid, senderName);
             }
 

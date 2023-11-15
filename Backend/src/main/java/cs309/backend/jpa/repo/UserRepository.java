@@ -22,8 +22,8 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
     @Procedure(name = "getUserByUsername")
     UserEntity getUserByUsername(@Param("p_username") String username);
 
-    @Procedure(name = "getUserByUid")
-    UserEntity getUserByUid(@Param("p_uid") int uid);
+    //@Procedure(name = "getUserByUid")
+    UserEntity getReferenceById(int uid);
 
     @Procedure(name = "updateUser")
     void updateUser(@Param("p_uid") int id, @Param("p_email") String email, @Param("p_display_name") String displayName);

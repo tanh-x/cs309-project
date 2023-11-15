@@ -10,6 +10,7 @@ import cs309.backend.DTOs.ChangePasswordData;
 import cs309.backend.DTOs.LoginData;
 import cs309.backend.DTOs.RegistrationData;
 import cs309.backend.DTOs.SessionTokenData;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,8 +66,8 @@ public class UserService {
         return BCrypt.checkpw(login.password(), user.getPwdBcryptHash());
     }
 
-    public UserEntity getUserByUid(int uid) {
-        return userRepository.getUserByUid(uid);
+    public UserEntity getUserByUid(int uid) throws EntityNotFoundException {
+        return userRepository.getReferenceById(uid);
     }
     public UserEntity getUserByUsername(String username) {
         return userRepository.getUserByUsername(username);
