@@ -1,7 +1,7 @@
 package cs309.backend.controllers;
 
 import cs309.backend.jpa.entity.MessageEntity;
-import cs309.backend.models.MessageData;
+import cs309.backend.DTOs.MessageData;
 import cs309.backend.services.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

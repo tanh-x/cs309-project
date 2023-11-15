@@ -1,0 +1,14 @@
+com.kewargs.cs309
+com.kewargs.cs309.activity
+com.kewargs.cs309.activity.auth
+com.kewargs.cs309.activity.course
+com.kewargs.cs309.activity.dashboard
+com.kewargs.cs309.components
+com.kewargs.cs309.core.adapters
+com.kewargs.cs309.core.managers
+com.kewargs.cs309.core.models.in
+com.kewargs.cs309.core.utils
+com.kewargs.cs309.core.utils.backend.factory
+com.kewargs.cs309.core.utils.backend.request
+com.kewargs.cs309.core.utils.constants
+com.kewargs.cs309.core.utils.socket
