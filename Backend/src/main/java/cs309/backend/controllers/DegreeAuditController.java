@@ -20,6 +20,12 @@ import static org.springframework.http.ResponseEntity.ok;
 public class DegreeAuditController {
     private final ReaderService readerService;
 
+    /**
+     * Reads a degree audit PDF file and retrieves all courses that have been finished or are currently being taken.
+     *
+     * @param file The PDF file containing the degree audit information.
+     * @return ResponseEntity containing a LinkedHashSet of course information if successful, or an internal server error.
+     */
     @Operation(description = "get all the course that have been finished or taking in the degree audit")
     @PostMapping("/pdf")
     public ResponseEntity<LinkedHashSet<String>> readDegreeAudit(@RequestParam("file") MultipartFile file){
