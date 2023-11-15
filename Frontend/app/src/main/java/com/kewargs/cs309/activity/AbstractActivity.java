@@ -6,7 +6,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.kewargs.cs309.core.manager.SessionManager;
+import com.kewargs.cs309.core.managers.SessionManager;
 
 public abstract class AbstractActivity extends AppCompatActivity {
     protected final SessionManager session = SessionManager.getInstance();

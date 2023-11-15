@@ -9,7 +9,15 @@ public class CourseRequestFactory {
         return RequestFactory.GET().url(COURSE_ENDPOINT + "all/1");
     }
 
-    public static PlainTextRequestCall getCourseInfo(int id) {
-        return RequestFactory.GET().url(COURSE_ENDPOINT + "course/" + id);
+    public static PlainTextRequestCall getCourseInfo(int courseId) {
+        return RequestFactory.GET().url(COURSE_ENDPOINT + courseId);
+    }
+
+    public static PlainTextRequestCall getCourseSections(int courseId) {
+        return RequestFactory.GET().url(COURSE_ENDPOINT + "sections/" + courseId);
+    }
+
+    public static PlainTextRequestCall getCourseInsights(int courseId) {
+        return RequestFactory.GET().url(COURSE_ENDPOINT + "insights/" + courseId);
     }
 }

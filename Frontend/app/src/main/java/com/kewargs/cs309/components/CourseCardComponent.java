@@ -26,7 +26,7 @@ public final class CourseCardComponent extends InflatableComponent<ConstraintLay
         AbstractActivity parentActivity,
         CourseDeserializable course
     ) {
-        super(R.layout.component_course_list, inflater);
+        super(R.layout.component_course_card, inflater);
         this.parentActivity = parentActivity;
         this.course = course;
     }
