@@ -3,6 +3,7 @@ package cs309.backend.services;
 import cs309.backend.auth.AuthorizationUtils;
 import cs309.backend.exception.InvalidCredentialsException;
 import cs309.backend.jpa.entity.TestEntity;
+import cs309.backend.jpa.entity.user.User;
 import cs309.backend.jpa.entity.user.UserEntity;
 import cs309.backend.jpa.repo.TestEntityRepository;
 import cs309.backend.jpa.repo.UserRepository;
@@ -10,6 +11,7 @@ import cs309.backend.DTOs.ChangePasswordData;
 import cs309.backend.DTOs.LoginData;
 import cs309.backend.DTOs.RegistrationData;
 import cs309.backend.DTOs.SessionTokenData;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,21 +67,15 @@ public class UserService {
         return BCrypt.checkpw(login.password(), user.getPwdBcryptHash());
     }
 
-    public UserEntity getUserByUid(int uid) {
-        return userRepository.getUserByUid(uid);
+    public UserEntity getUserByUid(int uid) throws EntityNotFoundException {
+        return userRepository.getReferenceById(uid);
     }
-
-    public int getUidByUsername(String username) {
-        UserEntity user = getUserByUsername(username);
-        if (user != null) {
-            return user.getUid();
+    public UserEntity getUserByUsername(String username) throws EntityNotFoundException{
+        UserEntity user = userRepository.getUserByUsername(username);
+        if (user == null) {
+            throw new EntityNotFoundException();
         }
-        return -1; // or throw an exception or handle accordingly
-    }
-
-
-    public UserEntity getUserByUsername(String username) {
-        return userRepository.getUserByUsername(username);
+        return user;
     }
 
     public UserEntity getUserByEmail(String email) {
