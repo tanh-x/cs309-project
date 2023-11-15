@@ -3,6 +3,7 @@ package cs309.backend.services;
 import cs309.backend.auth.AuthorizationUtils;
 import cs309.backend.exception.InvalidCredentialsException;
 import cs309.backend.jpa.entity.TestEntity;
+import cs309.backend.jpa.entity.user.User;
 import cs309.backend.jpa.entity.user.UserEntity;
 import cs309.backend.jpa.repo.TestEntityRepository;
 import cs309.backend.jpa.repo.UserRepository;
@@ -69,8 +70,12 @@ public class UserService {
     public UserEntity getUserByUid(int uid) throws EntityNotFoundException {
         return userRepository.getReferenceById(uid);
     }
-    public UserEntity getUserByUsername(String username) {
-        return userRepository.getUserByUsername(username);
+    public UserEntity getUserByUsername(String username) throws EntityNotFoundException{
+        UserEntity user = userRepository.getUserByUsername(username);
+        if (user == null) {
+            throw new EntityNotFoundException();
+        }
+        return user;
     }
 
     public UserEntity getUserByEmail(String email) {
