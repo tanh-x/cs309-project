@@ -1,0 +1,12 @@
+cs309.backend
+cs309.backend.auth
+cs309.backend.common
+cs309.backend.Component
+cs309.backend.config
+cs309.backend.controllers
+cs309.backend.DTOs
+cs309.backend.exception
+cs309.backend.jpa.entity
+cs309.backend.jpa.entity.user
+cs309.backend.jpa.repo
+cs309.backend.services

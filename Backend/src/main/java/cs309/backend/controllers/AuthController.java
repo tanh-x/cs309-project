@@ -25,6 +25,7 @@ public class AuthController {
         this.userService = userService;
     }
 
+
     @Operation(description = "register a new Account, generating a new Jwt token for that user")
     @PostMapping("/register")
     public ResponseEntity<String> registerEndpoint(@RequestBody RegistrationData args) {
