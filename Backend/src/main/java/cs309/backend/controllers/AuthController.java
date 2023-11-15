@@ -25,6 +25,9 @@ public class AuthController {
         this.userService = userService;
     }
 
+    /**
+     *  register a new Account, generating a new Jwt token for that user
+     */
     @Operation(description = "register a new Account, generating a new Jwt token for that user")
     @PostMapping("/register")
     public ResponseEntity<String> registerEndpoint(@RequestBody RegistrationData args) {
@@ -36,6 +39,9 @@ public class AuthController {
         }
     }
 
+    /**
+     *  login to the account, check the credentials
+     */
     @Operation(description = "login to the account, check the credentials")
     @PostMapping("/login")
     public ResponseEntity<SessionTokenData> loginEndpoint(@RequestBody LoginData args) {

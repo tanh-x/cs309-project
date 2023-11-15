@@ -35,6 +35,13 @@ public class UserController {
         return userService.readTestTable(id);
     }*/
 
+
+    /**
+     * Retrieves user information by user ID.
+     *
+     * @param id The ID of the user to retrieve information for.
+     * @return ResponseEntity containing a UserData object if successful, or an internal server error.
+     */
     @Operation(description = "get user info by user id")
     @GetMapping("id/{id}")
     public ResponseEntity<UserData> getUserById(@PathVariable int id) {
@@ -46,6 +53,12 @@ public class UserController {
         }
     }
 
+    /**
+     * Retrieves user information by user email.
+     *
+     * @param email The email of the user to retrieve information for.
+     * @return ResponseEntity containing a UserData object if successful, or an internal server error.
+     */
     @Operation(description = "get user info by user email")
     @GetMapping("email/{email}")
     public ResponseEntity<UserData> getUserByEmail(@PathVariable @Schema(example = "duckhoi123456@gmail.com") String email) {
@@ -57,6 +70,12 @@ public class UserController {
         }
     }
 
+    /**
+     * Retrieves user information by username.
+     *
+     * @param username The username of the user to retrieve information for.
+     * @return ResponseEntity containing a UserData object if successful, or an internal server error.
+     */
     @Operation(description = "get user info by username")
     @GetMapping("username/{username}")
     public ResponseEntity<UserData> getUserByUsername(@PathVariable String username) {
@@ -68,6 +87,14 @@ public class UserController {
         }
     }
 
+    /**
+     * Changes the user email and display name using the user ID.
+     *
+     * @param id The ID of the user to update.
+     * @param email The new email for the user.
+     * @param display_name The new display name for the user.
+     * @return ResponseEntity containing a Boolean indicating the success of the operation, or an internal server error.
+     */
     @Operation(description = "change the user email and display_name using id")
     @PutMapping("{id}/{email}/{display_name}")
     public ResponseEntity<Boolean> updateUser(@PathVariable int id, @PathVariable String email, @PathVariable String display_name) {
@@ -79,6 +106,12 @@ public class UserController {
         }
     }
 
+    /**
+     * Updates user information.
+     *
+     * @param updateInfo UpdateInfoData object containing information to update for the user.
+     * @return ResponseEntity containing a Boolean indicating the success of the operation, or an internal server error.
+     */
     @Operation(description = "update User info")
     @PutMapping("/update")
     public ResponseEntity<Boolean> updateUser(@RequestBody UpdateInfoData updateInfo) {
@@ -95,6 +128,13 @@ public class UserController {
         }
     }
 
+    /**
+     * Changes the user password.
+     *
+     * @param req ChangePasswordData object containing the old and new passwords.
+     * @param user Principal object representing the authenticated user.
+     * @return ResponseEntity containing a String message if successful, or an internal server error.
+     */
     @Operation(description = "change the user password")
     @PutMapping("/password")
     public ResponseEntity<String> changePassword(@RequestBody ChangePasswordData req, Principal user) {
@@ -111,6 +151,13 @@ public class UserController {
         return p;
     }*/
 
+
+    /**
+     * Deletes the user.
+     *
+     * @param user Principal object representing the authenticated user.
+     * @return ResponseEntity containing a Boolean indicating the success of the operation, or an internal server error.
+     */
     @Operation(description = "delete the user")
     @DeleteMapping("/delete")
     public ResponseEntity<Boolean> deleteUser(Principal user) {
@@ -130,6 +177,14 @@ public class UserController {
             return internalServerError().build();
         }
     }*/
+
+    /**
+     * Grants permission for the user to be staff or admin.
+     *
+     * @param id The ID of the user to grant permission.
+     * @param new_privilege The new privilege level (2 for Staff, 3 for Admin).
+     * @return ResponseEntity containing a String message if successful, or an internal server error.
+     */
     @Operation(description = "grant permission for user to staff or admin")
     @PutMapping("/grant/{id}/{new_privilege}")
     public ResponseEntity<String> grantPermission(@PathVariable int id, @PathVariable @Schema(example = "2 for Staff and 3 for Admin")int new_privilege) {

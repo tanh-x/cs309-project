@@ -24,6 +24,12 @@ public class StudentController {
         this.studentService = studentService;
     }
 
+    /**
+     * Retrieves student information by student ID.
+     *
+     * @param id The ID of the student to retrieve.
+     * @return ResponseEntity containing a StudentData object if successful, or an internal server error.
+     */
     @Operation(description = "get student info by student id")
     @GetMapping("id/{id}")
     public ResponseEntity<StudentData> getStudentById(@PathVariable int id) {
