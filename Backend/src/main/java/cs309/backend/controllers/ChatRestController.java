@@ -25,11 +25,22 @@ public class ChatRestController {
         this.messageService = messageService;
     }
 
+    /**
+     * Retrieves all messages.
+     *
+     * @return ResponseEntity containing a list of MessageEntity objects if successful, or an internal server error.
+     */
     @GetMapping("/messages")
     public ResponseEntity<List<MessageEntity>> getAllMessages() {
         return ok(messageService.getAllMessages());
     }
 
+    /**
+     * Retrieves a message by its ID.
+     *
+     * @param messageId The ID of the message to retrieve.
+     * @return ResponseEntity containing a MessageEntity object if found, or a not found response if not found, or an internal server error.
+     */
     @GetMapping("/message/{messageId}")
     public ResponseEntity<MessageEntity> getMessageById(@PathVariable int messageId) {
         try {
@@ -41,7 +52,12 @@ public class ChatRestController {
             return internalServerError().build();
         }
     }
-
+    /**
+     * Sends a new message.
+     *
+     * @param args MessageData object containing information for the new message.
+     * @return ResponseEntity containing a success message if the message is saved successfully, or an internal server error.
+     */
     @PostMapping("/send")
     public ResponseEntity<String> sendMessage(@RequestBody MessageData args) {
         try {
@@ -52,7 +68,12 @@ public class ChatRestController {
             return internalServerError().build();
         }
     }
-
+    /**
+     * Deletes a message by its ID.
+     *
+     * @param messageId The ID of the message to delete.
+     * @return ResponseEntity with no content if the message is deleted successfully, or an internal server error.
+     */
     @DeleteMapping("/message/{messageId}")
     public ResponseEntity<Void> deleteMessage(@PathVariable int messageId) {
         try {
