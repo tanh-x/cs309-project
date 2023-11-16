@@ -78,8 +78,12 @@ public class UserService {
         return user;
     }
 
-    public UserEntity getUserByEmail(String email) {
-        return userRepository.getUserByEmail(email);
+    public UserEntity getUserByEmail(String email) throws EntityNotFoundException{
+        UserEntity user = userRepository.getUserByEmail(email);
+        if (user == null) {
+            throw new EntityNotFoundException();
+        }
+        return user;
     }
 
     public Boolean updateUser(int uid, String email, String displayName) {
