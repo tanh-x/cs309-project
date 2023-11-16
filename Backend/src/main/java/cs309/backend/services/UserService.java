@@ -91,11 +91,21 @@ public class UserService {
         if (user == null) {
             return false;
         }
-        userRepository.updateUser(
+        /*userRepository.updateUser(
             uid,
             Objects.equals(email, "") ? null : email,
             Objects.equals(displayName, "") ? null : displayName
-        );
+        );*/
+
+            if (email != null) {
+                user.setEmail(email);
+            }
+            if (displayName != null) {
+                user.setDisplayName(displayName);
+            }
+            // Save the updated user entity
+            userRepository.save(user);
+
         return true;
     }
 
