@@ -43,4 +43,6 @@ public class ScheduleEntity {
     public int getSectionId() {
         return section.getId();
     }
+
+
 }
