@@ -7,9 +7,8 @@ import org.springframework.data.repository.query.Param;
 
 
 public interface CourseRepository extends JpaRepository<CourseEntity, Long> {
-    @Procedure(name = "getAllCourseInformation")
-    CourseEntity[] getAllCourseInformation(@Param("p_term") int term);
-
+    /*@Procedure(name = "getAllCourseInformation")
+    CourseEntity[] getAllCourseInformation(@Param("p_term") int term);*/
     //@Procedure(name = "getCourseById")
     CourseEntity getCourseById(int id);
 

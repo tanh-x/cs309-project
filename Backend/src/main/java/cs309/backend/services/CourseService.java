@@ -11,6 +11,8 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Transactional
 public class CourseService {
@@ -29,8 +31,9 @@ public class CourseService {
         this.insightsRepository = insightsRepository;
     }
 
-    public CourseEntity[] getAllCourseInformation(int term) {
-        return courseRepository.getAllCourseInformation(term);
+    public List<CourseEntity> getAllCourseInformation(int term) {
+        //return courseRepository.getAllCourseInformation(term);
+        return courseRepository.findAll();
     }
 
     public CourseEntity getCourseById(int id) {
