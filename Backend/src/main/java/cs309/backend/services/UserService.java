@@ -92,7 +92,11 @@ public class UserService {
     }
 
     public UserEntity getUserByUid(int uid) throws EntityNotFoundException {
-        return userRepository.getUserByUid(uid);
+        UserEntity user = userRepository.getUserByUid(uid);
+        if (user == null) {
+            throw new EntityNotFoundException();
+        }
+        return user;
     }
     public UserEntity getUserByUsername(String username) throws EntityNotFoundException{
         UserEntity user = userRepository.getUserByUsername(username);
