@@ -21,6 +21,8 @@ import java.security.Principal;
 @Service
 @Transactional
 public class UserService {
+
+    private final StudentProgramRepository studentProgramRepository;
     private final TestEntityRepository testRepository;
     private final UserRepository userRepository;
 
@@ -30,7 +32,8 @@ public class UserService {
 
     private final AdminRepository adminRepository;
     @Autowired
-    public UserService(TestEntityRepository testRepository, UserRepository userRepository, StudentRepository studentRepository, StaffRepository staffRepository, AdminRepository adminRepository) {
+    public UserService(StudentProgramRepository studentProgramRepository, TestEntityRepository testRepository, UserRepository userRepository, StudentRepository studentRepository, StaffRepository staffRepository, AdminRepository adminRepository) {
+        this.studentProgramRepository = studentProgramRepository;
         this.testRepository = testRepository;
         this.userRepository = userRepository;
         this.studentRepository = studentRepository;
@@ -153,8 +156,15 @@ public class UserService {
     public Boolean deleteUser(Principal user) {
         var curUser = (UserEntity) ((UsernamePasswordAuthenticationToken) user).getPrincipal();
         //userRepository.deleteUser(curUser.getUid(), curUser.getPrivilegeLevel());
+        int count = studentProgramRepository.countByUid(curUser.getUid());
         if (curUser.getPrivilegeLevel() == 1) {
-            studentRepository.delete(studentRepository.getReferenceById(curUser.getUid()));
+            if (count == 0) {
+                studentRepository.delete(studentRepository.getReferenceById(curUser.getUid()));
+            }
+            else {
+                studentProgramRepository.delete(studentProgramRepository.findByUid(curUser.getUid()));
+                studentRepository.delete(studentRepository.getReferenceById(curUser.getUid()));
+            }
         }
         else if (curUser.getPrivilegeLevel() == 2) {
             staffRepository.delete(staffRepository.getReferenceById(curUser.getUid()));
@@ -177,7 +187,7 @@ public class UserService {
         if (newPrivilege == user.getPrivilegeLevel()) {
             return "This is you current privilege";
         }
-        userRepository.grantPermission(id, newPrivilege);
+        //userRepository.grantPermission(id, newPrivilege);
         return "Successful";
     }
 
