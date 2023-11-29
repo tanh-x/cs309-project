@@ -8,7 +8,6 @@ import cs309.backend.DTOs.ChangePasswordData;
 import cs309.backend.DTOs.LoginData;
 import cs309.backend.DTOs.RegistrationData;
 import cs309.backend.DTOs.SessionTokenData;
-import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.mindrot.jbcrypt.BCrypt;
@@ -93,7 +92,7 @@ public class UserService {
     }
 
     public UserEntity getUserByUid(int uid) throws EntityNotFoundException {
-        return userRepository.getReferenceById(uid);
+        return userRepository.getUserByUid(uid);
     }
     public UserEntity getUserByUsername(String username) throws EntityNotFoundException{
         UserEntity user = userRepository.getUserByUsername(username);

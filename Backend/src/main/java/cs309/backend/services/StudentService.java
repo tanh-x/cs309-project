@@ -2,6 +2,7 @@ package cs309.backend.services;
 
 import cs309.backend.jpa.entity.user.StudentEntity;
 import cs309.backend.jpa.repo.StudentRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,11 @@ public class StudentService {
         this.studentRepository = repo;
     }
 
-    public StudentEntity getStudentByUid(int uid) {
-        return studentRepository.getReferenceById(uid);
+    public StudentEntity getStudentByUid(int uid) throws EntityNotFoundException{
+        StudentEntity student = studentRepository.getStudentByUid(uid);
+        if (student == null) {
+            throw new EntityNotFoundException();
+        }
+        return student;
     }
 }

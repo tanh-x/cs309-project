@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.query.Param;
 
 public interface StudentRepository extends JpaRepository<StudentEntity, Integer> {
+    StudentEntity getStudentByUid(int uid);
     /*@Procedure(name = "getStudentByUid")
     StudentEntity getStudentByUid(@Param("p_uid") int uid);*/
 }
