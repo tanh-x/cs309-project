@@ -3,9 +3,7 @@ package cs309.backend.services;
 import cs309.backend.auth.AuthorizationUtils;
 import cs309.backend.exception.InvalidCredentialsException;
 import cs309.backend.jpa.entity.user.*;
-import cs309.backend.jpa.repo.StudentRepository;
-import cs309.backend.jpa.repo.TestEntityRepository;
-import cs309.backend.jpa.repo.UserRepository;
+import cs309.backend.jpa.repo.*;
 import cs309.backend.DTOs.ChangePasswordData;
 import cs309.backend.DTOs.LoginData;
 import cs309.backend.DTOs.RegistrationData;
@@ -27,13 +25,18 @@ public class UserService {
     private final TestEntityRepository testRepository;
     private final UserRepository userRepository;
 
-    private final EntityManager entityManager;
+    private final StudentRepository studentRepository;
 
+    private final StaffRepository staffRepository;
+
+    private final AdminRepository adminRepository;
     @Autowired
-    public UserService(TestEntityRepository testRepository, UserRepository userRepository, EntityManager entityManager, StudentRepository studentRepository) {
+    public UserService(TestEntityRepository testRepository, UserRepository userRepository, StudentRepository studentRepository, StaffRepository staffRepository, AdminRepository adminRepository) {
         this.testRepository = testRepository;
         this.userRepository = userRepository;
-        this.entityManager = entityManager;
+        this.studentRepository = studentRepository;
+        this.staffRepository = staffRepository;
+        this.adminRepository = adminRepository;
     }
 
     /*public TestEntity readTestTable(int id) {
@@ -62,13 +65,13 @@ public class UserService {
             userRepository.save(user);
             if (args.privilegeLevel() == 1) {
                 StudentEntity student = new StudentEntity(user, null);
-                entityManager.persist(student);
+                studentRepository.save(student);
             } else if (args.privilegeLevel() == 2) {
                 StaffEntity staff = new StaffEntity(user, false);
-                entityManager.persist(staff);
+                staffRepository.save(staff);
             } else if (args.privilegeLevel() == 3) {
                 AdminEntity admin = new AdminEntity(user, false);
-                entityManager.persist(admin);
+                adminRepository.save(admin);
             }
     }
 
@@ -146,7 +149,17 @@ public class UserService {
 
     public Boolean deleteUser(Principal user) {
         var curUser = (UserEntity) ((UsernamePasswordAuthenticationToken) user).getPrincipal();
-        userRepository.deleteUser(curUser.getUid(), curUser.getPrivilegeLevel());
+        //userRepository.deleteUser(curUser.getUid(), curUser.getPrivilegeLevel());
+        if (curUser.getPrivilegeLevel() == 1) {
+            studentRepository.delete(studentRepository.getStudentByUid(curUser.getUid()));
+        }
+        else if (curUser.getPrivilegeLevel() == 2) {
+            staffRepository.delete(staffRepository.getReferenceById(curUser.getUid()));
+        }
+        else if (curUser.getPrivilegeLevel() == 3) {
+            adminRepository.delete(adminRepository.getReferenceById(curUser.getUid()));
+        }
+        userRepository.delete(curUser);
         return true;
     }
 
