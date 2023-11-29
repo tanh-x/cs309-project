@@ -17,6 +17,6 @@ public class StudentService {
     }
 
     public StudentEntity getStudentByUid(int uid) {
-        return studentRepository.getStudentByUid(uid);
+        return studentRepository.getReferenceById(uid);
     }
 }

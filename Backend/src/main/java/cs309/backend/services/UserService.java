@@ -151,7 +151,7 @@ public class UserService {
         var curUser = (UserEntity) ((UsernamePasswordAuthenticationToken) user).getPrincipal();
         //userRepository.deleteUser(curUser.getUid(), curUser.getPrivilegeLevel());
         if (curUser.getPrivilegeLevel() == 1) {
-            studentRepository.delete(studentRepository.getStudentByUid(curUser.getUid()));
+            studentRepository.delete(studentRepository.getReferenceById(curUser.getUid()));
         }
         else if (curUser.getPrivilegeLevel() == 2) {
             staffRepository.delete(staffRepository.getReferenceById(curUser.getUid()));
