@@ -6,8 +6,8 @@ import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.query.Param;
 
 public interface SectionRepository extends JpaRepository<SectionEntity, Long> {
-    @Procedure(name = "getSectionById")
-    SectionEntity[] getSectionById(@Param("p_id") int id);
+    //@Procedure(name = "getSectionById")
+    SectionEntity[] getAllSectionByCourseId(int id);
 
     @Procedure(name = "addSection")
     void createSection(@Param("p_ref") int ref,

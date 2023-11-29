@@ -38,7 +38,7 @@ public class CourseService {
     }
 
     public SectionEntity[] getSectionById(int courseId) {
-        return sectionRepository.getSectionById(courseId);
+        return sectionRepository.getAllSectionByCourseId(courseId);
     }
 
     public String updateCourseByIdentifier(String identifier, int num, String description) {
