@@ -1,44 +1,59 @@
-# This file is a template, and might need editing before it works on your project.
-# This is a sample GitLab CI/CD configuration file that should run without any modifications.
-# It demonstrates a basic 3 stage CI/CD pipeline. Instead of real tests or scripts,
-# it uses echo commands to simulate the pipeline execution.
-#
-# A pipeline is composed of independent jobs that run scripts, grouped into stages.
-# Stages run in sequential order, but jobs within stages run in parallel.
-#
-# For more information, see: https://docs.gitlab.com/ee/ci/yaml/index.html#stages
-#
-# You can copy and paste this template into a new `.gitlab-ci.yml` file.
-# You should not add this template to an existing `.gitlab-ci.yml` file by using the `include:` keyword.
-#
-# To contribute improvements to CI/CD templates, please follow the Development guide at:
-# https://docs.gitlab.com/ee/development/cicd/templates.html
-# This specific template is located at:
-# https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Getting-Started.gitlab-ci.yml
+stages:             # these stages (jobs) forms the CICD pipeline
+  - mavenbuild
+  - maventest       # this is a JOB to run tests in your Springboot application (it's okay you don't have any test for now)
+  - mavendeploy     # this is a JOB to deploy your Springboot application on your server
+  - androidbuild    # this is a JOB to build your Android application
+  - androidtest     # this is a JOB to run tests in your Android application (it's okay you don't have any test for now)
 
-stages:          # List of stages for jobs, and their order of execution
-  - build
-  - test
-  - deploy
+maven-build:            
+  stage: mavenbuild     # one of the stages listed above
+  tags:                 # to specify which runner to execute this job
+    - springboot_tag    # change to your runner's tag
+  script:               # what to execute for this job
+    - cd Backend        # change 'Backend' to to where you have the pom.xml (do not add / in the beginning)
+    - mvn clean package       # maven package
+  artifacts:            # where to output the packaged jar file, change 'Backend' to to where you have the pom.xml
+    paths:
+    - Backend/target/*.jar
 
-build-job:       # This job runs in the build stage, which runs first.
-  stage: build
+maven-test:             
+   stage: maventest     # one of the stages listed above
+   tags:
+     - springboot_tag   # change to your runner's tag
+   script:
+     - cd Backend       # change 'Backend' to to where you have the pom.xml (do not add / in the beginning)
+     - mvn test         # maven test
+
+auto-deploy:
+  stage: mavendeploy    # one of the stages listed above
+  tags:
+  - springboot_tag      # change to your runner's tag
+  script:               # script to run the deployment service you created
+    - cd Backend        # change 'Backend' to to where you have the pom.xml (do not add / in the beginning)
+    - sudo mv target/*.jar /target/web-demo.jar 
+    - sudo systemctl stop system-web-demo
+    - sudo systemctl start system-web-demo
+
+android-build:
+  image: afirefly/android-ci:java17 # Docker image that has Android environments installed     gjandres/android-ci:latest
+  stage: androidbuild               # one of the stages listed above
+  tags:
+   - android_tag                    # change to your runner's tag
+  before_script:                    # enable gradlew, change 'Frontend' to where you have 'gradlew'
+    - export GRADLE_USER_HOME=`pwd`/.gradle
+    - chmod +x ./Frontend/gradlew
   script:
-    - echo "Compiling the code..."
-    # - cd Backend && ./mvnw clean package
-    - echo "Compile complete."
+    - cd Frontend                   # change 'Frontend' to where you have 'gradlew' (do not add / in the beginning)
+    - ./gradlew build               # gradle build
 
-unit-test-job:   # This job runs in the test stage.
-  stage: test    # It only starts when the job in the build stage completes successfully.
-  script:
-    - echo "Running unit tests... This will take about 5 seconds."
-    - sleep 5
-    - echo "Code coverage is n%"
-
-deploy-job:      # This job runs in the deploy stage.
-  stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
-  environment: production
-  script:
-    - echo "Deploying application..."
-    - pwd
-    - echo "Application successfully deployed."
+android-test:
+   image: afirefly/android-ci:java17
+   stage: androidtest               # one of the stages listed above
+   tags:
+    - android_tag                   # change to your runner's tag
+   before_script:                   # enable gradlew, change 'Frontend' to where you have 'gradlew'
+     - export GRADLE_USER_HOME=`pwd`/.gradle
+     - chmod +x ./Frontend/gradlew
+   script:
+     - cd Frontend                  # change 'Frontend' to where you have 'gradlew' (do not add / in the beginning)
+     - ./gradlew test               # gradle test
