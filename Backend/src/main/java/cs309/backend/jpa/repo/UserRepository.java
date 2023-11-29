@@ -34,6 +34,8 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
     /*@Procedure(name = "deleteUser")
     void deleteUser(@Param("p_uid") int uid, @Param("p_privilege_level") int privilege_level);*/
 
-    @Procedure(name = "grantPermission")
-    void grantPermission(@Param("p_uid") int id,@Param("p_privilege_level") int newPrivilege);
+    /*@Procedure(name = "grantPermission")
+    void grantPermission(@Param("p_uid") int id,@Param("p_privilege_level") int newPrivilege);*/
+
+    int countByUid(int uid);
 }
