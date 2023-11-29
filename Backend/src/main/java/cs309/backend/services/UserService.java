@@ -2,8 +2,8 @@ package cs309.backend.services;
 
 import cs309.backend.auth.AuthorizationUtils;
 import cs309.backend.exception.InvalidCredentialsException;
-import cs309.backend.jpa.entity.TestEntity;
 import cs309.backend.jpa.entity.user.*;
+import cs309.backend.jpa.repo.StudentRepository;
 import cs309.backend.jpa.repo.TestEntityRepository;
 import cs309.backend.jpa.repo.UserRepository;
 import cs309.backend.DTOs.ChangePasswordData;
@@ -12,7 +12,6 @@ import cs309.backend.DTOs.RegistrationData;
 import cs309.backend.DTOs.SessionTokenData;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +19,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
-import java.util.Objects;
 
 
 @Service
@@ -28,13 +26,14 @@ import java.util.Objects;
 public class UserService {
     private final TestEntityRepository testRepository;
     private final UserRepository userRepository;
-    @PersistenceContext
-    private EntityManager entityManager;
+
+    private final EntityManager entityManager;
 
     @Autowired
-    public UserService(TestEntityRepository testRepository, UserRepository userRepository) {
+    public UserService(TestEntityRepository testRepository, UserRepository userRepository, EntityManager entityManager, StudentRepository studentRepository) {
         this.testRepository = testRepository;
         this.userRepository = userRepository;
+        this.entityManager = entityManager;
     }
 
     /*public TestEntity readTestTable(int id) {
@@ -60,17 +59,15 @@ public class UserService {
                     args.displayName(),
                     args.privilegeLevel(),
                     pwdBcryptHash);
-            entityManager.persist(user);
-            int lastIdentity = user.getUid(); // Assuming your User entity has an auto-generated ID field
-
+            userRepository.save(user);
             if (args.privilegeLevel() == 1) {
-                StudentEntity student = new StudentEntity(lastIdentity, null);
+                StudentEntity student = new StudentEntity(user, null);
                 entityManager.persist(student);
             } else if (args.privilegeLevel() == 2) {
-                StaffEntity staff = new StaffEntity(lastIdentity, false);
+                StaffEntity staff = new StaffEntity(user, false);
                 entityManager.persist(staff);
             } else if (args.privilegeLevel() == 3) {
-                AdminEntity admin = new AdminEntity(lastIdentity, false);
+                AdminEntity admin = new AdminEntity(user, false);
                 entityManager.persist(admin);
             }
     }

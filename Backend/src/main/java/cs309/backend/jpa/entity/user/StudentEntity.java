@@ -21,9 +21,9 @@ public final class StudentEntity implements User {
     @Nullable
     private Integer primaryMajor;
 
-    public StudentEntity(int uid, Integer primaryMajor) {
-        this.uid = uid;
+    public StudentEntity(UserEntity user, Integer primaryMajor) {
         this.primaryMajor = primaryMajor;
+        this.user = user;
     }
 
     public StudentEntity() {
