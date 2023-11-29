@@ -3,15 +3,16 @@ package cs309.backend.services;
 import cs309.backend.auth.AuthorizationUtils;
 import cs309.backend.exception.InvalidCredentialsException;
 import cs309.backend.jpa.entity.TestEntity;
-import cs309.backend.jpa.entity.user.User;
-import cs309.backend.jpa.entity.user.UserEntity;
+import cs309.backend.jpa.entity.user.*;
 import cs309.backend.jpa.repo.TestEntityRepository;
 import cs309.backend.jpa.repo.UserRepository;
 import cs309.backend.DTOs.ChangePasswordData;
 import cs309.backend.DTOs.LoginData;
 import cs309.backend.DTOs.RegistrationData;
 import cs309.backend.DTOs.SessionTokenData;
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,8 @@ import java.util.Objects;
 public class UserService {
     private final TestEntityRepository testRepository;
     private final UserRepository userRepository;
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Autowired
     public UserService(TestEntityRepository testRepository, UserRepository userRepository) {
@@ -34,11 +37,11 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public TestEntity readTestTable(int id) {
+    /*public TestEntity readTestTable(int id) {
         return testRepository.readTestTable(id);
-    }
+    }*/
 
-    public void registerUser(RegistrationData args) {
+    /*public void registerUser(RegistrationData args) {
         String pwdBcryptHash = AuthorizationUtils.bcryptHash(args.password());
 
         userRepository.registerUser(
@@ -48,6 +51,28 @@ public class UserService {
             args.privilegeLevel(),
             pwdBcryptHash
         );
+    }*/
+
+    public void registerUser(RegistrationData args) {
+            String pwdBcryptHash = AuthorizationUtils.bcryptHash(args.password());
+            UserEntity user = new UserEntity(args.username(),
+                    args.email(),
+                    args.displayName(),
+                    args.privilegeLevel(),
+                    pwdBcryptHash);
+            entityManager.persist(user);
+            int lastIdentity = user.getUid(); // Assuming your User entity has an auto-generated ID field
+
+            if (args.privilegeLevel() == 1) {
+                StudentEntity student = new StudentEntity(lastIdentity, null);
+                entityManager.persist(student);
+            } else if (args.privilegeLevel() == 2) {
+                StaffEntity staff = new StaffEntity(lastIdentity, false);
+                entityManager.persist(staff);
+            } else if (args.privilegeLevel() == 3) {
+                AdminEntity admin = new AdminEntity(lastIdentity, false);
+                entityManager.persist(admin);
+            }
     }
 
     public SessionTokenData loginUser(LoginData args) {
@@ -118,7 +143,7 @@ public class UserService {
             return "Passwords are not the same";
         }
         String newPass = AuthorizationUtils.bcryptHash(req.newPassword());
-        userRepository.changePassword(newPass, curUser.getUid());
+        curUser.setPwdBcryptHash(newPass);
         return "Successful";
     }
 

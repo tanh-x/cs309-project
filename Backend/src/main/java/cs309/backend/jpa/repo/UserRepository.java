@@ -9,14 +9,14 @@ import org.springframework.data.repository.query.Param;
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<UserEntity, Integer> {
-    @Procedure(name = "registerUser")
+    /*@Procedure(name = "registerUser")
     void registerUser(
         @Param("p_username") String username,
         @Param("p_email") String email,
         @Param("p_display_name") String displayName,
         @Param("p_privilege_level") int privilegeLevel,
         @Param("p_pwd_bcrypt_hash") String passwordBcryptHash
-    );
+    );*/
 
     //@Procedure(name = "getUserByEmail")
     UserEntity getUserByEmail(String email);
@@ -30,8 +30,8 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
     /*@Procedure(name = "updateUser")
     void updateUser(@Param("p_uid") int id, @Param("p_email") String email, @Param("p_display_name") String displayName);*/
 
-    @Procedure(name = "changePassword")
-    void changePassword(@Param("p_pass") String password, @Param("p_uid") int uid);
+    /*@Procedure(name = "changePassword")
+    void changePassword(@Param("p_pass") String password, @Param("p_uid") int uid);*/
 
     @Procedure(name = "deleteUser")
     void deleteUser(@Param("p_uid") int uid, @Param("p_privilege_level") int privilege_level);

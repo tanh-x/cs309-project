@@ -18,4 +18,11 @@ public final class AdminEntity implements User {
 
     @Column(name = "has_access")
     private boolean hasAccess;
+
+    public AdminEntity(int lastIdentity, boolean hasAccess) {
+    }
+
+    public AdminEntity() {
+
+    }
 }

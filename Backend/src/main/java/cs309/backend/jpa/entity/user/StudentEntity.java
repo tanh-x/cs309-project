@@ -20,4 +20,13 @@ public final class StudentEntity implements User {
     @Column(name = "primary_major")
     @Nullable
     private Integer primaryMajor;
+
+    public StudentEntity(int uid, Integer primaryMajor) {
+        this.uid = uid;
+        this.primaryMajor = primaryMajor;
+    }
+
+    public StudentEntity() {
+
+    }
 }

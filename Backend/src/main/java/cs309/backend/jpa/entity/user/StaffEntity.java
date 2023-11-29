@@ -18,5 +18,12 @@ public final class StaffEntity implements User {
 
     @Column(name = "has_access")
     private boolean hasAccess;
+
+    public StaffEntity(int lastIdentity, boolean hasAccess) {
+    }
+
+    public StaffEntity() {
+
+    }
 }
 
