@@ -188,6 +188,23 @@ public class UserService {
             return "This is you current privilege";
         }
         //userRepository.grantPermission(id, newPrivilege);
+        int count = studentProgramRepository.countByUid(id);
+        if (count == 0) {
+            studentRepository.delete(studentRepository.getReferenceById(id));
+        }
+        else {
+            studentProgramRepository.delete(studentProgramRepository.findByUid(id));
+            studentRepository.delete(studentRepository.getReferenceById(id));
+        }
+        if (newPrivilege == 2) {
+            StaffEntity staff = new StaffEntity(user, false);
+            staffRepository.save(staff);
+        }
+        if (newPrivilege == 3) {
+            AdminEntity admin = new AdminEntity(user, false);
+            adminRepository.save(admin);
+        }
+        user.setPrivilegeLevel(newPrivilege);
         return "Successful";
     }
 
