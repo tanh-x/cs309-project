@@ -150,6 +150,7 @@ public class UserService {
         }
         String newPass = AuthorizationUtils.bcryptHash(req.newPassword());
         curUser.setPwdBcryptHash(newPass);
+        userRepository.save(curUser);
         return "Successful";
     }
 

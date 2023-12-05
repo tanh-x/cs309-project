@@ -49,7 +49,9 @@ public class CourseService {
         if (course == null) {
             return "Course Not Found";
         }
-        courseRepository.updateCourseByIdentifier(identifier, num, description);
+        course.setDescription(description);
+        courseRepository.save(course);
+        //courseRepository.updateCourseByIdentifier(identifier, num, description);
         return "Successful";
     }
 
