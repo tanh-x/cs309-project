@@ -62,7 +62,13 @@ public class CourseService {
         if (course == null) {
             return "Course Not Found";
         }
-        sectionRepository.createSection(
+        SectionEntity section =  new SectionEntity(args.ref(),
+                args.section(),
+                args.year(),
+                args.season(),
+                args.is_online(),
+                course);
+        /*sectionRepository.createSection(
             args.ref(),
             args.identifier(),
             args.num(),
@@ -70,7 +76,8 @@ public class CourseService {
             args.year(),
             args.season(),
             args.is_online()
-        );
+        );*/
+        sectionRepository.save(section);
         return "Successful!";
     }
 

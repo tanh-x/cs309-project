@@ -9,12 +9,12 @@ public interface SectionRepository extends JpaRepository<SectionEntity, Long> {
     //@Procedure(name = "getSectionById")
     SectionEntity[] getAllSectionByCourseId(int id);
 
-    @Procedure(name = "addSection")
+    /*@Procedure(name = "createSection")
     void createSection(@Param("p_ref") int ref,
                        @Param("p_program_identifier") String identifier,
                        @Param("p_num") int num,
                        @Param("p_section") String section,
                        @Param("p_year") int year,
                        @Param("p_season") int season,
-                       @Param("p_is_online") boolean online);
+                       @Param("p_is_online") boolean online);*/
 }
