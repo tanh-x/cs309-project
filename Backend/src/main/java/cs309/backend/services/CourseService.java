@@ -11,6 +11,8 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Transactional
 public class CourseService {
@@ -29,8 +31,9 @@ public class CourseService {
         this.insightsRepository = insightsRepository;
     }
 
-    public CourseEntity[] getAllCourseInformation(int term) {
-        return courseRepository.getAllCourseInformation(term);
+    public List<CourseEntity> getAllCourseInformation(int term) {
+        //return courseRepository.getAllCourseInformation(term);
+        return courseRepository.findAll();
     }
 
     public CourseEntity getCourseById(int id) {
@@ -38,7 +41,7 @@ public class CourseService {
     }
 
     public SectionEntity[] getSectionById(int courseId) {
-        return sectionRepository.getSectionById(courseId);
+        return sectionRepository.getAllSectionByCourseId(courseId);
     }
 
     public String updateCourseByIdentifier(String identifier, int num, String description) {
@@ -46,18 +49,26 @@ public class CourseService {
         if (course == null) {
             return "Course Not Found";
         }
-        courseRepository.updateCourseByIdentifier(identifier, num, description);
+        course.setDescription(description);
+        courseRepository.save(course);
+        //courseRepository.updateCourseByIdentifier(identifier, num, description);
         return "Successful";
     }
 
-    public CourseEntity getCourseByIdentifier(String identifier, int num) { return courseRepository.getCourseByIdentifier(identifier, num); }
+    public CourseEntity getCourseByIdentifier(String identifier, int num) { return courseRepository.getCourseByProgramIdentifierAndNum(identifier, num); }
 
     public String createSection(SectionData args) {
         CourseEntity course = getCourseByIdentifier(args.identifier(), args.num());
         if (course == null) {
             return "Course Not Found";
         }
-        sectionRepository.createSection(
+        SectionEntity section =  new SectionEntity(args.ref(),
+                args.section(),
+                args.year(),
+                args.season(),
+                args.is_online(),
+                course);
+        /*sectionRepository.createSection(
             args.ref(),
             args.identifier(),
             args.num(),
@@ -65,7 +76,8 @@ public class CourseService {
             args.year(),
             args.season(),
             args.is_online()
-        );
+        );*/
+        sectionRepository.save(section);
         return "Successful!";
     }
 

@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 import static org.springframework.http.ResponseEntity.internalServerError;
 import static org.springframework.http.ResponseEntity.ok;
 
@@ -33,9 +35,9 @@ public class CourseController {
      */
     @Operation(description = "get all the courses in the given term")
     @GetMapping("/all/{term}")
-    public ResponseEntity<CourseEntity[]> getAll(@PathVariable int term) {
+    public ResponseEntity<List<CourseEntity>> getAll(@PathVariable int term) {
         try {
-            CourseEntity[] courses = courseService.getAllCourseInformation(term);
+            List<CourseEntity> courses = courseService.getAllCourseInformation(term);
             return ok(courses);
         } catch (RuntimeException e) {
             e.printStackTrace();

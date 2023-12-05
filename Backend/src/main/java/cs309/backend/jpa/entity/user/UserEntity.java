@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import cs309.backend.common.Role;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -35,6 +36,18 @@ public final class UserEntity implements UserDetails, User {
     @Column(name = "pwd_bcrypt_hash", length = 256, nullable = false)
     @JsonIgnore
     private String pwdBcryptHash;
+
+    public UserEntity(String username, String email, String displayName, int privilegeLevel, String pwdBcryptHash) {
+        this.username = username;
+        this.email = email;
+        this.displayName = displayName;
+        this.privilegeLevel = privilegeLevel;
+        this.pwdBcryptHash = pwdBcryptHash;
+    }
+
+    public UserEntity() {
+
+    }
 
     private Role mapPrivilegeLevelToRole(int privilegeLevel) {
         switch (privilegeLevel) {

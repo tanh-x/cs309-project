@@ -2,11 +2,8 @@ package cs309.backend.services;
 
 import cs309.backend.auth.AuthorizationUtils;
 import cs309.backend.exception.InvalidCredentialsException;
-import cs309.backend.jpa.entity.TestEntity;
-import cs309.backend.jpa.entity.user.User;
-import cs309.backend.jpa.entity.user.UserEntity;
-import cs309.backend.jpa.repo.TestEntityRepository;
-import cs309.backend.jpa.repo.UserRepository;
+import cs309.backend.jpa.entity.user.*;
+import cs309.backend.jpa.repo.*;
 import cs309.backend.DTOs.ChangePasswordData;
 import cs309.backend.DTOs.LoginData;
 import cs309.backend.DTOs.RegistrationData;
@@ -19,26 +16,36 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
-import java.util.Objects;
 
 
 @Service
 @Transactional
 public class UserService {
+
+    private final StudentProgramRepository studentProgramRepository;
     private final TestEntityRepository testRepository;
     private final UserRepository userRepository;
 
+    private final StudentRepository studentRepository;
+
+    private final StaffRepository staffRepository;
+
+    private final AdminRepository adminRepository;
     @Autowired
-    public UserService(TestEntityRepository testRepository, UserRepository userRepository) {
+    public UserService(StudentProgramRepository studentProgramRepository, TestEntityRepository testRepository, UserRepository userRepository, StudentRepository studentRepository, StaffRepository staffRepository, AdminRepository adminRepository) {
+        this.studentProgramRepository = studentProgramRepository;
         this.testRepository = testRepository;
         this.userRepository = userRepository;
+        this.studentRepository = studentRepository;
+        this.staffRepository = staffRepository;
+        this.adminRepository = adminRepository;
     }
 
-    public TestEntity readTestTable(int id) {
+    /*public TestEntity readTestTable(int id) {
         return testRepository.readTestTable(id);
-    }
+    }*/
 
-    public void registerUser(RegistrationData args) {
+    /*public void registerUser(RegistrationData args) {
         String pwdBcryptHash = AuthorizationUtils.bcryptHash(args.password());
 
         userRepository.registerUser(
@@ -48,6 +55,26 @@ public class UserService {
             args.privilegeLevel(),
             pwdBcryptHash
         );
+    }*/
+
+    public void registerUser(RegistrationData args) {
+            String pwdBcryptHash = AuthorizationUtils.bcryptHash(args.password());
+            UserEntity user = new UserEntity(args.username(),
+                    args.email(),
+                    args.displayName(),
+                    args.privilegeLevel(),
+                    pwdBcryptHash);
+            userRepository.save(user);
+            if (args.privilegeLevel() == 1) {
+                StudentEntity student = new StudentEntity(user, null);
+                studentRepository.save(student);
+            } else if (args.privilegeLevel() == 2) {
+                StaffEntity staff = new StaffEntity(user, false);
+                staffRepository.save(staff);
+            } else if (args.privilegeLevel() == 3) {
+                AdminEntity admin = new AdminEntity(user, false);
+                adminRepository.save(admin);
+            }
     }
 
     public SessionTokenData loginUser(LoginData args) {
@@ -68,7 +95,11 @@ public class UserService {
     }
 
     public UserEntity getUserByUid(int uid) throws EntityNotFoundException {
-        return userRepository.getReferenceById(uid);
+        UserEntity user = userRepository.getUserByUid(uid);
+        if (user == null) {
+            throw new EntityNotFoundException();
+        }
+        return user;
     }
     public UserEntity getUserByUsername(String username) throws EntityNotFoundException{
         UserEntity user = userRepository.getUserByUsername(username);
@@ -78,8 +109,12 @@ public class UserService {
         return user;
     }
 
-    public UserEntity getUserByEmail(String email) {
-        return userRepository.getUserByEmail(email);
+    public UserEntity getUserByEmail(String email) throws EntityNotFoundException{
+        UserEntity user = userRepository.getUserByEmail(email);
+        if (user == null) {
+            throw new EntityNotFoundException();
+        }
+        return user;
     }
 
     public Boolean updateUser(int uid, String email, String displayName) {
@@ -87,11 +122,21 @@ public class UserService {
         if (user == null) {
             return false;
         }
-        userRepository.updateUser(
+        /*userRepository.updateUser(
             uid,
             Objects.equals(email, "") ? null : email,
             Objects.equals(displayName, "") ? null : displayName
-        );
+        );*/
+
+            if (email != null) {
+                user.setEmail(email);
+            }
+            if (displayName != null) {
+                user.setDisplayName(displayName);
+            }
+            // Save the updated user entity
+            userRepository.save(user);
+
         return true;
     }
 
@@ -104,13 +149,31 @@ public class UserService {
             return "Passwords are not the same";
         }
         String newPass = AuthorizationUtils.bcryptHash(req.newPassword());
-        userRepository.changePassword(newPass, curUser.getUid());
+        curUser.setPwdBcryptHash(newPass);
+        userRepository.save(curUser);
         return "Successful";
     }
 
     public Boolean deleteUser(Principal user) {
         var curUser = (UserEntity) ((UsernamePasswordAuthenticationToken) user).getPrincipal();
-        userRepository.deleteUser(curUser.getUid(), curUser.getPrivilegeLevel());
+        //userRepository.deleteUser(curUser.getUid(), curUser.getPrivilegeLevel());
+        int count = studentProgramRepository.countByUid(curUser.getUid());
+        if (curUser.getPrivilegeLevel() == 1) {
+            if (count == 0) {
+                studentRepository.delete(studentRepository.getReferenceById(curUser.getUid()));
+            }
+            else {
+                studentProgramRepository.delete(studentProgramRepository.findByUid(curUser.getUid()));
+                studentRepository.delete(studentRepository.getReferenceById(curUser.getUid()));
+            }
+        }
+        else if (curUser.getPrivilegeLevel() == 2) {
+            staffRepository.delete(staffRepository.getReferenceById(curUser.getUid()));
+        }
+        else if (curUser.getPrivilegeLevel() == 3) {
+            adminRepository.delete(adminRepository.getReferenceById(curUser.getUid()));
+        }
+        userRepository.delete(curUser);
         return true;
     }
 
@@ -125,7 +188,24 @@ public class UserService {
         if (newPrivilege == user.getPrivilegeLevel()) {
             return "This is you current privilege";
         }
-        userRepository.grantPermission(id, newPrivilege);
+        //userRepository.grantPermission(id, newPrivilege);
+        int count = studentProgramRepository.countByUid(id);
+        if (count == 0) {
+            studentRepository.delete(studentRepository.getReferenceById(id));
+        }
+        else {
+            studentProgramRepository.delete(studentProgramRepository.findByUid(id));
+            studentRepository.delete(studentRepository.getReferenceById(id));
+        }
+        if (newPrivilege == 2) {
+            StaffEntity staff = new StaffEntity(user, false);
+            staffRepository.save(staff);
+        }
+        if (newPrivilege == 3) {
+            AdminEntity admin = new AdminEntity(user, false);
+            adminRepository.save(admin);
+        }
+        user.setPrivilegeLevel(newPrivilege);
         return "Successful";
     }
 
