@@ -53,7 +53,7 @@ public class CourseService {
         return "Successful";
     }
 
-    public CourseEntity getCourseByIdentifier(String identifier, int num) { return courseRepository.getCourseByIdentifier(identifier, num); }
+    public CourseEntity getCourseByIdentifier(String identifier, int num) { return courseRepository.getCourseByProgramIdentifierAndNum(identifier, num); }
 
     public String createSection(SectionData args) {
         CourseEntity course = getCourseByIdentifier(args.identifier(), args.num());
