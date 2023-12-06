@@ -1,4 +1,6 @@
 import cs309.backend.DTOs.RegistrationData;
+import cs309.backend.jpa.entity.user.AdminEntity;
+import cs309.backend.jpa.entity.user.StaffEntity;
 import cs309.backend.jpa.entity.user.StudentEntity;
 import cs309.backend.jpa.entity.user.UserEntity;
 import cs309.backend.jpa.repo.*;
@@ -68,12 +70,25 @@ public class UserTest {
 
     @Test
     public void registerUser() {
-        RegistrationData reg = new RegistrationData("Khoi", "duckhoi@iastate.edu","nopeGG","KhoiZeus", 1);
-
         when(userRepository.save(any(UserEntity.class))).thenAnswer(invocation -> invocation.getArgument(0));
         when(studentRepository.save(any(StudentEntity.class))).thenAnswer(invocation -> invocation.getArgument(0));
-        userService.registerUser(reg);
-        verify(userRepository).save(any(UserEntity.class));
-        verify(studentRepository).save(any(StudentEntity.class));
+        when(staffRepository.save(any(StaffEntity.class))).thenAnswer(invocation -> invocation.getArgument(0));
+        when(adminRepository.save(any(AdminEntity.class))).thenAnswer(invocation -> invocation.getArgument(0));
+        int[] arr = {1,2,3};
+        for (int i : arr) {
+            RegistrationData reg = new RegistrationData("Khoi", "duckhoi@iastate.edu", "nopeGG", "KhoiZeus", i);
+
+            userService.registerUser(reg);
+            if (i == 1) {
+                verify(studentRepository).save(any(StudentEntity.class));
+            }
+            else if (i == 2) {
+                verify(staffRepository).save(any(StaffEntity.class));
+            }
+            else {
+                verify(adminRepository).save(any(AdminEntity.class));
+            }
+        }
+        verify(userRepository, times(3)).save(any(UserEntity.class));
     }
 }
