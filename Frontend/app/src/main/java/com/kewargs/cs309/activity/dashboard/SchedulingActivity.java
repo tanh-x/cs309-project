@@ -1,5 +1,6 @@
 package com.kewargs.cs309.activity.dashboard;
 import static android.view.KeyEvent.ACTION_DOWN;
+import static android.view.KeyEvent.ACTION_UP;
 import static android.view.KeyEvent.KEYCODE_ENTER;
 
 import android.content.Intent;
@@ -73,7 +74,6 @@ public class SchedulingActivity extends AbstractActivity{
                 printDataList();
             }
             flavortext.setText(flavortext.getText()+inputText.toUpperCase()+"\n");
-            enterCourse.requestFocus();
         }
         else{
             showToast("Invalid Course!", SchedulingActivity.this);
@@ -94,6 +94,7 @@ public class SchedulingActivity extends AbstractActivity{
     }
     private void addAllCourses(View view) {
         //Send a post request of course num and names
+        flavortext.setText("");
     }
     private void switchToActivity(Class<?> newActivity) {
         Intent intent = new Intent(SchedulingActivity.this, newActivity);

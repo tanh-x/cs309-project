@@ -9,7 +9,7 @@ import java.util.stream.IntStream;
 public class SchedulingTable {
     public Course[] courseArr;
     public final int levels;
-    public ArrayList<ArrayList<ArrayList<helper>>> ScheduleList;
+    public ArrayList<ArrayList<ArrayList<CourseHelper>>> ScheduleList;
 
     /**
      * Create all sheduels given an array of courses
@@ -19,9 +19,9 @@ public class SchedulingTable {
     public SchedulingTable(Course[] courseArr) {
         this.courseArr = courseArr;
         this.levels = courseArr.length;
-        this.ScheduleList = new ArrayList<ArrayList<ArrayList<helper>>>();
+        this.ScheduleList = new ArrayList<ArrayList<ArrayList<CourseHelper>>>();
 
-        dfs((ArrayList<ArrayList<helper>>) IntStream.range(0, 5).mapToObj(ArrayList<helper>::new)
+        dfs((ArrayList<ArrayList<CourseHelper>>) IntStream.range(0, 5).mapToObj(ArrayList<CourseHelper>::new)
                 .collect(Collectors.toList()), -1);
 
     }
@@ -46,21 +46,6 @@ public class SchedulingTable {
         System.out.println(sched.toString());
     }
 
-    /**
-     * for printing to console
-     *
-     * @author Bui Nhat Anh
-     *
-     */
-    public class helper {
-        public Course c;
-        public Schedule s;
-
-        public helper(Course c, Schedule s) {
-            this.c = c;
-            this.s = s;
-        }
-    }
 
     /**
      * Backtracking algorithm to generate all possible schedules
@@ -68,7 +53,7 @@ public class SchedulingTable {
      * @param currSched
      * @param level
      */
-    public void dfs(ArrayList<ArrayList<helper>> currSched, int level) {
+    public void dfs(ArrayList<ArrayList<CourseHelper>> currSched, int level) {
         g: for (Schedule s : courseArr[level + 1].times) {
 
             int[] meet_days_bitmask =  IntStream.range(0, 5).map(i -> (s.meet_days_bitmask >> (4 - i)) & 1).toArray();
@@ -79,26 +64,26 @@ public class SchedulingTable {
                 if (meet_days_bitmask[i] != 1)
                     continue;
 
-                for (helper s2 : currSched.get(i)) {
-                    if ((s.end_time > s2.s.start_time && s.start_time < s2.s.end_time)
+                for (CourseHelper s2 : currSched.get(i)) {
+                    if ((s.end_time > s2.s.start_time && s.start_time < s2.s.end_time) //idk why intellij mad at me
                             || (s2.s.end_time > s.start_time && s2.s.start_time < s.end_time))
                         break g;
                 }
             }
 
-            ArrayList<ArrayList<helper>> newSched    = (ArrayList<ArrayList<helper>>) currSched.stream()
+            ArrayList<ArrayList<CourseHelper>> newSched    = (ArrayList<ArrayList<CourseHelper>>) currSched.stream()
                     .map(ArrayList::new).collect(Collectors.toList()); // copies 2d array
             for (int i = 0; i < 5; i++) {
                 if (meet_days_bitmask[i] == 1) {
-                    newSched.get(i).add(new helper(courseArr[level + 1], s));
+                    newSched.get(i).add(new CourseHelper(courseArr[level + 1], s));
                 }
             }
 
             if (level + 1 == levels - 1){ // all courses been added
-                for(ArrayList<helper> h: newSched) {
-                    h.sort(new Comparator<helper>() {
+                for(ArrayList<CourseHelper> h: newSched) {
+                    h.sort(new Comparator<CourseHelper>() {
                         @Override
-                        public int compare(helper lhs, helper rhs) {
+                        public int compare(CourseHelper lhs, CourseHelper rhs) {
                             int p1 = lhs.s.start_time;
                             int p2 = rhs.s.start_time;
                             return Integer.compare(p1, p2);
@@ -114,13 +99,13 @@ public class SchedulingTable {
     @Override
     public String toString() {
         String f = "";
-        for (ArrayList<ArrayList<helper>> h : ScheduleList) {
+        for (ArrayList<ArrayList<CourseHelper>> h : ScheduleList) {
             f += scheduleToString(h);
         }
         return f;
     }
 
-    public String scheduleToString(ArrayList<ArrayList<helper>> sched) {
+    public String scheduleToString(ArrayList<ArrayList<CourseHelper>> sched) {
         String f = "\n";
         f += "Monday: " + weekDayToString(sched.get(0)) + "\n";
         f += "Tuesday: " + weekDayToString(sched.get(1)) + "\n";
@@ -130,9 +115,9 @@ public class SchedulingTable {
         return f;
     }
 
-    public String weekDayToString(ArrayList<helper> arr) {
+    public String weekDayToString(ArrayList<CourseHelper> arr) {
         String f = "";
-        for (helper h : arr) {
+        for (CourseHelper h : arr) {
             f += h.c.program_identifier + " " + h.c.num + ": (" + h.s.start_time + "," + h.s.end_time + "), ";
         }
         return f;
