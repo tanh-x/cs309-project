@@ -43,6 +43,7 @@ public class UserSystemTest {
                 pathParams("id", 123456789).
                 get("/api/user/id/{id}");
         assertEquals(500, response1.getStatusCode());
+        
         String returnString = response.getBody().asString();
         try {
             JSONArray returnArr = new JSONArray(returnString);
@@ -64,6 +65,12 @@ public class UserSystemTest {
 
         int statusCode = response.getStatusCode();
         assertEquals(200, statusCode);
+
+        Response response1 = RestAssured.given().
+                header("Authorization", "Bearer " + jwtToken).
+                pathParams("username", "Blablabla").
+                get("/api/user/username/{username}");
+        assertEquals(500, response1.getStatusCode());
 
         String returnString = response.getBody().asString();
         try {
