@@ -52,10 +52,10 @@
                 android:textSize="16sp"
                 android:layout_marginTop="4dp"
                 android:textColor="#888888"
-                android:onClick="onClick"
                 android:clickable="true"
                 android:textAlignment="textStart"
-                android:gravity="center" />
+                android:gravity="center"
+                tools:ignore="RtlCompat" />
 
     </LinearLayout>
 

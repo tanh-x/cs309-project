@@ -36,7 +36,8 @@
                     android:textAlignment="textStart"
                     android:gravity="center"
                     android:padding="4dp"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    tools:ignore="RtlCompat" />
         </LinearLayout>
 
         <com.google.android.material.tabs.TabLayout
