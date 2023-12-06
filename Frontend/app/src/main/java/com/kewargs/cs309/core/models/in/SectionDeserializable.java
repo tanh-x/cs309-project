@@ -32,7 +32,7 @@ public record SectionDeserializable(
         return new SectionDeserializable(
             json.getInt("id"),
             json.getInt("refNum"),
-            CourseDeserializable.from(json.getString("course")),
+            CourseDeserializable.from(json.getJSONObject("course")),
             json.getString("section"),
             json.getInt("year"),
             json.getInt("season"),

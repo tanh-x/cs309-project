@@ -1,4 +1,4 @@
-package com.kewargs.cs309.activity.dashboard;
+package com.kewargs.cs309.audit;
 
 import static com.kewargs.cs309.core.utils.constants.UniversalConstants.AUDIT_UPLOAD_ENDPOINT;
 
@@ -20,6 +20,8 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import com.android.volley.Request;
 import com.kewargs.cs309.R;
 import com.kewargs.cs309.activity.AbstractActivity;
+import com.kewargs.cs309.activity.dashboard.DashboardActivity;
+import com.kewargs.cs309.core.models.in.DegreeAuditDeserializable;
 import com.kewargs.cs309.core.utils.backend.request.MultipartRequest;
 
 import java.io.ByteArrayOutputStream;
@@ -44,11 +46,7 @@ public class AuditUploadActivity extends AbstractActivity {
 
     ActivityResultLauncher<Intent> auditUploadResultLaunder; //why google
 
-    private String upload_URL = "https://demonuts.com/Demonuts/JsonTest/Tennis/uploadfile.php?";
-
     private TextView tv;
-
-    String url = "https://www.google.com";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,17 +54,9 @@ public class AuditUploadActivity extends AbstractActivity {
         backDash.setOnClickListener(this::backDashCallback);
         auditUploadButton.setOnClickListener(this::uploadAuditCallback);
         auditUploadResultLaunder = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-            if (result.getResultCode() == Activity.RESULT_OK) {
-                // There are no request codes
-                Intent data = result.getData();
-                //doSomeOperations();
-            }
-        });
-
-        //ill refactor later trust
-        tv.setOnClickListener(v -> {
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-            startActivity(browserIntent);
+//            if (result.getResultCode() == Activity.RESULT_OK) {
+//                Intent data = result.getData();
+//            }
         });
 
     }
@@ -87,7 +77,7 @@ public class AuditUploadActivity extends AbstractActivity {
 
     @SuppressLint("Range")
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {//im sorry
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) { // im sorry
         if (resultCode == RESULT_OK) {
             // Get the Uri of the selected file
             Uri uri = data.getData();
@@ -112,8 +102,6 @@ public class AuditUploadActivity extends AbstractActivity {
                 }
             } else if (uriString.startsWith("file://")) {
                 throw new UnsupportedOperationException("Later");
-//                displayName = myFile.getName();
-//                Log.d("nameeeee>>>>  ", displayName); //dont bother
             }
         }
 
@@ -133,12 +121,10 @@ public class AuditUploadActivity extends AbstractActivity {
                 pdfName,
                 inputData,
                 session.getSessionToken(),
-                response -> {
-                    tv.setText("Completed courses:\n" +parseOutpust(response));
-                    Log.d("Upload", "Response: " + response);
-                },
+                this::parseSuccessCallback,
                 error -> {
                     showToast(error.toString(), this);
+                    tv.setText("Upload failed, please try again.");
                     Log.e("Upload", error.toString());
                 }
             );
@@ -149,18 +135,25 @@ public class AuditUploadActivity extends AbstractActivity {
         }
     }
 
-    public String parseOutpust(String res)
-    {
+    private void parseSuccessCallback(String response) {
+        tv.setText("Successfully uploaded your degree audit!");
+
+        Intent intent = new Intent(this, DegreePlannerActivity.class);
+        intent.putExtra("audit", response);
+        startActivity(intent);
+    }
+
+    public String parseOutpust(String res) {
         List<String> returnList = null;
         res = res.replaceAll("[\\[\\]]", "");
         returnList = Arrays.asList(res.split(", "));
-        String f= "";
-        for(String i:returnList)
-        {
-            f+=i+"\n";
+        String f = "";
+        for (String i : returnList) {
+            f += i + "\n";
         }
         return f;
     }
+
     public byte[] getBytes(InputStream inputStream) throws IOException {
         ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
         int bufferSize = 1024;

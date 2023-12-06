@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
-import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 import com.kewargs.cs309.R;
 import com.kewargs.cs309.activity.AbstractActivity;
@@ -310,12 +309,12 @@ public final class CourseInfoActivity extends AbstractActivity {
         headerTitle = findViewById(R.id.headerTitle);
 
         titleText = findViewById(R.id.titleText);
-        descriptionText = findViewById(R.id.descriptionText);
-        creditsText = findViewById(R.id.creditsText);
-        variableCreditsText = findViewById(R.id.variableCreditsText);
-        deliveryText = findViewById(R.id.deliveryText);
-        gradedText = findViewById(R.id.gradedText);
-        seasonsText = findViewById(R.id.seasonsText);
+        descriptionText = findViewById(R.id.annotationsText);
+        creditsText = findViewById(R.id.creditsCompletedText);
+        variableCreditsText = findViewById(R.id.entryText);
+        deliveryText = findViewById(R.id.creditsInpText);
+        gradedText = findViewById(R.id.gpaText);
+        seasonsText = findViewById(R.id.curriculumText);
 
         sectionCountText = findViewById(R.id.sectionCountText);
         mainGrid = findViewById(R.id.mainGrid);

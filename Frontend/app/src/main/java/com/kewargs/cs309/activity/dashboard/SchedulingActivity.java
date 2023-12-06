@@ -49,26 +49,27 @@ public class SchedulingActivity extends AbstractActivity{
     private String f =  "";
 
 
+    private TextView flavourText; //for saying no schedule lol
 
-    private TextView flavortext; //for saying no schedule lol
+    private ArrayList<String> dataList = new ArrayList<>();
 
-    private ArrayList<String> dataList = new ArrayList<String>();
-    public SchedulingActivity() {super(R.layout.schedule_display);}
+    public SchedulingActivity() { super(R.layout.schedule_display); }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         courseList();
-        session.courseArrList.clear();
+        SessionManager.courseArrList.clear();
         backDash.setOnClickListener(this::toDashBoardCallback);
         deleteAllCourses.setOnClickListener(this::deleteAllCourses);
         addAllCourses.setOnClickListener(this::addAllCourses);
     }
 
-    private void courseList(){
-        String f = "Course ID:\n\n";
+    private void courseList() {
+        StringBuilder f = new StringBuilder("Course ID:\n\n");
         SessionManager session = SessionManager.getInstance();
-        for(int i: session.courseArr){f+=i+"\n";}
-        flavortext.setText(f);
+        for (int i : SessionManager.courseArr) { f.append(i).append("\n"); }
+        flavourText.setText(f.toString());
     }
 
 
@@ -76,118 +77,115 @@ public class SchedulingActivity extends AbstractActivity{
     protected void onStart() {
         super.onStart();
     }
+
     private void toDashBoardCallback(View view) {
         switchToActivity(DashboardActivity.class);
     }
 
     private void addAllCourses(View view) {
         //Send a post request of course num and names
-        f = "";
-        for(int i: session.courseArr)
-        {
+
+        for (int i : SessionManager.courseArr) {
             getSchedulefromCourse(i);
         }
+        printDataList(SessionManager.courseArrList);
 
-        showToast("All courses added",this);
+        showToast("All courses added", this);
     }
 
     private void deleteAllCourses(View view) {
         //Send a post request of course num and names
-        SessionManager.getInstance().courseArr.clear();
-        showToast("All courses removed",this);
-        f = "";
+        SessionManager.courseArr.clear();
+        showToast("All courses removed", this);
         courseList();
     }
+
     private void switchToActivity(Class<?> newActivity) {
         Intent intent = new Intent(SchedulingActivity.this, newActivity);
         startActivity(intent);
     }
-    public void courseInfo(int cid){
+
+    public void courseInfo(int cid) {
         session.addRequest(CourseRequestFactory.getCourseInfo(cid)
-                .onResponse(response -> {
-                    tempC = CourseDeserializable.from(response);
-                    CourseName = tempC.programIdentifier();
-                    CourseNum = tempC.num();
-                })
-                .onError(error -> {
-                    showToast("Couldn't get course info.", this);
-                    finish();
-                })
-                .build());
+            .onResponse(response -> {
+                tempC = CourseDeserializable.from(response);
+                CourseName = tempC.programIdentifier();
+                CourseNum = tempC.num();
+            })
+            .onError(error -> {
+                showToast("Couldn't get course info.", this);
+                finish();
+            })
+            .build());
     }
 
     public void getSchedulefromCourse(int cid) {
         session.addRequest(CourseRequestFactory.getCourseSections(cid)
-                .onResponse(response -> {
-                    try {
-                        courseInfo(cid);
-                        sections = SectionDeserializable.fromArray(new JSONArray(response));
+            .onResponse(response -> {
+                try {
+                    courseInfo(cid);
+                    sections = SectionDeserializable.fromArray(new JSONArray(response));
 
 
-                        ArrayList<Schedule> lecture = new ArrayList<>();
-                        ArrayList<Schedule> recitation = new ArrayList<>();
-                        for (SectionDeserializable section : sections) {
-                            // Populate scheduled sections
-                            Log.d("Sections",section.toString());
-                            for (ScheduleDeserializable schedule : section.schedules()) {
-                                if (schedule.startTime() != null
-                                        && schedule.endTime() != null
-                                        && schedule.endTime() > schedule.startTime()
-                                        && schedule.meetDaysBitmask()!=null
-                                ) {
-                                    Log.d("Passed filter",schedule.toString());
-                                    Schedule s = new Schedule(schedule.sectionId(),schedule.startTime(),schedule.endTime(),schedule.meetDaysBitmask());
-                                    Log.d("properties",s.toString());
-                                    if(isInteger(section.section()))
-                                        lecture.add(s);
-                                    else
-                                        recitation.add(s);
-                                    break;
-                                }
+                    ArrayList<Schedule> lecture = new ArrayList<>();
+                    ArrayList<Schedule> recitation = new ArrayList<>();
+                    for (SectionDeserializable section : sections) {
+                        // Populate scheduled sections
+                        Log.d("Sections", section.toString());
+                        for (ScheduleDeserializable schedule : section.schedules()) {
+                            if (schedule.startTime() != null
+                                && schedule.endTime() != null
+                                && schedule.endTime() > schedule.startTime()
+                                && schedule.meetDaysBitmask() != null
+                            ) {
+                                Log.d("Passed filter", schedule.toString());
+                                Schedule s = new Schedule(schedule.sectionId(), schedule.startTime(), schedule.endTime(), schedule.meetDaysBitmask());
+                                Log.d("properties", s.toString());
+                                if (isInteger(section.section()))
+                                    lecture.add(s);
+                                else
+                                    recitation.add(s);
+                                break;
                             }
                         }
-                        if(!lecture.isEmpty())
-                        {
-                            Course cour = new Course(cid,CourseName,CourseNum,lecture);
-                            Log.d("course info",cour.toString());
-                            session.courseArrList.add(cour);
-                        }
-                        if(!recitation.isEmpty())
-                        {
-                            Course cour = new Course(cid,CourseName,CourseNum,recitation);
-                            Log.d("course info",cour.toString());
-                            session.courseArrList.add(cour);
-                        }
-
-                        printDataList(session.courseArrList);
-                        //return new ArrayList<>() {{add(lecture);add(recitation);}};
-                    } catch (JSONException e) {
-                        Log.d("Mistake here", "exception");
-                        throw new RuntimeException(e);
                     }
-                })
-                .onError(error -> {
-                    showToast("Couldn't get schedule info.", this);
-                    finish();
-                }).build());
+                    if (!lecture.isEmpty()) {
+                        Course cour = new Course(cid, CourseName, CourseNum, lecture);
+                        Log.d("course info", cour.toString());
+                        SessionManager.courseArrList.add(cour);
+                    }
+                    if (!recitation.isEmpty()) {
+                        Course cour = new Course(cid, CourseName, CourseNum, recitation);
+                        Log.d("course info", cour.toString());
+                        SessionManager.courseArrList.add(cour);
+                    }
+                    printDataList(SessionManager.courseArrList);
+                    //return new ArrayList<>() {{add(lecture);add(recitation);}};
+                } catch (JSONException e) {
+                    Log.d("Mistake here", "exception");
+                    throw new RuntimeException(e);
+                }
+            })
+            .onError(error -> {
+                showToast("Couldn't get schedule info.", this);
+                finish();
+            }).build());
 
 
     }
+
     private void printDataList(ArrayList<Course> cArr) {
-        if( cArr.isEmpty())
-        {
-            f = "No courses added";
+        StringBuilder f = new StringBuilder();
+        if (cArr.isEmpty()) {
+            f = new StringBuilder("No courses added");
         }
-        else{
-        for (Course co: cArr) {
-            f = co.program_identifier+" "+co.num+":\n";
-            // Use Log.d() to print debug messages
-            for(Schedule s:co.times){
-                f+="Timings: " + s.start_time + "-" + s.end_time + "\n";
+        for (Course co : cArr) {
+            for (Schedule s : co.times) {
+                f.append(s.start_time).append(" ").append(s.end_time).append("\n");
             }
             Log.d("SchedulingActivity", co.program_identifier + " " + co.num + ":\n");
-        }}
-        flavortext.setText(f);
+        }
+        flavourText.setText(f.toString());
     }
 
     private boolean isInteger(String str) {
@@ -202,8 +200,8 @@ public class SchedulingActivity extends AbstractActivity{
     @Override
     protected void collectElements() {
         backDash = findViewById(R.id.backDashSched);
-        deleteAllCourses =  findViewById(R.id.removeAllCourses);
+        deleteAllCourses = findViewById(R.id.removeAllCourses);
         addAllCourses = findViewById(R.id.addAllCourses);
-        flavortext = findViewById(R.id.flavorText);
+        flavourText = findViewById(R.id.flavorText);
     }
 }
