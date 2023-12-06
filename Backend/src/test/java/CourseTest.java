@@ -57,4 +57,59 @@ public class CourseTest {
             e.printStackTrace();
         }
     }
+
+    @Test
+    public void getCourseByIdentifier() {
+        Response response = RestAssured.given().
+                header("Authorization", "Bearer " + jwtToken).
+                pathParams("identifier", "COM S").
+                pathParams("num", 127).
+                get("/api/course/{identifier}/{num}");
+
+        int statusCode = response.getStatusCode();
+        assertEquals(200, statusCode);
+
+        String returnString = response.getBody().asString();
+        try {
+            JSONArray returnArr = new JSONArray(returnString);
+            JSONObject returnObj = returnArr.getJSONObject(returnArr.length() - 1);
+            assertEquals("Introduction to Computer Programming", returnObj.get("display_name"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+    @Test
+    public void getSectionById() {
+        Response response = RestAssured.given().
+                header("Authorization", "Bearer " + jwtToken).
+                pathParams("id", 6).
+                get("/api/course/section/{id}");
+
+        int statusCode = response.getStatusCode();
+        assertEquals(200, statusCode);
+    }
+
+    @Test
+    public void getCourseInsightById() {
+        Response response = RestAssured.given().
+                header("Authorization", "Bearer " + jwtToken).
+                pathParams("id", 6).
+                get("/api/course/insights/{id}");
+
+        int statusCode = response.getStatusCode();
+        assertEquals(200, statusCode);
+    }
+
+    @Test
+    public void getScheduleById() {
+        Response response = RestAssured.given().
+                header("Authorization", "Bearer " + jwtToken).
+                pathParams("id", 8).
+                get("/api/course/schedule/{id}");
+
+        int statusCode = response.getStatusCode();
+        assertEquals(200, statusCode);
+    }
+
+
 }
