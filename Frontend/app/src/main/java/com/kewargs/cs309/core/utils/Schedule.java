@@ -12,4 +12,10 @@ public class Schedule {
         this.end_time = end_time;
         this.meet_days_bitmask = meet_days_bitmask;
     }
+
+    public String toString()
+    {
+        return section_id+" "+start_time+" "+end_time+" "+meet_days_bitmask;
+    }
+
 }

@@ -18,6 +18,9 @@ public class Course {
     }
 
 
+    public String toString(){
+        return id+" "+program_identifier+" "+num+" "+times;
+    }
 
     public void add(Schedule s)
     {

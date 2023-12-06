@@ -18,6 +18,9 @@ public final class SessionManager {
 
     public static HashSet<Integer> courseArr = new HashSet<>();
 
+
+    public static ArrayList<Course> courseArrList = new ArrayList<>();
+
     public String getSessionToken() {
         if (authentication == null) return null;
         return authentication.getSessionToken();

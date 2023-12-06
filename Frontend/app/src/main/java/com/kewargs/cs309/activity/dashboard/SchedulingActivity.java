@@ -38,13 +38,15 @@ public class SchedulingActivity extends AbstractActivity{
 
     private Button backDash, deleteAllCourses, addAllCourses;
 
-    private ArrayList<SectionDeserializable> sections = null;
+    private ArrayList<SectionDeserializable> sections;
 
     private CourseDeserializable tempC = null;
 
     private String CourseName = "";
 
     private int CourseNum = 0;
+
+
 
     private TextView flavortext; //for saying no schedule lol
 
@@ -54,6 +56,7 @@ public class SchedulingActivity extends AbstractActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         courseList();
+        session.courseArrList.clear();
         backDash.setOnClickListener(this::toDashBoardCallback);
         deleteAllCourses.setOnClickListener(this::deleteAllCourses);
         addAllCourses.setOnClickListener(this::addAllCourses);
@@ -77,23 +80,12 @@ public class SchedulingActivity extends AbstractActivity{
 
     private void addAllCourses(View view) {
         //Send a post request of course num and names
-        ArrayList<Course> c= new ArrayList<Course>();
+
         for(int i: session.courseArr)
         {
-            courseInfo(i);
-            ArrayList<ArrayList<Schedule>> g = getSchedulefromCourse(i);
-            if (g==null)
-            {
-                showToast("No sections found",this);
-                continue;
-            }
-            for(ArrayList<Schedule> j:g)
-            {
-                if (!j.isEmpty()){c.add(new Course(i,CourseName,CourseNum,j));}
-            }
-
+            getSchedulefromCourse(i);
         }
-        printDataList(c);
+        printDataList(session.courseArrList);
 
         showToast("All courses added",this);
     }
@@ -121,57 +113,76 @@ public class SchedulingActivity extends AbstractActivity{
                 })
                 .build());
     }
-    public ArrayList<ArrayList<Schedule>> getSchedulefromCourse(int cid) {
+
+    public void getSchedulefromCourse(int cid) {
         session.addRequest(CourseRequestFactory.getCourseSections(cid)
                 .onResponse(response -> {
                     try {
+                        courseInfo(cid);
                         sections = SectionDeserializable.fromArray(new JSONArray(response));
+
+
+                        ArrayList<Schedule> lecture = new ArrayList<>();
+                        ArrayList<Schedule> recitation = new ArrayList<>();
+                        for (SectionDeserializable section : sections) {
+                            // Populate scheduled sections
+                            Log.d("Sections",section.toString());
+                            for (ScheduleDeserializable schedule : section.schedules()) {
+                                if (schedule.startTime() != null
+                                        && schedule.endTime() != null
+                                        && schedule.endTime() > schedule.startTime()
+                                        && schedule.meetDaysBitmask()!=null
+                                ) {
+                                    Log.d("Passed filter",schedule.toString());
+                                    Schedule s = new Schedule(schedule.sectionId(),schedule.startTime(),schedule.endTime(),schedule.meetDaysBitmask());
+                                    Log.d("properties",s.toString());
+                                    if(isInteger(section.section()))
+                                        lecture.add(s);
+                                    else
+                                        recitation.add(s);
+                                    break;
+                                }
+                            }
+                        }
+                        if(!lecture.isEmpty())
+                        {
+                            Course cour = new Course(cid,CourseName,CourseNum,lecture);
+                            Log.d("course info",cour.toString());
+                            session.courseArrList.add(cour);
+                        }
+                        if(!recitation.isEmpty())
+                        {
+                            Course cour = new Course(cid,CourseName,CourseNum,recitation);
+                            Log.d("course info",cour.toString());
+                            session.courseArrList.add(cour);
+                        }
+                        //return new ArrayList<>() {{add(lecture);add(recitation);}};
                     } catch (JSONException e) {
+                        Log.d("Mistake here", "exception");
                         throw new RuntimeException(e);
                     }
                 })
                 .onError(error -> {
                     showToast("Couldn't get schedule info.", this);
                     finish();
-                })
-        );
-        if( sections == null){
-            return null;
-        }
-        ArrayList<Schedule> lecture = new ArrayList<>();
-        ArrayList<Schedule> recitation = new ArrayList<>();
-        for (SectionDeserializable section : sections) {
-            // Populate scheduled sections
-            Schedule s = null;
-            for (ScheduleDeserializable schedule : section.schedules()) {
-                if (schedule.startTime() != null
-                        && schedule.endTime() != null
-                        && schedule.endTime() > schedule.startTime()
-                        && schedule.meetDaysBitmask()!=null
-                ) {
-                    s = new Schedule(schedule.sectionId(),schedule.startTime(),schedule.endTime(),schedule.meetDaysBitmask());
-                    break;
-                }
-            }
-            if(s!=null)
-            {
-                if(isInteger(section.section()))
-                    lecture.add(s);
-                else
-                    recitation.add(s);
-            }
-        }
-        return new ArrayList<>() {{add(lecture);add(recitation);}};
+                }).build());
+
+
     }
-    private void printDataList(ArrayList<Course> c) {
-        for (Course co: c) {
+    private void printDataList(ArrayList<Course> cArr) {
+        String f ="";
+        if( cArr.isEmpty())
+        {
+            f = "No courses added";
+        }
+        for (Course co: cArr) {
             // Use Log.d() to print debug messages
-            String f ="";
             for(Schedule s:co.times){
                 f+=s.start_time + " " + s.end_time + "\n";
             }
             Log.d("SchedulingActivity", co.program_identifier + " " + co.num + ":\n");
         }
+        flavortext.setText(f);
     }
 
     private boolean isInteger(String str) {
