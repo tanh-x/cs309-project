@@ -18,8 +18,8 @@ public class SectionEntity {
     @Column(name = "ref_num")
     private int refNum;
 
-    @Column(name = "course_id")
-    private int courseId;
+    /*@Column(name = "course_id")//, insertable = false, updatable = false)
+    private int courseId;*/
 
     @Column(name = "section")
     private String section;
@@ -42,4 +42,21 @@ public class SectionEntity {
     )
     @JsonManagedReference  // VERY important
     private List<ScheduleEntity> schedules;
+
+    @ManyToOne
+    @JoinColumn(name = "course_id", referencedColumnName = "id")
+    private CourseEntity course;
+
+    public SectionEntity(int ref_num, String section, int year, int season, boolean online, CourseEntity course) {
+        this.refNum = ref_num;
+        this.section = section;
+        this.year = year;
+        this.season = season;
+        this.isOnline = online;
+        this.course = course;
+    }
+
+    public SectionEntity() {
+
+    }
 }

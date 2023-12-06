@@ -18,5 +18,13 @@ public final class StaffEntity implements User {
 
     @Column(name = "has_access")
     private boolean hasAccess;
+
+    public StaffEntity(UserEntity user, boolean hasAccess) {
+        this.user = user;
+        this.hasAccess = hasAccess;
+    }
+    public StaffEntity() {
+
+    }
 }
 
