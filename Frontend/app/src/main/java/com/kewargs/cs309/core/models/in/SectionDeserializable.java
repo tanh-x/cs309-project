@@ -3,6 +3,8 @@ package com.kewargs.cs309.core.models.in;
 import static com.kewargs.cs309.core.utils.backend.request.DeserializationHelpers.getNullableBoolean;
 import static com.kewargs.cs309.core.utils.backend.request.DeserializationHelpers.getNullableInt;
 
+import android.util.Log;
+
 import com.kewargs.cs309.core.utils.backend.request.DeserializationHelpers;
 
 import org.json.JSONArray;
@@ -19,7 +21,7 @@ import java.util.ArrayList;
 public record SectionDeserializable(
     int id,
     int refNum,
-    int courseId,
+    CourseDeserializable course,
     String section,
     int year,
     int season,
@@ -30,7 +32,7 @@ public record SectionDeserializable(
         return new SectionDeserializable(
             json.getInt("id"),
             json.getInt("refNum"),
-            json.getInt("courseId"),
+            CourseDeserializable.from(json.getString("course")),
             json.getString("section"),
             json.getInt("year"),
             json.getInt("season"),
@@ -43,6 +45,7 @@ public record SectionDeserializable(
         try {
             return from(new JSONObject(serializedJson));
         } catch (JSONException e) {
+            Log.e("SectionDeserializable-bad-json", serializedJson);
             throw new RuntimeException(e);
         }
     }
