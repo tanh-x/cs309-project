@@ -46,6 +46,8 @@ public class SchedulingActivity extends AbstractActivity{
 
     private int CourseNum = 0;
 
+    private String f =  "";
+
 
 
     private TextView flavortext; //for saying no schedule lol
@@ -80,12 +82,11 @@ public class SchedulingActivity extends AbstractActivity{
 
     private void addAllCourses(View view) {
         //Send a post request of course num and names
-
+        f = "";
         for(int i: session.courseArr)
         {
             getSchedulefromCourse(i);
         }
-        printDataList(session.courseArrList);
 
         showToast("All courses added",this);
     }
@@ -94,6 +95,7 @@ public class SchedulingActivity extends AbstractActivity{
         //Send a post request of course num and names
         SessionManager.getInstance().courseArr.clear();
         showToast("All courses removed",this);
+        f = "";
         courseList();
     }
     private void switchToActivity(Class<?> newActivity) {
@@ -156,6 +158,8 @@ public class SchedulingActivity extends AbstractActivity{
                             Log.d("course info",cour.toString());
                             session.courseArrList.add(cour);
                         }
+
+                        printDataList(session.courseArrList);
                         //return new ArrayList<>() {{add(lecture);add(recitation);}};
                     } catch (JSONException e) {
                         Log.d("Mistake here", "exception");
@@ -170,18 +174,19 @@ public class SchedulingActivity extends AbstractActivity{
 
     }
     private void printDataList(ArrayList<Course> cArr) {
-        String f ="";
         if( cArr.isEmpty())
         {
             f = "No courses added";
         }
+        else{
         for (Course co: cArr) {
+            f = co.program_identifier+" "+co.num+":\n";
             // Use Log.d() to print debug messages
             for(Schedule s:co.times){
-                f+=s.start_time + " " + s.end_time + "\n";
+                f+="Timings: " + s.start_time + "-" + s.end_time + "\n";
             }
             Log.d("SchedulingActivity", co.program_identifier + " " + co.num + ":\n");
-        }
+        }}
         flavortext.setText(f);
     }
 

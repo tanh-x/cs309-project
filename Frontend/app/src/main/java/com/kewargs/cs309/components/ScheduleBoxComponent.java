@@ -8,10 +8,12 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.kewargs.cs309.R;
 import com.kewargs.cs309.activity.AbstractActivity;
+import com.kewargs.cs309.core.managers.SessionManager;
 import com.kewargs.cs309.core.models.in.SectionDeserializable;
 import android.annotation.SuppressLint;
 import android.util.TypedValue;
@@ -68,20 +70,64 @@ public final class ScheduleBoxComponent extends InflatableComponent<ConstraintLa
     private void build()
     {//18.5dp is 1 hour
         for(CourseHelper h: sched.get(0)){
-
+            int height = (int) Math. round((h.s.end_time-h.s.start_time-111)*0.3);
+            int padding = (int) Math. round((h.s.start_time-111)*0.3);
+            addNewTextView(m,h.c.program_identifier+"\n"+h.c.num,70,height,18,padding,"#CBC3E3");
         }
         for(CourseHelper h: sched.get(1)){
-
+            int height = (int) Math. round((h.s.end_time-h.s.start_time-111)*0.3);
+            int padding = (int) Math. round((h.s.start_time-111)*0.3);
+            addNewTextView(t,h.c.program_identifier+"\n"+h.c.num,70,height,18,padding,"#CBC3E3");
         }
         for(CourseHelper h: sched.get(2)){
-
+            int height = (int) Math. round((h.s.end_time-h.s.start_time-111)*0.3);
+            int padding = (int) Math. round((h.s.start_time-111)*0.3);
+            addNewTextView(w,h.c.program_identifier+"\n"+h.c.num,70,height,18,padding,"#CBC3E3");
         }
         for(CourseHelper h: sched.get(3)){
-
+            int height = (int) Math. round((h.s.end_time-h.s.start_time-111)*0.3);
+            int padding = (int) Math. round((h.s.start_time-111)*0.3);
+            addNewTextView(r,h.c.program_identifier+"\n"+h.c.num,70,height,18,padding,"#CBC3E3");
         }
         for(CourseHelper h: sched.get(4)){
-
+            int height = (int) Math. round((h.s.end_time-h.s.start_time-111)*0.3);
+            int padding = (int) Math. round((h.s.start_time-111)*0.3);
+            addNewTextView(f,h.c.program_identifier+"\n"+h.c.num,70,height,18,padding,"#CBC3E3");
         }
+    }
+
+    private void addNewTextView(LinearLayout container, String text, int width, int height, int textSize, int padding, String backgroundColor) {
+        // Create a new instance of TextView
+        TextView textView = new TextView(this.parentActivity);
+
+        // Set text and other properties
+        textView.setText(text);
+        textView.setTextSize(textSize);
+        textView.setBackgroundColor(Color.parseColor(backgroundColor));
+
+        // Set layout parameters
+        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(
+                convertDpToPx(width), // Use a method to convert dp to pixels
+                convertDpToPx(height)
+        );
+        textView.setLayoutParams(layoutParams);
+
+        // Set padding
+        textView.setPadding(
+                0, // Left padding
+                convertDpToPx(padding), // Top padding
+                0, // Right padding
+                0  // Bottom padding
+        );
+
+        // Add the TextView to the container
+        container.addView(textView);
+    }
+
+    // A method to convert dp to pixels
+    private int convertDpToPx(int dp) {
+        float density = parentActivity.getResources().getDisplayMetrics().density;
+        return Math.round(dp * density);
     }
 
 
