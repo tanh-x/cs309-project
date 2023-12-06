@@ -21,6 +21,7 @@ public final class CourseCardComponent extends InflatableComponent<ConstraintLay
     private TextView nameText;
     private ImageButton infoButton;
 
+    private ImageButton addButton;
     public CourseCardComponent(
         LayoutInflater inflater,
         AbstractActivity parentActivity,
@@ -37,14 +38,21 @@ public final class CourseCardComponent extends InflatableComponent<ConstraintLay
         identifierText = findViewById(R.id.courseIdentifierText);
         nameText = findViewById(R.id.courseNameText);
         infoButton = findViewById(R.id.infoButton);
+        addButton = findViewById(R.id.addCourseButton);
 
         infoButton.setOnClickListener(this::infoButtonCallback);
+        addButton.setOnClickListener(this::addCourseButtonCallback);
 
         identifierText.setText(course.toString());
         nameText.setText(course.displayName());
 
         return stub;
     }
+
+    private void addCourseButtonCallback(View view){
+
+    }
+
 
     private void infoButtonCallback(View view) {
         Intent intent = new Intent(parentActivity, CourseInfoActivity.class);
