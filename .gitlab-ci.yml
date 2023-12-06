@@ -12,9 +12,13 @@ maven-build:
     - when: manual
   tags:                 # to specify which runner to execute this job
     - mvn-deploy-tag    # change to your runner's tag
+  before_script:
+    - sudo systemctl stop system-web-demo
   script:               # what to execute for this job
     - cd Backend        # change 'Backend' to to where you have the pom.xml (do not add / in the beginning)
     - ./mvnw clean package       # maven package
+  after_script:
+    - sudo systemctl start system-web-demo
   artifacts:            # where to output the packaged jar file, change 'Backend' to to where you have the pom.xml
     paths:
     - Backend/target/*.jar
