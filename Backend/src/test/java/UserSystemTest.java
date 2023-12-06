@@ -11,9 +11,16 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.LinkedHashSet;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT, classes = BackendApplication.class)
@@ -130,5 +137,31 @@ public class UserSystemTest {
 
         int statusCode = response.getStatusCode();
         assertEquals(200, statusCode);
+    }
+
+    @Test
+    public void testReadDegreeAudit() {
+        String filePath = "auditTest.pdf";
+        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(filePath)) {
+            assert inputStream != null;
+            byte[] pdfContent = inputStream.readAllBytes();
+
+            // Send a POST request to your endpoint
+            Response response = RestAssured.given().header("Authorization", "Bearer " + jwtToken)
+                    .multiPart("file", filePath, pdfContent)
+                    .when()
+                    .post("/api/reader/pdf");
+
+            // Check status code
+            int statusCode = response.getStatusCode();
+            assertEquals(200, statusCode);
+
+            // Check response content type
+            String contentType = response.getContentType();
+            assertEquals(ContentType.JSON.toString(), contentType);
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
