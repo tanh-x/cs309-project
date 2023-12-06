@@ -1,6 +1,9 @@
 import cs309.backend.BackendApplication;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -42,5 +45,16 @@ public class CourseTest {
 
         int statusCode = response.getStatusCode();
         assertEquals(200, statusCode);
+
+        String returnString = response.getBody().asString();
+        try {
+            JSONArray returnArr = new JSONArray(returnString);
+            JSONObject returnObj = returnArr.getJSONObject(returnArr.length() - 1);
+            assertEquals("COM S", returnObj.get("program_identifier"));
+            assertEquals(127, returnObj.get("num"));
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }
