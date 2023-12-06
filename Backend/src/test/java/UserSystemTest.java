@@ -70,4 +70,24 @@ public class UserSystemTest {
             e.printStackTrace();
         }
     }
+    @Test
+    public void getUserByEmail() {
+        Response response = RestAssured.given().
+                header("Authorization", "Bearer " + jwtToken).
+                pathParams("email", "admin@cs309.kewargs.com").
+                get("/api/user/email/{email}");
+
+        int statusCode = response.getStatusCode();
+        assertEquals(200, statusCode);
+
+        String returnString = response.getBody().asString();
+        try {
+            JSONArray returnArr = new JSONArray(returnString);
+            JSONObject returnObj = returnArr.getJSONObject(returnArr.length() - 1);
+            assertEquals("admin", returnObj.get("username"));
+            assertEquals("Scheduler Admin", returnObj.get("displayName"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 }
