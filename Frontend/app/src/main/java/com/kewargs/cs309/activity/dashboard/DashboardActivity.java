@@ -25,7 +25,7 @@ public class DashboardActivity extends AbstractActivity {
 
     private TextView userInfoDump;
     private TextView dashboardGreeting;
-    private Button updateInfo, coursesButton, toChat, logOut, auditUpload;
+    private Button updateInfo, coursesButton, toChat, logOut, auditUpload, courseScheduling;
 
     UserDeserializable userInfo;
 
@@ -54,6 +54,7 @@ public class DashboardActivity extends AbstractActivity {
         toChat.setOnClickListener(this::toChatButtonCallback);
         auditUpload.setOnClickListener(this::toUploadAuditCallback);
         logOut.setOnClickListener(this::logOutButtonCallback); //funni
+        courseScheduling.setOnClickListener(this::toCourseScheduleCallback);
     }
 
     @Override
@@ -79,6 +80,8 @@ public class DashboardActivity extends AbstractActivity {
         switchToActivity(AuditUploadActivity.class);
     }
 
+    private void toCourseScheduleCallback(View view) {switchToActivity(SchedulingActivity.class);}
+
     private void logOutButtonCallback(View view) {
         showToast("Logged out", this);
         session.seppuku();
@@ -99,5 +102,6 @@ public class DashboardActivity extends AbstractActivity {
         toChat = findViewById(R.id.toChatButton);
         logOut = findViewById(R.id.logoutButton);
         auditUpload = findViewById(R.id.toAuditUpload);
+        courseScheduling = findViewById(R.id.toCourseSchedule);
     }
 }
