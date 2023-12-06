@@ -40,7 +40,7 @@ public class ScheduleEntity {
     private SectionEntity section;
 
     @JsonProperty("sectionId")
-    public int getSectionId() {
+    private int getSectionId() {
         return section.getId();
     }
 }

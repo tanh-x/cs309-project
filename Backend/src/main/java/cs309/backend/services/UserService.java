@@ -22,24 +22,21 @@ import java.security.Principal;
 @Transactional
 public class UserService {
 
-    private final StudentProgramRepository studentProgramRepository;
-    private final TestEntityRepository testRepository;
-    private final UserRepository userRepository;
-
-    private final StudentRepository studentRepository;
-
-    private final StaffRepository staffRepository;
-
-    private final AdminRepository adminRepository;
     @Autowired
-    public UserService(StudentProgramRepository studentProgramRepository, TestEntityRepository testRepository, UserRepository userRepository, StudentRepository studentRepository, StaffRepository staffRepository, AdminRepository adminRepository) {
-        this.studentProgramRepository = studentProgramRepository;
-        this.testRepository = testRepository;
-        this.userRepository = userRepository;
-        this.studentRepository = studentRepository;
-        this.staffRepository = staffRepository;
-        this.adminRepository = adminRepository;
-    }
+    private StudentProgramRepository studentProgramRepository;
+    @Autowired
+    private TestEntityRepository testRepository;
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private StudentRepository studentRepository;
+
+    @Autowired
+    private StaffRepository staffRepository;
+
+    @Autowired
+    private AdminRepository adminRepository;
 
     /*public TestEntity readTestTable(int id) {
         return testRepository.readTestTable(id);

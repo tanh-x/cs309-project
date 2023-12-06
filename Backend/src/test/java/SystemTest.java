@@ -17,8 +17,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
+
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT, classes = BackendApplication.class)
 @RunWith(SpringRunner.class)
@@ -128,12 +127,21 @@ public class SystemTest {
     @Test
     public void login() {
         LoginData login = new LoginData("admin@cs309.kewargs.com", "scheduler");
+
+        LoginData login1 = new LoginData("admin@cs309.kewargs.com", "siuuuuu");
+
         Response response = RestAssured.given().contentType(ContentType.JSON).
                 body(login).
                 post("/api/auth/login");
 
+        Response response1 = RestAssured.given().contentType(ContentType.JSON).
+                body(login1).
+                post("/api/auth/login");
+
         int statusCode = response.getStatusCode();
         assertEquals(200, statusCode);
+
+        assertEquals(401, response1.getStatusCode());
     }
 
     @Test

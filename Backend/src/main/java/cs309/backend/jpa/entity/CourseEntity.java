@@ -1,5 +1,6 @@
 package cs309.backend.jpa.entity;
 
+import cs309.backend.services.CourseService;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -44,4 +45,13 @@ public class CourseEntity {
 
     @Column(name = "is_graded")
     private Boolean isGraded;
+
+    public CourseEntity(String programIdentifier, int num) {
+        this.programIdentifier = programIdentifier;
+        this.num = num;
+    }
+
+    public CourseEntity() {
+
+    }
 }
