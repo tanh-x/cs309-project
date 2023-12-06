@@ -27,7 +27,7 @@
                 android:layout_height="match_parent">
 
             <TextView
-                    android:text="Section 99"
+                    android:text="Spring 2099"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/termText"
@@ -35,7 +35,7 @@
                     android:textStyle="bold" />
 
             <TextView
-                    android:text="123456789"
+                    android:text="Registered"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/temporalText"

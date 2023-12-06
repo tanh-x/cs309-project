@@ -22,8 +22,8 @@ public class MainActivity extends AbstractActivity {
 
         SessionManager.initialize(this);
 
-        if (session != null && session.isLoggedIn()) switchToDashboard();
-        else switchToLogin();
+//        if (session != null && session.isLoggedIn()) switchToDashboard();
+        switchToLogin();
     }
 
     private void switchToLogin() {

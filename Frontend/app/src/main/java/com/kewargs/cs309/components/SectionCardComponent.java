@@ -37,8 +37,8 @@ public final class SectionCardComponent extends InflatableComponent<ConstraintLa
     protected ConstraintLayout render() {
         super.render();
 
-        TextView sectionTitleText = findViewById(R.id.sectionTitleText);
-        TextView refNumText = findViewById(R.id.refNumText);
+        TextView sectionTitleText = findViewById(R.id.termText);
+        TextView refNumText = findViewById(R.id.temporalText);
         TableLayout scheduleTable = findViewById(R.id.scheduleTable);
 
         sectionTitleText.setText("Section " + section.section() +

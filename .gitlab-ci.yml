@@ -74,7 +74,7 @@ android-test:
     - chmod +x ./Frontend/gradlew
   script:
     - cd Frontend                  # change 'Frontend' to where you have 'gradlew' (do not add / in the beginning)
-    - ./gradlew test               # gradle test
+    - ./gradlew connectedAndroidTest               # gradle test
 
 finally-job:
   stage: finally

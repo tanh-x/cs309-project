@@ -333,26 +333,6 @@
                                 android:layout_marginRight="8dp"
                                 android:gravity="center" />
 
-                        <TextView
-                                android:text="99 sections (3 online)"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:id="@+id/sectionCountText"
-                                android:layout_weight="1"
-                                android:textStyle="italic"
-                                android:gravity="center_vertical" />
-
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                            android:orientation="horizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="160dp"
-                            android:id="@+id/calendarContainer"
-                            android:layout_marginVertical="12dp"
-                            android:layout_marginHorizontal="4dp"
-                            android:background="@drawable/thin_border">
 
                     </LinearLayout>
 
@@ -391,7 +371,7 @@
                             android:layout_marginBottom="4dp" />
 
                     <TextView
-                            android:text="No insight summary found for this course."
+                            android:text="placeholder"
                             android:id="@+id/insightsSummary"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -413,7 +393,7 @@
 
 
                     <TextView
-                            android:text="∙ No difficulty ratings found for this course"
+                            android:text="placeholder"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:id="@+id/difficultyText"
@@ -421,7 +401,7 @@
                             android:layout_margin="2dp" />
 
                     <TextView
-                            android:text="∙ No professor recommendations found for this class"
+                            android:text="placeholder"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:id="@+id/profText"

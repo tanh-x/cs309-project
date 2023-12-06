@@ -1,7 +1,8 @@
 package com.kewargs.cs309.core.utils.constants;
 
 public final class UniversalConstants {
-    public static final String ENDPOINT = EndpointHostDefinition.guessEndpoint();
+//    public static final String ENDPOINT = EndpointHostDefinition.guessEndpoint();
+    public static final String ENDPOINT = EndpointHostDefinition.VM_ENDPOINT;
     public static final String WS_ENDPOINT = ENDPOINT.replace("https?", "ws");
 
     public static final String AUTH_ENDPOINT = ENDPOINT + "api/auth/";

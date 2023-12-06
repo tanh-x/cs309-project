@@ -107,7 +107,7 @@ public class ReaderService {
         Collections.sort(sortedCourses);
 
         for (DegreeCourseEntry course : sortedCourses) System.out.println(course);
-        return new DegreeAudit(
+        DegreeAudit audit = new DegreeAudit(
             major,
             classification,
             inProgressCredits,
@@ -118,6 +118,8 @@ public class ReaderService {
             annotations,
             sortedCourses
         );
+        System.out.println(audit);
+        return audit;
     }
 
     private LinkedHashSet<String> textFilter(String args) {
