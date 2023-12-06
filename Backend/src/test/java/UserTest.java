@@ -69,10 +69,11 @@ public class UserTest {
     @Test
     public void registerUser() {
         RegistrationData reg = new RegistrationData("Khoi", "duckhoi@iastate.edu","nopeGG","KhoiZeus", 1);
+
         when(userRepository.save(any(UserEntity.class))).thenAnswer(invocation -> invocation.getArgument(0));
         when(studentRepository.save(any(StudentEntity.class))).thenAnswer(invocation -> invocation.getArgument(0));
         userService.registerUser(reg);
         verify(userRepository).save(any(UserEntity.class));
-        //verify(studentRepository).save(any(UserEntity.class));
+        verify(studentRepository).save(any(StudentEntity.class));
     }
 }
