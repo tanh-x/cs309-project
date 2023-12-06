@@ -20,6 +20,7 @@ public class ExampleInstrumentedTest {
     @Test
     public void useAppContext() {
         // Context of the app under test.
+        System.out.println("Running ExampleInstrumentedTest");
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
         assertEquals("com.kewargs.cs309", appContext.getPackageName());
     }

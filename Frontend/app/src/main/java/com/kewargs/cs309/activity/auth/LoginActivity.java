@@ -121,8 +121,8 @@ public class LoginActivity extends AbstractActivity {
         emailField = findViewById(R.id.newname);
         passwordField = findViewById(R.id.newDisplay);
         forgotPasswordLink = findViewById(R.id.forgotPasswordLink);
-        loginButton = findViewById(R.id.coursesButton);
-        registerButton = findViewById(R.id.loginButton);
+        loginButton = findViewById(R.id.loginButton);
+        registerButton = findViewById(R.id.registerButton);
         debugInfoText = findViewById(R.id.debugInfoText);
 
         formElements = new LinkedHashSet<>() {{
