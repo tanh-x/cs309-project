@@ -26,6 +26,10 @@ public class SchedulingTable {
 
     }
 
+    public ArrayList<ArrayList<ArrayList<CourseHelper>>> getSchedule(){ //baby a triple!!!
+        return ScheduleList;
+    }
+
     public static void doShit() {
         Course engl = new Course(1,"ENGL",250,new ArrayList<Schedule>()) {{
             add(new Schedule(1, 100, 10,11, 0b10101)); //10-11, 5 days a week

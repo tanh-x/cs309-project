@@ -1,15 +1,23 @@
 package cs309.backend.services;
 
 import cs309.backend.jpa.entity.CourseEntity;
+import cs309.backend.jpa.entity.ScheduleEntity;
 import cs309.backend.jpa.entity.SectionEntity;
 import cs309.backend.jpa.entity.user.CourseInsightsEntity;
 import cs309.backend.jpa.repo.CourseInsightsRepository;
 import cs309.backend.jpa.repo.CourseRepository;
 import cs309.backend.jpa.repo.SectionRepository;
 import cs309.backend.DTOs.SectionData;
+import cs309.backend.util.scheduling.CourseHelper;
+import cs309.backend.util.scheduling.SchedulingTable;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 @Transactional
@@ -29,6 +37,44 @@ public class CourseService {
         this.insightsRepository = insightsRepository;
     }
 
+//    public ArrayList<ArrayList<ArrayList<CourseHelper>>> getCourseList(ArrayList<String> inputList) {
+//        for(String i: inputList)
+//        {
+//            ArrayList<ScheduleEntity> lectures = new ArrayList<>();
+//            ArrayList<ScheduleEntity> recitations =  new ArrayList<>();
+//
+//            Pattern pattern = Pattern.compile("^(.*?)(\\d+)$");
+//            Matcher matcher = pattern.matcher(i);
+//
+//            if (matcher.matches()) {
+//                // Extract the matched groups
+//                String prefix = matcher.group(1).trim();
+//                int num = Integer.parseInt(matcher.group(2));
+//
+//                CourseEntity course = getCourseByIdentifier(prefix, num);
+//
+//                SectionEntity[] section = getSectionById(course.getId());
+//
+//                for(SectionEntity s: section){
+//                    if (isInteger(s.getSection())){
+//                        lectures = new ArrayList<>(Arrays.asList(getScheduleById(s.getId())));
+//                        }
+//                    else{
+//                        recitations =  new ArrayList<>(Arrays.asList(getScheduleById(s.getId())));
+//                    }
+//                }
+//            }
+//        }
+//    }
+
+    private static boolean isInteger(String str) {
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
     public CourseEntity[] getAllCourseInformation(int term) {
         return courseRepository.getAllCourseInformation(term);
     }

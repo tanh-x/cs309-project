@@ -1,5 +1,8 @@
 package cs309.backend.util.scheduling;
 
+import cs309.backend.services.CourseService;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.util.ArrayList;
 
 class Course {
@@ -8,6 +11,7 @@ class Course {
     public final int num;
     public final ArrayList<Schedule> times;
 
+
     public Course(int id, String program_identifier, int num, ArrayList<Schedule> times)
     {
         this.id = id;
@@ -15,6 +19,8 @@ class Course {
         this.num = num;
         this.times = times;
     }
+
+
 
     public void add(Schedule s)
     {
