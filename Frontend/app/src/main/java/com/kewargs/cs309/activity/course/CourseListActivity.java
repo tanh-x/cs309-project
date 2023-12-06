@@ -70,7 +70,6 @@ public class CourseListActivity extends AbstractActivity {
                 }).onError(error -> {
                     debugText.setText("Error while fetching course information: " + error.toString());
                 })
-//            .bearer(session.getSessionToken())
                 .build()
         );
     }

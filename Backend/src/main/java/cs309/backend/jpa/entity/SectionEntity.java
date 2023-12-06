@@ -18,9 +18,6 @@ public class SectionEntity {
     @Column(name = "ref_num")
     private int refNum;
 
-    /*@Column(name = "course_id")//, insertable = false, updatable = false)
-    private int courseId;*/
-
     @Column(name = "section")
     private String section;
 
