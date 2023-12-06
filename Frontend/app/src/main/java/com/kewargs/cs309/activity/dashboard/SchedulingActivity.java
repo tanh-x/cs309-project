@@ -1,8 +1,13 @@
 package com.kewargs.cs309.activity.dashboard;
+import static android.view.KeyEvent.ACTION_DOWN;
+import static android.view.KeyEvent.KEYCODE_ENTER;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -36,6 +41,14 @@ public class SchedulingActivity extends AbstractActivity{
         backDash.setOnClickListener(this::toDashBoardCallback);
         addCourse.setOnClickListener(this::addEachCourse);
         addAllCourses.setOnClickListener(this::addAllCourses);
+        enterCourse.requestFocus();
+        enterCourse.setOnKeyListener((v, keyCode, event) -> {
+            if (event.getAction() == ACTION_DOWN && keyCode == KEYCODE_ENTER) {
+                addEachCourse(v);
+                return true;
+            }
+            return false;
+        });
     }
 
     @Override
@@ -50,6 +63,7 @@ public class SchedulingActivity extends AbstractActivity{
         String inputText = enterCourse.getText().toString().trim();
         if(validAdd(inputText))
         {
+            showToast("Course Added!", SchedulingActivity.this);
             if (dataList.isEmpty())
                 flavortext.setText("Added Courses:\n\n");
             if (!inputText.isEmpty()) {
@@ -59,6 +73,7 @@ public class SchedulingActivity extends AbstractActivity{
                 printDataList();
             }
             flavortext.setText(flavortext.getText()+inputText.toUpperCase()+"\n");
+            enterCourse.requestFocus();
         }
         else{
             showToast("Invalid Course!", SchedulingActivity.this);
@@ -72,7 +87,7 @@ public class SchedulingActivity extends AbstractActivity{
      */
     private boolean validAdd(String input)
     {
-        String regex = "\\b\\w+\\s*\\d\\b";
+        String regex =  "\\b(?:\\D+\\s+){0,2}\\D+\\d+\\b";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(input);
         return matcher.find();

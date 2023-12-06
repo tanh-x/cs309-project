@@ -54,7 +54,7 @@ public class LoginActivity extends AbstractActivity {
 
         loginButton.setOnClickListener(this::loginButtonCallback);
         registerButton.setOnClickListener(this::registerButtonCallback);
-
+        emailField.requestFocus();
         passwordField.setOnKeyListener((v, keyCode, event) -> {
             if (event.getAction() == ACTION_DOWN && keyCode == KEYCODE_ENTER) {
                 loginButtonCallback(v);
