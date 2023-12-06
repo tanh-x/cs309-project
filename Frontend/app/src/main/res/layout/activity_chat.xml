@@ -22,7 +22,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <ScrollView
-        android:id="@+id/scrollView2"
+        android:id="@+id/scrollinScheds"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_gravity="top|center"
