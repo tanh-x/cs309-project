@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class SchedulingTable {
-    public Course[] courseArr;
+    public ArrayList<Course> courseArr;
     public final int levels;
     public ArrayList<ArrayList<ArrayList<CourseHelper>>> ScheduleList;
 
@@ -16,9 +16,9 @@ public class SchedulingTable {
      *
      * @param courseArr
      */
-    public SchedulingTable(Course[] courseArr) {
+    public SchedulingTable(ArrayList<Course> courseArr) {
         this.courseArr = courseArr;
-        this.levels = courseArr.length;
+        this.levels = courseArr.size();
         this.ScheduleList = new ArrayList<ArrayList<ArrayList<CourseHelper>>>();
 
         dfs((ArrayList<ArrayList<CourseHelper>>) IntStream.range(0, 5).mapToObj(ArrayList<CourseHelper>::new)
@@ -44,7 +44,12 @@ public class SchedulingTable {
         Course cs = new Course(4,"COM S",228,new ArrayList<Schedule>());
         cs.add(new Schedule(16, 1600, 19, 30, 0b10101));
 
-        SchedulingTable sched = new SchedulingTable(new Course[] {engl,math,phys,cs});
+        SchedulingTable sched = new SchedulingTable(new ArrayList<Course>() {{
+            add(engl);
+            add(math);
+            add(phys);
+            add(cs);
+        }} );
 
         System.out.println("duh");
         System.out.println(sched.toString());
@@ -58,7 +63,7 @@ public class SchedulingTable {
      * @param level
      */
     public void dfs(ArrayList<ArrayList<CourseHelper>> currSched, int level) {
-        g: for (Schedule s : courseArr[level + 1].times) {
+        g: for (Schedule s : courseArr.get(level + 1).times) {
 
             int[] meet_days_bitmask =  IntStream.range(0, 5).map(i -> (s.meet_days_bitmask >> (4 - i)) & 1).toArray();
 
@@ -79,7 +84,7 @@ public class SchedulingTable {
                     .map(ArrayList::new).collect(Collectors.toList()); // copies 2d array
             for (int i = 0; i < 5; i++) {
                 if (meet_days_bitmask[i] == 1) {
-                    newSched.get(i).add(new CourseHelper(courseArr[level + 1], s));
+                    newSched.get(i).add(new CourseHelper(courseArr.get(level + 1), s));
                 }
             }
 

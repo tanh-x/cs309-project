@@ -42,6 +42,7 @@ public class CourseService {
     public List<CourseEntity> getAllCourseInformation(int term) {
         //return courseRepository.getAllCourseInformation(term);
         return courseRepository.findAll();
+    }
 //    public ArrayList<ArrayList<ArrayList<CourseHelper>>> getCourseList(ArrayList<String> inputList) {
 //        for(String i: inputList)
 //        {
@@ -79,9 +80,6 @@ public class CourseService {
         } catch (NumberFormatException e) {
             return false;
         }
-    }
-    public CourseEntity[] getAllCourseInformation(int term) {
-        return courseRepository.getAllCourseInformation(term);
     }
 
     public CourseEntity getCourseById(int id) {

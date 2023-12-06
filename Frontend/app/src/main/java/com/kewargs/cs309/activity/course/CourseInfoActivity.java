@@ -24,6 +24,7 @@ import com.kewargs.cs309.core.models.in.CourseDeserializable;
 import com.kewargs.cs309.core.models.in.InsightsDeserializable;
 import com.kewargs.cs309.core.models.in.ScheduleDeserializable;
 import com.kewargs.cs309.core.models.in.SectionDeserializable;
+import com.kewargs.cs309.core.utils.Schedule;
 import com.kewargs.cs309.core.utils.backend.factory.CourseRequestFactory;
 
 import org.json.JSONArray;
@@ -300,6 +301,8 @@ public final class CourseInfoActivity extends AbstractActivity {
                     (difficultyComment == null ? "." : ", which means that it's " + difficultyComment + "."));
         }
     }
+
+
 
     @Override
     protected void collectElements() {

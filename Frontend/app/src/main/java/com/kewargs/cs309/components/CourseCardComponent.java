@@ -1,17 +1,22 @@
 package com.kewargs.cs309.components;
 
+import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.kewargs.cs309.R;
 import com.kewargs.cs309.activity.AbstractActivity;
 import com.kewargs.cs309.activity.course.CourseInfoActivity;
+import com.kewargs.cs309.activity.dashboard.SchedulingActivity;
+import com.kewargs.cs309.core.managers.SessionManager;
 import com.kewargs.cs309.core.models.in.CourseDeserializable;
+import com.kewargs.cs309.core.utils.Course;
 
 public final class CourseCardComponent extends InflatableComponent<ConstraintLayout> {
     private final CourseDeserializable course;
@@ -50,7 +55,9 @@ public final class CourseCardComponent extends InflatableComponent<ConstraintLay
     }
 
     private void addCourseButtonCallback(View view){
-
+        SessionManager session  = SessionManager.getInstance();
+        session.courseArr.add(course.id());
+        showToast("Added Course!",parentActivity );
     }
 
 
@@ -59,5 +66,8 @@ public final class CourseCardComponent extends InflatableComponent<ConstraintLay
         intent.putExtra("courseId", course.id());
         intent.putExtra("headerTitle", course.toString());
         parentActivity.startActivity(intent);
+    }
+    protected static void showToast(String content, Context context) {
+        Toast.makeText(context, content, Toast.LENGTH_LONG).show();
     }
 }
