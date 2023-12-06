@@ -37,7 +37,7 @@ public class ReaderService {
         SeasonYear entryTerm = null;
         SeasonYear graduationTerm = null;
         List<String> annotations = new ArrayList<>();
-        HashSet<DegreeCourseEntry> courseSet = new HashSet<>();
+        LinkedHashSet<DegreeCourseEntry> courseSet = new LinkedHashSet<>();
 
         boolean atHeader = true;
 
@@ -89,6 +89,9 @@ public class ReaderService {
 
         for (DegreeCourseEntry course : courseSet) System.out.println(course);
 
+
+        List<DegreeCourseEntry> sortedCourses = new ArrayList<>(courseSet);
+        Collections.sort(sortedCourses);
         return new DegreeAudit(
             inProgressCredits,
             appliedCredits,
@@ -96,7 +99,7 @@ public class ReaderService {
             entryTerm,
             graduationTerm,
             annotations,
-            courseSet
+            sortedCourses
         );
     }
 

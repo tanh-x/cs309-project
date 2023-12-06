@@ -1,9 +1,8 @@
 package cs309.backend.DTOs;
 
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
+// Coupled with core.models.in DegreeAudit
 public record DegreeAudit(
     int inProgressCredits,
     int appliedCredits,
@@ -11,6 +10,6 @@ public record DegreeAudit(
     SeasonYear entryTerm,
     SeasonYear graduationTerm,
     List<String> annotations,
-    Set<DegreeCourseEntry> courseSet
+    List<DegreeCourseEntry> courses
 ) {
 }

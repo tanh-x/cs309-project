@@ -44,11 +44,7 @@ public class AuditUploadActivity extends AbstractActivity {
 
     ActivityResultLauncher<Intent> auditUploadResultLaunder; //why google
 
-    private String upload_URL = "https://demonuts.com/Demonuts/JsonTest/Tennis/uploadfile.php?";
-
     private TextView tv;
-
-    String url = "https://www.google.com";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,12 +57,6 @@ public class AuditUploadActivity extends AbstractActivity {
                 Intent data = result.getData();
                 //doSomeOperations();
             }
-        });
-
-        //ill refactor later trust
-        tv.setOnClickListener(v -> {
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-            startActivity(browserIntent);
         });
 
     }
@@ -112,8 +102,6 @@ public class AuditUploadActivity extends AbstractActivity {
                 }
             } else if (uriString.startsWith("file://")) {
                 throw new UnsupportedOperationException("Later");
-//                displayName = myFile.getName();
-//                Log.d("nameeeee>>>>  ", displayName); //dont bother
             }
         }
 
@@ -134,7 +122,7 @@ public class AuditUploadActivity extends AbstractActivity {
                 inputData,
                 session.getSessionToken(),
                 response -> {
-                    tv.setText("Completed courses:\n" +parseOutpust(response));
+                    tv.setText("Completed courses:\n" + parseOutpust(response));
                     Log.d("Upload", "Response: " + response);
                 },
                 error -> {
@@ -149,18 +137,17 @@ public class AuditUploadActivity extends AbstractActivity {
         }
     }
 
-    public String parseOutpust(String res)
-    {
+    public String parseOutpust(String res) {
         List<String> returnList = null;
         res = res.replaceAll("[\\[\\]]", "");
         returnList = Arrays.asList(res.split(", "));
-        String f= "";
-        for(String i:returnList)
-        {
-            f+=i+"\n";
+        String f = "";
+        for (String i : returnList) {
+            f += i + "\n";
         }
         return f;
     }
+
     public byte[] getBytes(InputStream inputStream) throws IOException {
         ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
         int bufferSize = 1024;

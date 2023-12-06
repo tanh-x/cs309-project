@@ -6,6 +6,8 @@ import jakarta.validation.constraints.NotNull;
 import java.util.Objects;
 
 /**
+ * Coupled with core.models.in.DegreeCourseEntryDeserializable
+ *
  * @param annotations NTR(2,4)=No Transfer, remedial course
  *                    IPT(2,4,T)=Transfer course, prospective student
  *                    -TR = Transfer work prior to 1980's with no grade assigned
@@ -32,7 +34,7 @@ public record DegreeCourseEntry(
     String grade,
     int credits,
     String annotations
-) {
+) implements Comparable<DegreeCourseEntry> {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -44,5 +46,19 @@ public record DegreeCourseEntry(
     @Override
     public int hashCode() {
         return Objects.hash(program, num);
+    }
+
+    @Override
+    public int compareTo(DegreeCourseEntry other) {
+        int yearComparison = Integer.compare(this.term.year(), other.term.year());
+        if (yearComparison != 0) return yearComparison;
+
+        int seasonComparison = Integer.compare(this.term.season(), other.term.season());
+        if (seasonComparison != 0) return seasonComparison;
+
+        int programComparison = this.program.compareTo(other.program);
+        if (programComparison != 0) return programComparison;
+
+        return this.num.compareTo(other.num);
     }
 }
