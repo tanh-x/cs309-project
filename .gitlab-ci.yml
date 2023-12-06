@@ -4,6 +4,10 @@ stages:             # these stages (jobs) forms the CICD pipeline
   - mavendeploy     # this is a JOB to deploy your Springboot application on your server
   - androidbuild    # this is a JOB to build your Android application
   - androidtest     # this is a JOB to run tests in your Android application (it's okay you don't have any test for now)
+  - finally
+
+before_script:
+  - sudo systemctl stop system-web-demo
 
 maven-build:            
   stage: mavenbuild     # one of the stages listed above
@@ -12,13 +16,9 @@ maven-build:
     - when: manual
   tags:                 # to specify which runner to execute this job
     - mvn-deploy-tag    # change to your runner's tag
-  before_script:
-    - sudo systemctl stop system-web-demo
   script:               # what to execute for this job
     - cd Backend        # change 'Backend' to to where you have the pom.xml (do not add / in the beginning)
     - ./mvnw clean package       # maven package
-  after_script:
-    - sudo systemctl start system-web-demo
   artifacts:            # where to output the packaged jar file, change 'Backend' to to where you have the pom.xml
     paths:
     - Backend/target/*.jar
@@ -45,8 +45,6 @@ auto-deploy:
     - cd Backend        # change 'Backend' to to where you have the pom.xml (do not add / in the beginning)
     - ls ./target/
     - sudo cp ./target/backend-0.0.2-exec.jar /target/web-demo.jar 
-    - sudo systemctl stop system-web-demo
-    - sudo systemctl start system-web-demo
 
 android-build:
   rules:
@@ -77,3 +75,9 @@ android-test:
   script:
     - cd Frontend                  # change 'Frontend' to where you have 'gradlew' (do not add / in the beginning)
     - ./gradlew test               # gradle test
+
+finally-job:
+  stage: finally
+  when: always
+  script:
+    - sudo systemctl start system-web-demo
