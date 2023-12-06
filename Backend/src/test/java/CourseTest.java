@@ -1,4 +1,5 @@
 import cs309.backend.BackendApplication;
+import cs309.backend.DTOs.SectionData;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.json.JSONArray;
@@ -110,6 +111,33 @@ public class CourseTest {
         int statusCode = response.getStatusCode();
         assertEquals(200, statusCode);
     }
+    @Test
+    public void testCreateSection() {
+        SectionData args = new SectionData(1, "COM S", 999, "A", 2024, 1, true);
+        Response response = RestAssured.given()
+                .header("Authorization", "Bearer " + jwtToken)
+                .contentType("application/json")
+                .body(args)
+                .post("/api/course/section");
 
+        int statusCode = response.getStatusCode();
+        assertEquals(200, statusCode);
+    }
 
+    @Test
+    public void testUpdateCourseByIdentifier() {
+        String description = "Updated course description";
+
+        Response response = RestAssured.given()
+                .header("Authorization", "Bearer " + jwtToken)
+                .contentType("application/json")
+                .pathParams("identifier", "COM S")
+                .pathParams("num", 127)
+                .queryParam("description", description)
+                .put("/api/course/{identifier}/{num}");
+
+        int statusCode = response.getStatusCode();
+        assertEquals(200, statusCode);
+
+    }
 }
