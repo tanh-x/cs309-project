@@ -75,18 +75,6 @@ public class SchedulingActivity extends AbstractActivity{
         switchToActivity(DashboardActivity.class);
     }
 
-    /**
-     *  Checks if input is a string followed by number using regex (cool)
-     * @param input
-     * @return
-     */
-    private boolean validAdd(String input)
-    {
-        String regex =  "\\b(?:\\D+\\s+){0,2}\\D+\\d+\\b";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(input);
-        return matcher.find();
-    }
     private void addAllCourses(View view) {
         //Send a post request of course num and names
         ArrayList<Course> c= new ArrayList<Course>();
@@ -94,12 +82,19 @@ public class SchedulingActivity extends AbstractActivity{
         {
             courseInfo(i);
             ArrayList<ArrayList<Schedule>> g = getSchedulefromCourse(i);
+            if (g==null)
+            {
+                showToast("No sections found",this);
+                continue;
+            }
             for(ArrayList<Schedule> j:g)
             {
                 if (!j.isEmpty()){c.add(new Course(i,CourseName,CourseNum,j));}
             }
 
         }
+        printDataList(c);
+
         showToast("All courses added",this);
     }
 
@@ -140,7 +135,9 @@ public class SchedulingActivity extends AbstractActivity{
                     finish();
                 })
         );
-
+        if( sections == null){
+            return null;
+        }
         ArrayList<Schedule> lecture = new ArrayList<>();
         ArrayList<Schedule> recitation = new ArrayList<>();
         for (SectionDeserializable section : sections) {
@@ -166,10 +163,14 @@ public class SchedulingActivity extends AbstractActivity{
         }
         return new ArrayList<>() {{add(lecture);add(recitation);}};
     }
-    private void printDataList() {
-        for (String item : dataList) {
+    private void printDataList(ArrayList<Course> c) {
+        for (Course co: c) {
             // Use Log.d() to print debug messages
-            Log.d("SchedulingActivity", item);
+            String f ="";
+            for(Schedule s:co.times){
+                f+=s.start_time + " " + s.end_time + "\n";
+            }
+            Log.d("SchedulingActivity", co.program_identifier + " " + co.num + ":\n");
         }
     }
 
