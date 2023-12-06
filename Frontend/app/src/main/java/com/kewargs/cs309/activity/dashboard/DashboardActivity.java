@@ -10,6 +10,7 @@ import com.kewargs.cs309.MainActivity;
 import com.kewargs.cs309.R;
 import com.kewargs.cs309.activity.AbstractActivity;
 import com.kewargs.cs309.activity.course.CourseListActivity;
+import com.kewargs.cs309.audit.AuditUploadActivity;
 import com.kewargs.cs309.core.models.in.UserDeserializable;
 import com.kewargs.cs309.core.utils.backend.factory.UserRequestFactory;
 

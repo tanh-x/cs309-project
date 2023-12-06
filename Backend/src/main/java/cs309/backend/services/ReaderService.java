@@ -21,6 +21,7 @@ public class ReaderService {
     private static final Pattern IN_PROGRESS_CREDITS_REGEX = Pattern.compile("^IN-P[.\\s]+([0-9.]+)credits$");
     private static final Pattern TERMS_REGEX = Pattern.compile("^Entered.*(Spring|Summer|Fall|Winter)\\s+(\\d{4})\\s+Graduate.*(Spring|Summer|Fall|Winter)\\s+(\\d{4})$");
     private static final Pattern HEADER_ANNOTATIONS_REGEX = Pattern.compile("^(S\\s.+)$");
+    private static final Pattern MAJOR_PATTERN = Pattern.compile("^Student Info Curriculum\\s+([A-Z ]+)$");
 
     public DegreeAudit extractTextFromPdf(InputStream pdfFile) throws IOException {
         PDDocument document = PDDocument.load(pdfFile);
@@ -31,6 +32,7 @@ public class ReaderService {
     }
 
     private static DegreeAudit readAuditPdf(String pdfString) {
+        String major = "";
         int inProgressCredits = -1;
         int appliedCredits = -1;
         double gpa = -1d;
@@ -46,6 +48,12 @@ public class ReaderService {
                 if (HEADER_SEPARATION_REGEX.matcher(line).find()) {
                     atHeader = false;
                     System.out.println("Header done");
+                    continue;
+                }
+
+                Matcher majorMatcher = MAJOR_PATTERN.matcher(line);
+                if (majorMatcher.matches()) {
+                    major = majorMatcher.group(1);
                     continue;
                 }
 
@@ -87,12 +95,14 @@ public class ReaderService {
             }
         }
 
-        for (DegreeCourseEntry course : courseSet) System.out.println(course);
 
 
         List<DegreeCourseEntry> sortedCourses = new ArrayList<>(courseSet);
         Collections.sort(sortedCourses);
+
+        for (DegreeCourseEntry course : sortedCourses) System.out.println(course);
         return new DegreeAudit(
+            major,
             inProgressCredits,
             appliedCredits,
             gpa,

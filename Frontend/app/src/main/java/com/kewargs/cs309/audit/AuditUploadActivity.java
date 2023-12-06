@@ -1,4 +1,4 @@
-package com.kewargs.cs309.activity.dashboard;
+package com.kewargs.cs309.audit;
 
 import static com.kewargs.cs309.core.utils.constants.UniversalConstants.AUDIT_UPLOAD_ENDPOINT;
 
@@ -20,6 +20,8 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import com.android.volley.Request;
 import com.kewargs.cs309.R;
 import com.kewargs.cs309.activity.AbstractActivity;
+import com.kewargs.cs309.activity.dashboard.DashboardActivity;
+import com.kewargs.cs309.core.models.in.DegreeAuditDeserializable;
 import com.kewargs.cs309.core.utils.backend.request.MultipartRequest;
 
 import java.io.ByteArrayOutputStream;
@@ -45,6 +47,9 @@ public class AuditUploadActivity extends AbstractActivity {
     ActivityResultLauncher<Intent> auditUploadResultLaunder; //why google
 
     private TextView tv;
+
+    private String serializedParsedAudit;
+    private DegreeAuditDeserializable parsedAudit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,7 +127,12 @@ public class AuditUploadActivity extends AbstractActivity {
                 inputData,
                 session.getSessionToken(),
                 response -> {
-                    tv.setText("Completed courses:\n" + parseOutpust(response));
+//                    tv.setText("Completed courses:\n" + parseOutpust(response));
+                    serializedParsedAudit = response;
+                    parsedAudit = DegreeAuditDeserializable.from(response);
+
+
+                    tv.setText(parsedAudit.toString());
                     Log.d("Upload", "Response: " + response);
                 },
                 error -> {

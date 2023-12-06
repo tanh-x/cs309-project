@@ -4,6 +4,7 @@ import java.util.List;
 
 // Coupled with core.models.in DegreeAudit
 public record DegreeAudit(
+    String major,
     int inProgressCredits,
     int appliedCredits,
     double gpa,

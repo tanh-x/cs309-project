@@ -24,7 +24,7 @@ public record DegreeCourseEntryDeserializable(
             SeasonYearDeserializable.from(json.getJSONObject("term")),
             json.getString("grade"),
             json.getInt("credits"),
-            json.getString("annotation")
+            json.getString("annotations")
         );
     }
 
