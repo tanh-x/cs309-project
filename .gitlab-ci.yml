@@ -79,5 +79,7 @@ android-test:
 finally-job:
   stage: finally
   when: always
+  tags:
+    - mvn-deploy-tag
   script:
     - sudo systemctl start system-web-demo
