@@ -1,5 +1,7 @@
 import cs309.backend.BackendApplication;
+import cs309.backend.DTOs.LoginData;
 import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -107,5 +109,26 @@ public class UserSystemTest {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+    //no jwt Token
+    @Test
+    public void noToken() {
+        Response response = RestAssured.given().
+                pathParams("username", "admin").
+                get("/api/user/username/{username}");
+
+        int statusCode = response.getStatusCode();
+        assertEquals(403, statusCode);
+    }
+
+    @Test
+    public void login() {
+        LoginData login = new LoginData("admin@cs309.kewargs.com", "scheduler");
+        Response response = RestAssured.given().contentType(ContentType.JSON).
+                body(login).
+                post("/api/auth/login");
+
+        int statusCode = response.getStatusCode();
+        assertEquals(200, statusCode);
     }
 }
