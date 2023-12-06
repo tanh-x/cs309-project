@@ -10,6 +10,7 @@ import java.util.function.Function;
 
 public record DegreeAuditDeserializable(
     String major,
+    String classification,
     int inProgressCredits,
     int appliedCredits,
     double gpa,
@@ -21,6 +22,7 @@ public record DegreeAuditDeserializable(
     public static DegreeAuditDeserializable from(JSONObject json) throws JSONException {
         return new DegreeAuditDeserializable(
             json.getString("major"),
+            json.getString("classification"),
             json.getInt("inProgressCredits"),
             json.getInt("appliedCredits"),
             json.getDouble("gpa"),

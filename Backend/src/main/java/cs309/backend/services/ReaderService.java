@@ -22,6 +22,7 @@ public class ReaderService {
     private static final Pattern TERMS_REGEX = Pattern.compile("^Entered.*(Spring|Summer|Fall|Winter)\\s+(\\d{4})\\s+Graduate.*(Spring|Summer|Fall|Winter)\\s+(\\d{4})$");
     private static final Pattern HEADER_ANNOTATIONS_REGEX = Pattern.compile("^(S\\s.+)$");
     private static final Pattern MAJOR_PATTERN = Pattern.compile("^Student Info Curriculum\\s+([A-Z ]+)$");
+    private static final Pattern CLASSIFICATION_PATTERN = Pattern.compile("^Classified as (\\w+)");
 
     public DegreeAudit extractTextFromPdf(InputStream pdfFile) throws IOException {
         PDDocument document = PDDocument.load(pdfFile);
@@ -33,6 +34,7 @@ public class ReaderService {
 
     private static DegreeAudit readAuditPdf(String pdfString) {
         String major = "";
+        String classification = "";
         int inProgressCredits = -1;
         int appliedCredits = -1;
         double gpa = -1d;
@@ -54,6 +56,12 @@ public class ReaderService {
                 Matcher majorMatcher = MAJOR_PATTERN.matcher(line);
                 if (majorMatcher.matches()) {
                     major = majorMatcher.group(1);
+                    continue;
+                }
+
+                Matcher classificationMatcher = CLASSIFICATION_PATTERN.matcher(line);
+                if (classificationMatcher.matches()) {
+                    classification = classificationMatcher.group(1);
                     continue;
                 }
 
@@ -96,13 +104,13 @@ public class ReaderService {
         }
 
 
-
         List<DegreeCourseEntry> sortedCourses = new ArrayList<>(courseSet);
         Collections.sort(sortedCourses);
 
         for (DegreeCourseEntry course : sortedCourses) System.out.println(course);
         return new DegreeAudit(
             major,
+            classification,
             inProgressCredits,
             appliedCredits,
             gpa,
