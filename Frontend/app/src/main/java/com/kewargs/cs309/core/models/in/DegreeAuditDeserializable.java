@@ -1,5 +1,7 @@
 package com.kewargs.cs309.core.models.in;
 
+import androidx.annotation.NonNull;
+
 import com.kewargs.cs309.core.utils.backend.request.DeserializationHelpers;
 
 import org.json.JSONException;

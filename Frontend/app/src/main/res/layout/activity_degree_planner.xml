@@ -195,7 +195,7 @@
 
                                 <TextView
                                         android:text="99"
-                                        android:layout_width="64dp"
+                                        android:layout_width="32dp"
                                         android:layout_height="wrap_content"
                                         android:id="@+id/creditsCompletedText"
                                         android:textAlignment="textEnd"
@@ -275,7 +275,7 @@
 
                                 <TextView
                                         android:text="88"
-                                        android:layout_width="64dp"
+                                        android:layout_width="32dp"
                                         android:layout_height="wrap_content"
                                         android:id="@+id/creditsInpText"
                                         android:textAlignment="textEnd"

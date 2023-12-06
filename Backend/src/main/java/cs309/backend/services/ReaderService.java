@@ -18,11 +18,11 @@ public class ReaderService {
     private static final Pattern HEADER_SEPARATION_REGEX = Pattern.compile("^=+$");
     private static final Pattern CREDITS_GPA_REGEX = Pattern.compile("^Total credits\\s+([0-9.]+)[* ]+CUM GPA\\s+([0-9.]+).*$");
     private static final Pattern COURSE_ENTRY_REGEX = Pattern.compile("^(F|S|SU|W)\\s?(\\d{2})\\s([A-Z ]{2,10})\\s(\\d{2,3}).?\\s([\\d.]+)\\s([A-Z]+)([A-Za-z0-9:<>\\s]*)$");
-    private static final Pattern IN_PROGRESS_CREDITS_REGEX = Pattern.compile("^IN-P[.\\s]+([0-9.]+)credits$");
+    private static final Pattern IN_PROGRESS_CREDITS_REGEX = Pattern.compile("^IN-P[.\\s]+([0-9.]+)\\s?credits$");
     private static final Pattern TERMS_REGEX = Pattern.compile("^Entered.*(Spring|Summer|Fall|Winter)\\s+(\\d{4})\\s+Graduate.*(Spring|Summer|Fall|Winter)\\s+(\\d{4})$");
     private static final Pattern HEADER_ANNOTATIONS_REGEX = Pattern.compile("^(S\\s.+)$");
     private static final Pattern MAJOR_PATTERN = Pattern.compile("^Student Info Curriculum\\s+([A-Z ]+)$");
-    private static final Pattern CLASSIFICATION_PATTERN = Pattern.compile("^Classified as (\\w+)");
+    private static final Pattern CLASSIFICATION_PATTERN = Pattern.compile("^Classified as (\\w+)\\s+.+$");
 
     public DegreeAudit extractTextFromPdf(InputStream pdfFile) throws IOException {
         PDDocument document = PDDocument.load(pdfFile);
@@ -49,7 +49,6 @@ public class ReaderService {
             if (atHeader) {
                 if (HEADER_SEPARATION_REGEX.matcher(line).find()) {
                     atHeader = false;
-                    System.out.println("Header done");
                     continue;
                 }
 

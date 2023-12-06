@@ -48,20 +48,15 @@ public class AuditUploadActivity extends AbstractActivity {
 
     private TextView tv;
 
-    private String serializedParsedAudit;
-    private DegreeAuditDeserializable parsedAudit;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         backDash.setOnClickListener(this::backDashCallback);
         auditUploadButton.setOnClickListener(this::uploadAuditCallback);
         auditUploadResultLaunder = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-            if (result.getResultCode() == Activity.RESULT_OK) {
-                // There are no request codes
-                Intent data = result.getData();
-                //doSomeOperations();
-            }
+//            if (result.getResultCode() == Activity.RESULT_OK) {
+//                Intent data = result.getData();
+//            }
         });
 
     }
@@ -82,7 +77,7 @@ public class AuditUploadActivity extends AbstractActivity {
 
     @SuppressLint("Range")
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {//im sorry
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) { // im sorry
         if (resultCode == RESULT_OK) {
             // Get the Uri of the selected file
             Uri uri = data.getData();
@@ -126,17 +121,10 @@ public class AuditUploadActivity extends AbstractActivity {
                 pdfName,
                 inputData,
                 session.getSessionToken(),
-                response -> {
-//                    tv.setText("Completed courses:\n" + parseOutpust(response));
-                    serializedParsedAudit = response;
-                    parsedAudit = DegreeAuditDeserializable.from(response);
-
-
-                    tv.setText(parsedAudit.toString());
-                    Log.d("Upload", "Response: " + response);
-                },
+                this::parseSuccessCallback,
                 error -> {
                     showToast(error.toString(), this);
+                    tv.setText("Upload failed, please try again.");
                     Log.e("Upload", error.toString());
                 }
             );
@@ -145,6 +133,14 @@ public class AuditUploadActivity extends AbstractActivity {
         } catch (Exception e) {
             showToast(e.toString(), this);
         }
+    }
+
+    private void parseSuccessCallback(String response) {
+        tv.setText("Successfully uploaded your degree audit!");
+
+        Intent intent = new Intent(this, DegreePlannerActivity.class);
+        intent.putExtra("audit", response);
+        startActivity(intent);
     }
 
     public String parseOutpust(String res) {

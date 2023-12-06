@@ -1,5 +1,7 @@
 package com.kewargs.cs309.core.models.in;
 
+import androidx.annotation.NonNull;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -20,5 +22,19 @@ public record SeasonYearDeserializable(
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        String seasonText = "";
+        switch (season) {
+            case 0 -> seasonText = "Spring";
+            case 1 -> seasonText = "Summer";
+            case 2 -> seasonText = "Fall";
+            case 3 -> seasonText = "Winter";
+        }
+
+        return seasonText + " " + year;
     }
 }

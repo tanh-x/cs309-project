@@ -31,6 +31,7 @@
         <activity android:name="com.kewargs.cs309.activity.dashboard.ChatActivity" />
         <activity android:name="com.kewargs.cs309.activity.course.CourseInfoActivity" />
         <activity android:name="com.kewargs.cs309.audit.AuditUploadActivity" />
+        <activity android:name="com.kewargs.cs309.audit.DegreePlannerActivity" />
     </application>
 
 </manifest>
