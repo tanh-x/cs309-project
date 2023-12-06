@@ -1,10 +1,12 @@
 package cs309.backend.services;
 
 import cs309.backend.jpa.entity.CourseEntity;
+import cs309.backend.jpa.entity.ScheduleEntity;
 import cs309.backend.jpa.entity.SectionEntity;
 import cs309.backend.jpa.entity.user.CourseInsightsEntity;
 import cs309.backend.jpa.repo.CourseInsightsRepository;
 import cs309.backend.jpa.repo.CourseRepository;
+import cs309.backend.jpa.repo.ScheduleRepository;
 import cs309.backend.jpa.repo.SectionRepository;
 import cs309.backend.DTOs.SectionData;
 import jakarta.transaction.Transactional;
@@ -19,16 +21,18 @@ public class CourseService {
     private final CourseRepository courseRepository;
     private final SectionRepository sectionRepository;
     private final CourseInsightsRepository insightsRepository;
+    private final ScheduleRepository scheduleRepository;
 
     @Autowired
     public CourseService(
         CourseRepository courseRepository,
         SectionRepository sectionRepository,
-        CourseInsightsRepository insightsRepository
-    ) {
+        CourseInsightsRepository insightsRepository,
+        ScheduleRepository scheduleRepository) {
         this.courseRepository = courseRepository;
         this.sectionRepository = sectionRepository;
         this.insightsRepository = insightsRepository;
+        this.scheduleRepository = scheduleRepository;
     }
 
     public List<CourseEntity> getAllCourseInformation(int term) {
@@ -83,5 +87,9 @@ public class CourseService {
 
     public CourseInsightsEntity[] getCourseInsights(int courseId) {
         return insightsRepository.getCourseInsights(courseId);
+    }
+
+    public ScheduleEntity[] getScheduleBySectionId(int id) {
+        return scheduleRepository.findAllBySectionId(id);
     }
 }

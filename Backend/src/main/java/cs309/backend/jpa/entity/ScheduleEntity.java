@@ -39,8 +39,8 @@ public class ScheduleEntity {
     @JsonIgnore
     private SectionEntity section;
 
-    @JsonProperty("sectionId")
+    /*@JsonProperty("sectionId")
     public int getSectionId() {
         return section.getId();
-    }
+    }*/
 }

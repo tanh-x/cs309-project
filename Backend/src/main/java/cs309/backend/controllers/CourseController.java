@@ -1,6 +1,7 @@
 package cs309.backend.controllers;
 
 import cs309.backend.jpa.entity.CourseEntity;
+import cs309.backend.jpa.entity.ScheduleEntity;
 import cs309.backend.jpa.entity.SectionEntity;
 import cs309.backend.DTOs.SectionData;
 import cs309.backend.jpa.entity.user.CourseInsightsEntity;
@@ -147,6 +148,16 @@ public class CourseController {
     public ResponseEntity<CourseInsightsEntity[]> getCourseInsights(@PathVariable int id) {
         try {
             return ok(courseService.getCourseInsights(id));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return internalServerError().build();
+        }
+    }
+
+    @GetMapping("/schedule/{id}")
+    public ResponseEntity<ScheduleEntity[]> getSchedule(@PathVariable int id) {
+        try {
+            return ok(courseService.getScheduleBySectionId(id));
         } catch (Exception e) {
             e.printStackTrace();
             return internalServerError().build();
