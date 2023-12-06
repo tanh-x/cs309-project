@@ -18,6 +18,7 @@ public class SchedulingController {
     {
         SchedulingTable.doShit();
 
+
         return ok().build();
     }
 }

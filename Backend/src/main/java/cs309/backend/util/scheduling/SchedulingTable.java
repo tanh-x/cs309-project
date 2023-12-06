@@ -1,6 +1,8 @@
 package cs309.backend.util.scheduling;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -84,7 +86,7 @@ public class SchedulingTable {
                 }
             }
 
-            ArrayList<ArrayList<helper>> newSched = (ArrayList<ArrayList<helper>>) currSched.stream()
+            ArrayList<ArrayList<helper>> newSched    = (ArrayList<ArrayList<helper>>) currSched.stream()
                     .map(ArrayList::new).collect(Collectors.toList()); // copies 2d array
             for (int i = 0; i < 5; i++) {
                 if (meet_days_bitmask[i] == 1) {
@@ -92,8 +94,18 @@ public class SchedulingTable {
                 }
             }
 
-            if (level + 1 == levels - 1) // all courses been added
-                ScheduleList.add(newSched);
+            if (level + 1 == levels - 1){ // all courses been added
+                for(ArrayList<helper> h: newSched) {
+                    h.sort(new Comparator<helper>() {
+                        @Override
+                        public int compare(helper lhs, helper rhs) {
+                            int p1 = lhs.s.start_time;
+                            int p2 = rhs.s.start_time;
+                            return Integer.compare(p1, p2);
+                        }
+                    });
+                }
+                ScheduleList.add(newSched);}
             else
                 dfs(newSched, level + 1);
         }
