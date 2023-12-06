@@ -23,8 +23,10 @@ import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import com.kewargs.cs309.core.models.in.ScheduleDeserializable;
+import com.kewargs.cs309.core.utils.CourseHelper;
 import com.kewargs.cs309.core.utils.Helpers;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public final class ScheduleBoxComponent extends InflatableComponent<ConstraintLayout> {
@@ -33,12 +35,18 @@ public final class ScheduleBoxComponent extends InflatableComponent<ConstraintLa
     private View rootView;
     private LinearLayout parent,m,t,w,r,f;
 
+    private final float hour_length  = 18.5F;
+
+    private ArrayList<ArrayList<CourseHelper>> sched;
+
     public ScheduleBoxComponent(
             LayoutInflater inflater,
-            AbstractActivity parentActivity
+            AbstractActivity parentActivity,
+            ArrayList<ArrayList<CourseHelper>> sched
     ) {
         super(R.layout.schedule_box, inflater);
         this.parentActivity = parentActivity;
+        this.sched = sched;
 
     }
     @SuppressLint("SetTextI18n")
@@ -58,7 +66,23 @@ public final class ScheduleBoxComponent extends InflatableComponent<ConstraintLa
     }
 
     private void build()
-    {}
+    {//18.5dp is 1 hour
+        for(CourseHelper h: sched.get(0)){
+
+        }
+        for(CourseHelper h: sched.get(1)){
+
+        }
+        for(CourseHelper h: sched.get(2)){
+
+        }
+        for(CourseHelper h: sched.get(3)){
+
+        }
+        for(CourseHelper h: sched.get(4)){
+
+        }
+    }
 
 
 
