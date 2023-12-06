@@ -7,6 +7,9 @@ stages:             # these stages (jobs) forms the CICD pipeline
 
 maven-build:            
   stage: mavenbuild     # one of the stages listed above
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "main"'
+    - when: manual
   tags:                 # to specify which runner to execute this job
     - mvn-deploy-tag    # change to your runner's tag
   script:               # what to execute for this job
@@ -16,16 +19,22 @@ maven-build:
     paths:
     - Backend/target/*.jar
 
-maven-test:             
-   stage: maventest     # one of the stages listed above
-   tags:
-     - mvn-deploy-tag   # change to your runner's tag
-   script:
-     - cd Backend       # change 'Backend' to to where you have the pom.xml (do not add / in the beginning)
-     - mvn test         # maven test
+maven-test:         
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "main"'
+    - when: manual    
+  stage: maventest     # one of the stages listed above
+  tags:
+    - mvn-deploy-tag   # change to your runner's tag
+  script:
+    - cd Backend       # change 'Backend' to to where you have the pom.xml (do not add / in the beginning)
+    - mvn test         # maven test
 
 auto-deploy:
   stage: mavendeploy    # one of the stages listed above
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "main"'
+    - when: manual
   tags:
   - mvn-deploy-tag      # change to your runner's tag
   script:               # script to run the deployment service you created
@@ -36,6 +45,9 @@ auto-deploy:
     - sudo systemctl start system-web-demo
 
 android-build:
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "main"'
+    - when: manual
   image: afirefly/android-ci:java17 # Docker image that has Android environments installed     gjandres/android-ci:latest
   stage: androidbuild               # one of the stages listed above
   tags:
@@ -48,13 +60,16 @@ android-build:
     - ./gradlew build               # gradle build
 
 android-test:
-   image: afirefly/android-ci:java17
-   stage: androidtest               # one of the stages listed above
-   tags:
-    - android-tag                   # change to your runner's tag
-   before_script:                   # enable gradlew, change 'Frontend' to where you have 'gradlew'
-     - export GRADLE_USER_HOME=`pwd`/.gradle
-     - chmod +x ./Frontend/gradlew
-   script:
-     - cd Frontend                  # change 'Frontend' to where you have 'gradlew' (do not add / in the beginning)
-     - ./gradlew test               # gradle test
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "main"'
+    - when: manual
+  image: afirefly/android-ci:java17
+  stage: androidtest               # one of the stages listed above
+  tags:
+  - android-tag                   # change to your runner's tag
+  before_script:                   # enable gradlew, change 'Frontend' to where you have 'gradlew'
+    - export GRADLE_USER_HOME=`pwd`/.gradle
+    - chmod +x ./Frontend/gradlew
+  script:
+    - cd Frontend                  # change 'Frontend' to where you have 'gradlew' (do not add / in the beginning)
+    - ./gradlew test               # gradle test
