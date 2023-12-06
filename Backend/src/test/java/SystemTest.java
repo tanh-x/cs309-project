@@ -16,8 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.io.IOException;
 import java.io.InputStream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT, classes = BackendApplication.class)
@@ -143,22 +142,33 @@ public class SystemTest {
             assert inputStream != null;
             byte[] pdfContent = inputStream.readAllBytes();
 
-            // Send a POST request to your endpoint
             Response response = RestAssured.given().header("Authorization", "Bearer " + jwtToken)
                     .multiPart("file", filePath, pdfContent)
                     .when()
                     .post("/api/reader/pdf");
 
-            // Check status code
             int statusCode = response.getStatusCode();
             assertEquals(200, statusCode);
 
-            // Check response content type
             String contentType = response.getContentType();
             assertEquals(ContentType.JSON.toString(), contentType);
 
+
+            // Test to see if the parsed result matches up with what's on the audit
+            JSONObject auditResponse = new JSONObject(response.getBody().asString());
+
+            assertEquals("COM S", auditResponse.getString("major"));
+            assertEquals("Sophomore", auditResponse.getString("classification"));
+            assertEquals(15, auditResponse.getInt("inProgressCredits"));
+            assertEquals(37, auditResponse.getInt("appliedCredits"));
+            assertEquals(4.0, auditResponse.getDouble("gpa"), 1e-6);
+            // Must find 19 courses
+            assertEquals(19, auditResponse.getJSONArray("courses").length());
+
         } catch (IOException e) {
             throw new RuntimeException(e);
+        } catch (JSONException e) {
+            fail(e);
         }
     }
 }
