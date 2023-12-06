@@ -1,5 +1,6 @@
 package cs309.backend.controllers;
 
+import cs309.backend.DTOs.DegreeAudit;
 import cs309.backend.services.ReaderService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -24,11 +25,11 @@ public class DegreeAuditController {
      * Reads a degree audit PDF file and retrieves all courses that have been finished or are currently being taken.
      *
      * @param file The PDF file containing the degree audit information.
-     * @return ResponseEntity containing a LinkedHashSet of course information if successful, or an internal server error.
+     * @return ResponseEntity containing the parsed degrgee audit
      */
     @Operation(description = "get all the course that have been finished or taking in the degree audit")
     @PostMapping("/pdf")
-    public ResponseEntity<LinkedHashSet<String>> readDegreeAudit(@RequestParam("file") MultipartFile file){
+    public ResponseEntity<DegreeAudit> readDegreeAudit(@RequestParam("file") MultipartFile file){
         try (InputStream inputStream = file.getInputStream()) {
             return ok(readerService.extractTextFromPdf(inputStream));
         }
