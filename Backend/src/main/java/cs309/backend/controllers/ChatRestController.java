@@ -32,7 +32,9 @@ public class ChatRestController {
      */
     @GetMapping("/messages")
     public ResponseEntity<List<MessageEntity>> getAllMessages() {
-        return ok(messageService.getAllMessages());
+        List<MessageEntity> messages = messageService.getAllMessages(MessageEntity.MessageType.BROADCAST, false);
+
+        return ok(messages);
     }
 
     /**

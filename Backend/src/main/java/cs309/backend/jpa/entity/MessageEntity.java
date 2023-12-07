@@ -32,6 +32,9 @@ public class MessageEntity {
     @Column(name = "message_type")
     @Enumerated(EnumType.STRING)
     private MessageType messageType;
+    
+    @Column(name = "is_deleted")
+    private boolean isDeleted;
 
     public enum MessageType {
         DIRECT, BROADCAST
