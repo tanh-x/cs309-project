@@ -55,8 +55,8 @@ public final class CourseCardComponent extends InflatableComponent<ConstraintLay
     }
 
     private void addCourseButtonCallback(View view){
-        SessionManager session  = SessionManager.getInstance();
-        session.courseArr.add(course.id());
+        //session.courseArr.add(course.id());
+        SessionManager.courseQueue.add(new Course(course.id(), course.programIdentifier(), course.num(), null));
         showToast("Added Course!",parentActivity );
     }
 

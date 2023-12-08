@@ -24,6 +24,7 @@ import com.kewargs.cs309.core.models.in.SectionDeserializable;
 import com.kewargs.cs309.core.models.in.UserDeserializable;
 import com.kewargs.cs309.core.utils.Course;
 import com.kewargs.cs309.core.utils.Schedule;
+import com.kewargs.cs309.core.utils.SchedulingTable;
 import com.kewargs.cs309.core.utils.backend.factory.CourseRequestFactory;
 import com.kewargs.cs309.core.utils.backend.factory.UserRequestFactory;
 
@@ -39,6 +40,8 @@ public class SchedulingActivity extends AbstractActivity{
     private Button backDash, deleteAllCourses, addAllCourses;
 
     private ArrayList<SectionDeserializable> sections;
+
+    private TextView scheduleTxt;
 
     private CourseDeserializable tempC = null;
 
@@ -67,8 +70,7 @@ public class SchedulingActivity extends AbstractActivity{
 
     private void courseList() {
         StringBuilder f = new StringBuilder("Course ID:\n\n");
-        SessionManager session = SessionManager.getInstance();
-        for (int i : SessionManager.courseArr) { f.append(i).append("\n"); }
+        for (Course i : SessionManager.courseQueue) { f.append(i.program_identifier).append(" ").append(i.num).append("\n"); }
         flavourText.setText(f.toString());
     }
 
@@ -85,17 +87,21 @@ public class SchedulingActivity extends AbstractActivity{
     private void addAllCourses(View view) {
         //Send a post request of course num and names
 
-        for (int i : SessionManager.courseArr) {
-            getSchedulefromCourse(i);
+//        for (int i : SessionManager.courseArr) {
+//            getSchedulefromCourse(i);
+//        }
+        if(!SessionManager.courseQueue.isEmpty())
+        {
+            getSchedulefromCourse(SessionManager.courseQueue,0);
         }
-        printDataList(SessionManager.courseArrList);
+        //printDataList(SessionManager.courseArrList);
 
-        showToast("All courses added", this);
     }
 
     private void deleteAllCourses(View view) {
         //Send a post request of course num and names
-        SessionManager.courseArr.clear();
+        SessionManager.courseQueue.clear();
+        SessionManager.courseArrList.clear();
         showToast("All courses removed", this);
         courseList();
     }
@@ -119,14 +125,16 @@ public class SchedulingActivity extends AbstractActivity{
             .build());
     }
 
-    public void getSchedulefromCourse(int cid) {
-        session.addRequest(CourseRequestFactory.getCourseSections(cid)
+    public void getSchedulefromCourse(ArrayList<Course> cArr,int index) {
+        session.addRequest(CourseRequestFactory.getCourseSections(cArr.get(index).id)
             .onResponse(response -> {
                 try {
-                    courseInfo(cid);
+                    //courseInfo(cid);
+                    int cid = cArr.get(index).id;
+                    CourseName = cArr.get(index).program_identifier;
+                    CourseNum = cArr.get(index).num;
+
                     sections = SectionDeserializable.fromArray(new JSONArray(response));
-
-
                     ArrayList<Schedule> lecture = new ArrayList<>();
                     ArrayList<Schedule> recitation = new ArrayList<>();
                     for (SectionDeserializable section : sections) {
@@ -159,8 +167,19 @@ public class SchedulingActivity extends AbstractActivity{
                         Log.d("course info", cour.toString());
                         SessionManager.courseArrList.add(cour);
                     }
-                    printDataList(SessionManager.courseArrList);
-                    //return new ArrayList<>() {{add(lecture);add(recitation);}};
+                    if(index!=cArr.size()-1){
+                        getSchedulefromCourse(cArr,index+1);
+                    }
+                    else{
+                        //printDataList(SessionManager.courseArrList);
+                        //flavourText.setText("");
+                        Log.d("Current Schedules:",SessionManager.courseArrList.toString());
+                        SchedulingTable g = new SchedulingTable(SessionManager.courseArrList);
+                        Log.d("Timetables",g.toString());
+                        flavourText.setText(g.toString());
+                        showToast("All courses added", this);
+                    }
+
                 } catch (JSONException e) {
                     Log.d("Mistake here", "exception");
                     throw new RuntimeException(e);
@@ -179,9 +198,12 @@ public class SchedulingActivity extends AbstractActivity{
         if (cArr.isEmpty()) {
             f = new StringBuilder("No courses added");
         }
+        else{
+            f = new StringBuilder("Timings:\n");
+        }
         for (Course co : cArr) {
             for (Schedule s : co.times) {
-                f.append(s.start_time).append(" ").append(s.end_time).append("\n");
+                f.append(co.program_identifier + " " + co.num + ":").append(s.start_time).append("-").append(s.end_time).append("\n");
             }
             Log.d("SchedulingActivity", co.program_identifier + " " + co.num + ":\n");
         }
