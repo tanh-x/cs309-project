@@ -17,31 +17,40 @@
             android:padding="8dp"
             android:layout_marginTop="12dp">
 
+        <ImageButton
+            android:id="@+id/addCourseButton"
+            android:layout_width="86dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#00FFFFFF"
+            android:src="@android:drawable/ic_menu_add" />
+
         <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="fill_parent"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingLeft="10dp">
+
+            <TextView
+                android:id="@+id/courseIdentifierText"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1">
+                android:paddingLeft="2dp"
+                android:paddingTop="2dp"
+                android:text="COURSE 000"
+                android:textColor="#000000"
+                android:textColorHint="#000000"
+                android:textSize="16dp"
+                android:textStyle="bold" />
 
             <TextView
-                    android:text="COURSE 000"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/courseIdentifierText"
-                    android:textStyle="bold"
-                    android:paddingLeft="2dp"
-                    android:paddingTop="2dp"
-                    android:textColorHint="#000000"
-                    android:textColor="#000000"
-                    android:textSize="16dp" />
-
-            <TextView
-                    android:text="Course"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/courseNameText"
-                    android:textSize="14dp"
-                    android:paddingStart="2dp" />
+                android:id="@+id/courseNameText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="2dp"
+                android:text="Course"
+                android:textSize="14dp" />
 
         </LinearLayout>
 

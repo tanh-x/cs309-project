@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/userInfoDump"
@@ -12,63 +12,6 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="260dp"
         android:text="TextView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/coursesButton"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:paddingLeft="32dp"
-        android:paddingTop="10dp"
-        android:paddingRight="32dp"
-        android:paddingBottom="10dp"
-        android:text="COURSES"
-        android:textAlignment="center"
-        android:textSize="16sp"
-        app:cornerRadius="8dp"
-        app:iconPadding="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toChatButton" />
-
-    <Button
-        android:id="@+id/logoutButton"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:paddingLeft="32dp"
-        android:paddingTop="10dp"
-        android:paddingRight="32dp"
-        android:paddingBottom="10dp"
-        android:text="Log Out"
-        android:textAlignment="center"
-        android:textSize="16sp"
-        app:cornerRadius="8dp"
-        app:iconPadding="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/coursesButton" />
-
-    <Button
-        android:id="@+id/toChatButton"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="450dp"
-        android:paddingLeft="32dp"
-        android:paddingTop="10dp"
-        android:paddingRight="32dp"
-        android:paddingBottom="10dp"
-        android:text="Contact  Devs"
-        android:textAlignment="center"
-        android:textSize="16sp"
-        app:cornerRadius="8dp"
-        app:iconPadding="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -92,25 +35,111 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/updateInfo"
-        android:layout_width="150dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="360dp"
-        android:text="Edit Info"
-        android:textSize="20sp"
+        android:id="@+id/coursesButton"
+        android:layout_width="165dp"
+        android:layout_height="65dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="400dp"
+        android:paddingLeft="32dp"
+        android:paddingTop="10dp"
+        android:paddingRight="32dp"
+        android:paddingBottom="10dp"
+        android:text="Courses"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        app:cornerRadius="8dp"
+        app:iconPadding="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/toAuditUpload"
-        android:layout_width="150dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="360dp"
-        android:layout_marginEnd="24dp"
-        android:text="Upload Audit"
+        android:id="@+id/logoutButton"
+        android:layout_width="165dp"
+        android:layout_height="65dp"
+        android:layout_marginTop="15dp"
+        android:paddingLeft="32dp"
+        android:paddingTop="10dp"
+        android:paddingRight="32dp"
+        android:paddingBottom="10dp"
+        android:text="Log Out"
+        android:textAlignment="center"
         android:textSize="16sp"
+        app:cornerRadius="8dp"
+        app:iconPadding="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/toChatButton"
+        app:layout_constraintStart_toStartOf="@+id/toChatButton"
+        app:layout_constraintTop_toBottomOf="@+id/toChatButton" />
+
+    <Button
+        android:id="@+id/toChatButton"
+        android:layout_width="165dp"
+        android:layout_height="65dp"
+        android:layout_marginTop="15dp"
+        android:paddingLeft="32dp"
+        android:paddingTop="10dp"
+        android:paddingRight="32dp"
+        android:paddingBottom="10dp"
+        android:text="Contact  Devs"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        app:cornerRadius="8dp"
+        app:iconPadding="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/updateInfo"
+        app:layout_constraintStart_toStartOf="@+id/updateInfo"
+        app:layout_constraintTop_toBottomOf="@+id/updateInfo" />
+
+    <Button
+        android:id="@+id/updateInfo"
+        android:layout_width="165dp"
+        android:layout_height="65dp"
+        android:layout_marginTop="400dp"
+        android:layout_marginEnd="30dp"
+        android:paddingLeft="32dp"
+        android:paddingTop="10dp"
+        android:paddingRight="32dp"
+        android:paddingBottom="10dp"
+        android:text="Edit Info"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        app:cornerRadius="8dp"
+        app:iconPadding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/toAuditUpload"
+        android:layout_width="165dp"
+        android:layout_height="65dp"
+        android:layout_marginTop="15dp"
+        android:paddingLeft="32dp"
+        android:paddingTop="10dp"
+        android:paddingRight="32dp"
+        android:paddingBottom="10dp"
+        android:text="Upload Audit"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        app:cornerRadius="8dp"
+        app:iconPadding="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/toCourseSchedule"
+        app:layout_constraintStart_toStartOf="@+id/toCourseSchedule"
+        app:layout_constraintTop_toBottomOf="@+id/toCourseSchedule" />
+
+    <Button
+        android:id="@+id/toCourseSchedule"
+        android:layout_width="165dp"
+        android:layout_height="65dp"
+        android:layout_marginTop="15dp"
+        android:paddingLeft="32dp"
+        android:paddingTop="10dp"
+        android:paddingRight="32dp"
+        android:paddingBottom="10dp"
+        android:text="Course Scheduling"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        app:cornerRadius="8dp"
+        app:iconPadding="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/coursesButton"
+        app:layout_constraintStart_toStartOf="@+id/coursesButton"
+        app:layout_constraintTop_toBottomOf="@+id/coursesButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

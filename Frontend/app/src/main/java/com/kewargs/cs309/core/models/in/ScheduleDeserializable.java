@@ -19,6 +19,7 @@ public record ScheduleDeserializable(
     int sectionId,
     Integer startTime,
     Integer endTime,
+    Integer meetDaysBitmask,
     String location,
     String instructor,
     String instructionType
@@ -28,6 +29,7 @@ public record ScheduleDeserializable(
             json.getInt("sectionId"),
             getNullableInt(json, "startTime"),
             getNullableInt(json, "endTime"),
+            getNullableInt(json,"meetDaysBitmask"),
             json.getString("location"),
             json.getString("instructor"),
             json.getString("instructionType")

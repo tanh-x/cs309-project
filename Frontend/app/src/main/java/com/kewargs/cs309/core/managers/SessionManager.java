@@ -4,13 +4,21 @@ import android.content.Context;
 
 import com.android.volley.Request;
 
+import com.kewargs.cs309.core.utils.Course;
 import com.kewargs.cs309.core.utils.backend.request.RequestCall;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+
 public final class SessionManager {
     // ====== Authentication ======
     private AuthenticationManager authentication = null;
+
+
+    public static ArrayList<Course> courseQueue = new ArrayList<>();
+    public static ArrayList<Course> courseArrList = new ArrayList<>();
 
     public String getSessionToken() {
         if (authentication == null) return null;
@@ -81,6 +89,7 @@ public final class SessionManager {
 
         // Prevent reinitialization
         manager.isInitialized = true;
+
     }
 
 

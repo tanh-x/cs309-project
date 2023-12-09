@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 
 abstract sealed class InflatableComponent<T extends View>
     implements ViewComponent<T>
-    permits CourseCardComponent, SectionCardComponent {
+    permits CourseCardComponent, SectionCardComponent,ScheduleBoxComponent {
 
     protected LayoutInflater inflater;
     protected int layout;

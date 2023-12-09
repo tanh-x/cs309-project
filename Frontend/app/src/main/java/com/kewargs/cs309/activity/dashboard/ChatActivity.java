@@ -2,10 +2,10 @@ package com.kewargs.cs309.activity.dashboard;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -29,7 +29,7 @@ public class ChatActivity extends AbstractActivity implements SocketListener {
 
     private ChatSocketClient chatSocketClient;
 
-    private Button backButton;
+    private ImageButton backButton;
     private Button sendButton;
     private EditText messageTextBox;
     private TextView chatText;
@@ -67,7 +67,7 @@ public class ChatActivity extends AbstractActivity implements SocketListener {
         sendButton = findViewById(R.id.sendText);
         messageTextBox = findViewById(R.id.messageTextBox);
         chatText = findViewById(R.id.chatText);
-        scroller = findViewById(R.id.scrollView2);
+        scroller = findViewById(R.id.scrollinScheds);
     }
 
     @Override
