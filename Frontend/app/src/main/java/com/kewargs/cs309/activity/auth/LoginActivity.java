@@ -80,7 +80,7 @@ public class LoginActivity extends AbstractActivity {
             .onResponse(this::onSuccessfulLogin)
             .onError(error -> {
                 error.printStackTrace();
-                showToast(error.toString());
+                showToast("Authentication error.");
             })
             .build();
 

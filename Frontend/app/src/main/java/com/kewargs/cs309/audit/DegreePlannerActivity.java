@@ -8,6 +8,8 @@ import com.kewargs.cs309.R;
 import com.kewargs.cs309.activity.AbstractActivity;
 import com.kewargs.cs309.core.models.in.DegreeAuditDeserializable;
 
+import java.util.stream.Collectors;
+
 public class DegreePlannerActivity extends AbstractActivity {
     public DegreePlannerActivity() { super(R.layout.activity_degree_planner); }
 
@@ -24,6 +26,8 @@ public class DegreePlannerActivity extends AbstractActivity {
     private TextView creditsCompletedText;
     private TextView creditsInpText;
     private TextView annotationsText;
+
+    private TextView courseSummary;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +53,7 @@ public class DegreePlannerActivity extends AbstractActivity {
         creditsCompletedText.setText(String.valueOf(audit.appliedCredits()));
         creditsInpText.setText(String.valueOf(audit.inProgressCredits()));
         annotationsText.setText(String.join("\n", audit.annotations()));
+        courseSummary.setText(audit.courses().stream().map(c -> "[" + c.term().toString() + "] " + c.program() + " " + c.num() + ": " + c.grade()).collect(Collectors.joining("\n")));
     }
 
     @Override
@@ -62,5 +67,6 @@ public class DegreePlannerActivity extends AbstractActivity {
         creditsCompletedText = findViewById(R.id.creditsCompletedText);
         creditsInpText = findViewById(R.id.creditsInpText);
         annotationsText = findViewById(R.id.annotationsText);
+        courseSummary = findViewById(R.id.courseSummary);
     }
 }

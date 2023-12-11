@@ -360,7 +360,7 @@
                         android:elevation="6dp">
 
                     <TextView
-                            android:text="Insights"
+                            android:text="Courses"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:id="@+id/textView8"
@@ -372,7 +372,7 @@
 
                     <TextView
                             android:text="placeholder"
-                            android:id="@+id/insightsSummary"
+                            android:id="@+id/courseSummary"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@drawable/default_border"
